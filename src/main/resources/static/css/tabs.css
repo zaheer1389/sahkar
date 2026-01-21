@@ -1,0 +1,47 @@
+/* Container background */
+.custom-tab-pane .tab-header-area {
+    -fx-background-color: #E0E0E0; /* Grey background behind tabs */
+    -fx-padding: 10 10 0 10;
+}
+
+.custom-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+/* Base Tab Style (The slanted folder shape) */
+.custom-tab-pane .tab {
+    -fx-background-color: #27C499; /* Green color from image */
+    -fx-background-insets: 0;
+    /* This path creates a rectangle with a slanted right side */
+    -fx-shape: "M 0,0 H 80 L 100,100 H 0 Z"; 
+    -fx-padding: 10 30 10 20;
+    -fx-cursor: hand;
+    -fx-pref-height: 45px;
+}
+
+/* Labels and Icons for Inactive Tabs */
+.custom-tab-pane .tab .tab-label,
+.custom-tab-pane .tab .font-icon {
+    -fx-text-fill: #1A5D4B; /* Dark green text */
+    -fx-fill: #1A5D4B;
+    -fx-font-weight: bold;
+}
+
+/* SELECTED TAB STYLE (The White Home Tab) */
+.custom-tab-pane .tab:selected {
+    -fx-background-color: white;
+    -fx-border-color: #27C499;
+    -fx-border-width: 2 0 0 2; /* Outline matching the image */
+}
+
+.custom-tab-pane .tab:selected .tab-label,
+.custom-tab-pane .tab:selected .font-icon {
+    -fx-text-fill: #27C499; /* Bright green text for active */
+    -fx-fill: #27C499;
+}
+
+/* Removing the focus border */
+.custom-tab-pane .tab:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}

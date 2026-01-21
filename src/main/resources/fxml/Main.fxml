@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+
+<StackPane fx:id="rootPane" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.badargadh.sahkar.controller.MainController"
+            stylesheets="@../static/css/style.css">
+    <BorderPane fx:id="mainBorderPane">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="20" 
+              style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+            <padding><Insets left="20" right="20"/></padding>
+            
+            <ImageView fitHeight="60.0" fitWidth="60.0" preserveRatio="true">
+                <Image url="@../static/images/icon.png" />
+            </ImageView>
+            
+            <Label text="SAHKAR SOCIETY MANAGEMENT" 
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-letter-spacing: 2;"/>         
+                   
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <HBox alignment="CENTER" spacing="0">
+		        <Label text="FINANCIAL PERIOD" 
+		               style="-fx-background-color: #34495e; -fx-text-fill: #bdc3c7; -fx-padding: 10 15; 
+		                      -fx-font-size: 12; -fx-font-weight: bold; -fx-background-radius: 6 0 0 6;"/>
+		        
+		        <Label fx:id="lblHeaderPeriod" text="SYSTEM LOCKED" 
+		               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 10 25; 
+		                      -fx-font-size: 12; -fx-font-weight: bold; -fx-background-radius: 0 6 6 0; 
+		                      -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);"/>
+		    </HBox>
+		    
+		    <Region HBox.hgrow="ALWAYS" />
+			<!-- <Button text="Load Data" onAction="#handleLoadData" 
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    <Button text="loans" onAction="#handle2" 
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    <Button text="cancellations" onAction="#handle3" 
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;"/> 
+		    <Region HBox.hgrow="ALWAYS" /> -->
+            
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+			    <children>
+			        <Label text="System Status:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+			        <Label fx:id="lblLastBackup" text="Last Backup: Never" 
+			               style="-fx-background-color: #dff0d8; -fx-text-fill: #3c763d; -fx-padding: 3 10; -fx-background-radius: 5; -fx-font-size: 13px; -fx-font-weight: bold;" />
+			    </children>
+			</HBox>
+
+			<Region HBox.hgrow="ALWAYS" />
+
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="Welcome," style="-fx-text-fill: #7f8c8d;"/>
+                <Label fx:id="lblAdminName" text="Administrator" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Separator orientation="VERTICAL" maxHeight="30"/>
+                <Button text="Sign Out" onAction="#handleLogout" 
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </HBox>
+    </top>
+    
+    <left>
+        <VBox prefWidth="260" spacing="5" style="-fx-background-color: #2c3e50;">
+            <padding><Insets top="20" left="0" right="0"/></padding>
+            
+            <Button fx:id="btnDashboard" onAction="#handleShowDashboard" maxWidth="Infinity" 
+                text="📊  Dashboard" styleClass="nav-button" />
+                
+            <Button text="👥  Member Directory" onAction="#openMemberModule" 
+                    styleClass="nav-button" maxWidth="Infinity" />
+            
+            <Button fx:id="btnFinancialMonths" text="📅  Financial Months" onAction="#openFinancialMonthModule" 
+            		styleClass="nav-button" maxWidth="Infinity" />
+            
+            <Button text="💰  Loan Management" onAction="#openLoanModule" 
+                    styleClass="nav-button" maxWidth="Infinity" />
+            
+            <Button text="📥  Collection &amp; Fees" onAction="#openPaymentModule" 
+                    styleClass="nav-button" maxWidth="Infinity" />
+                    
+            <Button text="💰  Loan Planning"  onAction="#openLoanPlanning" 
+                maxWidth="Infinity"  styleClass="nav-button" />
+            
+            <Button text="📊  Financial Reports" onAction="#openReportModule" 
+                    styleClass="nav-button" maxWidth="Infinity" />
+                
+                <VBox fx:id="vboxAdminMenu" spacing="5.0">
+            <children>
+            
+            <Separator style="-fx-opacity: 0.3;">
+			    <VBox.margin><Insets bottom="5" top="5" /></VBox.margin>
+			</Separator>
+			
+            <Button text="📒  Account Books" onAction="#openAccountBookModule" 
+        			styleClass="nav-button" maxWidth="Infinity" />
+        
+            <Separator style="-fx-opacity: 0.3;">
+			    <VBox.margin><Insets bottom="5" top="5" /></VBox.margin>
+			</Separator>
+			
+			<Button text="👤  Manage Users"  onAction="#openUserManagementModule" 
+                maxWidth="Infinity"  styleClass="nav-button" />
+                    
+           	<Button text="⚙  System Settings" onAction="#openSettingsModule" 
+           			maxWidth="Infinity" styleClass="nav-button" />
+          
+            </children>
+        </VBox>    
+            
+        </VBox>
+    </left>
+    
+    <center>
+    <StackPane fx:id="contentArea" style="-fx-background-color: #f8f9fa;" stylesheets="@../css/style.css">
+            <children>
+                </children>
+        </StackPane>
+        
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="20" 
+              style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-width: 1 0 0 0;">
+            <padding><Insets left="20" right="20"/></padding>
+            <Label text="System Status: Online" style="-fx-font-size: 11; -fx-text-fill: #27ae60; -fx-font-weight: bold;"/>
+            <Separator orientation="VERTICAL" />
+            <Label fx:id="lblFooterInfo" text="Connected to: MySQL Localhost" style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="Version 1.0.0 (2025)" style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;"/>
+        </HBox>
+    </bottom>
+    </BorderPane>
+    
+    <VBox fx:id="globalBlocker" visible="false" alignment="CENTER" spacing="20" 
+          style="-fx-background-color: rgba(0,0,0,0.5);">
+        <ProgressIndicator prefHeight="80" prefWidth="80" style="-fx-progress-color: #27ae60;" />
+        <Label fx:id="lblGlobalStatus" text="Processing..." 
+               style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;" />
+    </VBox>
+</StackPane>

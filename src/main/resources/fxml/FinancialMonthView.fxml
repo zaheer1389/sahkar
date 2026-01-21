@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" style="-fx-background-color: #f1f3f5;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.badargadh.sahkar.controller.FinancialMonthController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <children>
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Financial Period Management" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblCurrentStatus" style="-fx-font-weight: bold; -fx-font-size: 13;" text="System Status: Checking..." />
+        </children>
+    </HBox>
+
+    <HBox alignment="BOTTOM_LEFT" spacing="20.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-width: 1;">
+        <children>
+            <VBox spacing="5.0">
+                <children>
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: #555;" text="Select Month" />
+                    <ComboBox fx:id="cmbMonthName" prefHeight="35.0" prefWidth="160.0" promptText="Choose Month" />
+                </children>
+            </VBox>
+            
+            <VBox spacing="5.0">
+                <children>
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: #555;" text="Select Year" />
+                    <ComboBox fx:id="cmbYear" prefHeight="35.0" prefWidth="100.0" promptText="Year" />
+                </children>
+            </VBox>
+            
+            <Button fx:id="btnOpenMonth" onAction="#handleOpenMonth" prefHeight="35.0" prefWidth="130.0" 
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" 
+                    text="OPEN MONTH" styleClass="btn-open" />
+                    
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="btnCloseMonth" onAction="#handleCloseMonth" prefHeight="35.0" prefWidth="130.0" 
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" 
+                    text="CLOSE MONTH" styleClass="btn-close" />
+        </children>
+    </HBox>
+
+    <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+        <children>
+            <TableView fx:id="tblMonths" styleClass="compact-table" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colMonthId" prefWidth="120.0" text="Period ID" />
+                    <TableColumn fx:id="colMonthName" prefWidth="130.0" text="Month" />
+                    <TableColumn fx:id="colYear" prefWidth="80.0" text="Year" />
+                    <TableColumn fx:id="colOpeningBalance" prefWidth="120.0" style="-fx-alignment: CENTER-RIGHT;" text="Opening Bal." />
+                    <TableColumn fx:id="colClosingBalance" prefWidth="120.0" style="-fx-alignment: CENTER-RIGHT;" text="Closing Bal." />
+                    <TableColumn fx:id="colStatus" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Status" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </children>
+    </VBox>
+
+    <HBox alignment="CENTER_LEFT" style="-fx-padding: 5;">
+        <children>
+            <Label fx:id="lblSelectionHint" style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;" text="Only one month can be OPEN at a time." />
+        </children>
+    </HBox>
+</VBox>

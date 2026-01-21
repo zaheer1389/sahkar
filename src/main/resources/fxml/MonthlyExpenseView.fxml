@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox spacing="20.0" style="-fx-background-color: #f1f3f5;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.MonthlyExpenseController">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    
+    <VBox spacing="15.0" minWidth="300" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #dee2e6;">
+        <Label text="Log Monthly Expense" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+        <Separator />
+        
+        <Label text="Category" style="-fx-font-weight: bold;" />
+		<ComboBox fx:id="cmbCategory" maxWidth="Infinity" promptText="Select Category" />
+
+		<Label text="Type" style="-fx-font-weight: bold;" />
+		<ComboBox fx:id="cmbType" maxWidth="Infinity" promptText="Select Type" />
+        
+        <Label text="Category" style="-fx-font-weight: bold;" />
+        <TextField fx:id="txtCategory" promptText="e.g. Stationery, Rent" />
+        
+        <Label text="Amount" style="-fx-font-weight: bold;" />
+        <TextField fx:id="txtAmount" promptText="₹ 0.00" />
+        
+        <Label text="Remarks" style="-fx-font-weight: bold;" />
+        <TextArea fx:id="txtRemarks" prefHeight="60" promptText="Optional notes..." />
+        
+        <Button onAction="#handleSaveExpense" text="SAVE ENTRY" maxWidth="Infinity" prefHeight="40" 
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+    </VBox>
+
+    <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #dee2e6;">
+        <Label text="Expense / Income Log" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+        <TableView fx:id="tblExpenses" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="100" />
+                <TableColumn fx:id="colType" text="Type" prefWidth="80" />
+                <TableColumn fx:id="colCategory" text="Category" prefWidth="150" />
+                <TableColumn fx:id="colAmount" text="Amount" prefWidth="100" />
+                <TableColumn fx:id="colRemarks" text="Remarks" prefWidth="200" />
+            </columns>
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+        </TableView>
+    </VBox>
+</HBox>

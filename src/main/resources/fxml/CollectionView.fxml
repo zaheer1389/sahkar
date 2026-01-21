@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane fx:id="collectionTabPane" tabClosingPolicy="UNAVAILABLE" 
+         style="-fx-background-color: #f1f3f5;" 
+         stylesheets="@../css/tabs.css" styleClass="custom-tab-pane"
+         xmlns:fx="http://javafx.com/fxml/1" 
+         fx:controller="com.badargadh.sahkar.controller.CollectionMainController">
+    <tabs>
+        <Tab text="Mumbai Collection">
+            <fx:include fx:id="paymentForm" source="CollectionFormView.fxml" />
+        </Tab>
+        <Tab text="Pending Payments">
+            <fx:include fx:id="pendingList" source="CollectionPendingView.fxml" />
+        </Tab>
+        <Tab text="Received History">
+            <fx:include fx:id="historyReport" source="CollectionHistoryView.fxml" />
+        </Tab>
+        <Tab text="Member Fees Refunds">
+            <fx:include fx:id="feesRefundPage" source="FeesRefundView.fxml" />
+        </Tab>
+        <Tab text="Monthly Expenses">
+            <fx:include fx:id="expensePage" source="MonthlyExpenseView.fxml" />
+        </Tab>
+        <Tab text="Monthly Statement">
+            <fx:include fx:id="statementPage" source="MonthStatementView.fxml" />
+        </Tab>
+    </tabs>
+</TabPane>

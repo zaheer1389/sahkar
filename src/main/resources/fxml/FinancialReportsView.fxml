@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.badargadh.sahkar.controller.FinancialReportController">
+    
+    <children>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: white;">
+            <content>
+                <AnchorPane fx:id="mainContent" style="-fx-background-color: white; -fx-padding: 20;">
+                    <children>
+                        <VBox spacing="25" style="-fx-background-color: #f4f7f6; -fx-padding: 30;" 
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <VBox spacing="5">
+                                    <Label text="FINANCIAL REPORTING CENTER" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                                    <Label text="Generate and export society financial statements" style="-fx-text-fill: #7f8c8d;" />
+                                    <Separator />
+                                </VBox>
+
+                                <VBox spacing="10">
+                                    <Label text="COLLECTIONS &amp; RECOVERY" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                                    <FlowPane hgap="15" vgap="15">
+                                        <Button onAction="#printMonthCollection" text="📊 MONTH COLLECTION" 
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 25;" />
+                                        <Button onAction="#printPendingCollection" text="⏳ PENDING COLLECTION" 
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 25;" />
+                                        <Button onAction="#printMonthSummary" text="📋 MONTH SUMMARY" 
+                                                style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 25;" />
+                                    </FlowPane>
+                                </VBox>
+
+                                <VBox spacing="10">
+                                    <Label text="MEMBERSHIP &amp; AUDIT" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                                    <FlowPane hgap="15" vgap="15">
+                                        <Button onAction="#printMemberReport" text="👤 MASTER MEMBER LIST" 
+                                                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 25;" />
+                                    </FlowPane>
+                                </VBox>
+
+                                <VBox spacing="10">
+                                    <Label text="YEAR END STATEMENTS" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                                    <FlowPane hgap="15" vgap="15" alignment="BOTTOM_LEFT" >
+	                                    <VBox spacing="5.0">
+						                    <Label style="-fx-font-weight: bold; -fx-font-size: 12; -fx-text-fill: #555;" text="Select Year" />
+						                    <ComboBox fx:id="cmbYear" prefHeight="35.0" prefWidth="100.0" promptText="Year" />
+							            </VBox>
+							            <VBox alignment="BOTTOM_LEFT">							            
+                                        	<Button onAction="#printYearlyReport" text="📅 YEARLY BALANCE REPORT"  prefHeight="35"
+                                                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 25;" />
+                                        </VBox>							            
+                                    </FlowPane>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+
+        <StackPane fx:id="loadingOverlay" visible="false" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+            <children>
+                <VBox alignment="CENTER" maxWidth="300" maxHeight="200" spacing="20" 
+                      style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-padding: 40;">
+                    <children>
+                        <ProgressIndicator prefHeight="60.0" prefWidth="60.0" />
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Generating PDF..." />
+                        <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" text="Please do not close the application" />
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+</StackPane>

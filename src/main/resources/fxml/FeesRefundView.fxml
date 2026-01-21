@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" style="-fx-background-color: #f4f7f9;" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.badargadh.sahkar.controller.FeesRefundController">
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="Fees Refund Management" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Label text="Manage and process member exit refunds" style="-fx-text-fill: #7f8c8d;"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        
+        <VBox alignment="CENTER_RIGHT" style="-fx-background-color: #2c3e50; -fx-padding: 10 20; -fx-background-radius: 10;">
+            <Label text="TOTAL REFUNDABLE" style="-fx-text-fill: #bdc3c7; -fx-font-size: 10; -fx-font-weight: bold;"/>
+            <Label fx:id="lblTotalRefundAmount" text="₹ 0.00" style="-fx-text-fill: #f1c40f; -fx-font-size: 20; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+    
+    <!--<HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6;">
+        <children>
+            <TextField fx:id="txtSearch" prefWidth="250" placeholder="Search by Name or Member No..." 
+                       style="-fx-background-radius: 20; -fx-padding: 8 15;"/>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <Button text="🔄 Refresh" onAction="#refreshTable" 
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+        </children>
+    </HBox>-->
+
+    <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 8; -fx-border-color: #dee2e6;">
+        <Label text="Eligible Members (Cooling Period Completed or Expired Status)" 
+               style="-fx-text-fill: #7f8c8d; -fx-font-style: italic; -fx-padding: 0 0 10 0;"/>
+        
+        <TableView fx:id="tblRefunds" VBox.vgrow="ALWAYS" prefHeight="500">
+            <columns>
+                <TableColumn fx:id="colMemberNo" text="Member No" prefWidth="100" />
+                <TableColumn fx:id="colName" text="Member Name" prefWidth="220" />
+                <TableColumn fx:id="colReason" text="Reason" prefWidth="120" />
+                <TableColumn fx:id="colCancelDate" text="Cancelled On" prefWidth="120" />
+                <TableColumn fx:id="colAmount" text="Refundable Amount" prefWidth="150" />
+                <TableColumn fx:id="colFinalRefundDate" text="Refund Date" prefWidth="150" />
+                <TableColumn fx:id="colRefundDelayedReason" text="Refund " prefWidth="150" />
+                <TableColumn fx:id="colAction" text="Action" prefWidth="150" />
+            </columns>
+            <placeholder>
+                <Label text="No members currently eligible for refund." />
+            </placeholder>
+        </TableView>
+    </VBox>
+</VBox>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #f8f9fa;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.CollectionHistoryController">
+    
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <children>
+            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Received Payments History" />
+            
+            <TextField fx:id="txtSearchHistory" prefWidth="300.0" promptText="Search Member Name or ID..." style="-fx-pref-height: 35;" />
+            
+            <Label text="Collected At:" style="-fx-font-weight: bold;" />
+    		<ComboBox fx:id="cmbCollectionLocation" maxWidth="Infinity" prefWidth="150.0" prefHeight="40.0" />
+            
+            <Button onAction="#refreshHistory" text="Refresh" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-pref-height: 35; -fx-cursor: hand;" />
+            
+            <Region HBox.hgrow="ALWAYS" />
+        </children>
+    </HBox>
+
+    <TableView fx:id="tblHistory" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colDate" text="Date" prefWidth="120" />
+            <TableColumn fx:id="colMemberNo" text="Member No" prefWidth="120" />
+            <TableColumn fx:id="colMember" text="Member" prefWidth="250" />
+            <TableColumn fx:id="colFees" text="Monthly Fees" prefWidth="120" />
+            <TableColumn fx:id="colEmi" text="EMI Amount" prefWidth="120" />
+            <TableColumn fx:id="colJoiningFees" text="New Member Fees" prefWidth="150" />
+            <TableColumn fx:id="colTotal" text="Total" prefWidth="150" />
+            <TableColumn fx:id="colLocation" text="Collected At" prefWidth="150" />
+            <TableColumn fx:id="colAction" prefWidth="80.0" text="Action" />
+        </columns>
+        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+    </TableView>
+
+    <HBox alignment="CENTER_RIGHT" spacing="25.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6;">
+        <children>
+        	<!--
+        	<VBox alignment="CENTER_RIGHT">
+	            <Label text="Only FEES" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lblFeesCount" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+	        <VBox alignment="CENTER_RIGHT">
+	            <Label text="100 EMI" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lbl100EmiCount" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+	        <VBox alignment="CENTER_RIGHT">
+	            <Label text="200 EMI" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lbl200EmiCount" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+	        <VBox alignment="CENTER_RIGHT">
+	            <Label text="300 EMI" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lbl300EmiCount" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+	        <VBox alignment="CENTER_RIGHT">
+	            <Label text="400 EMI" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lbl400EmiCount" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+	        -->
+	        <VBox alignment="CENTER_RIGHT">
+	            <Label text="TOTAL PAYMENTS" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12; -fx-font-weight: bold;" />
+	            <Label fx:id="lblTotalPayments" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 24; -fx-font-weight: bold;" />
+	        </VBox>
+	        <Separator orientation="VERTICAL" prefHeight="40.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="MONTHLY FEES" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblTotalFees" text="₹ 0" style="-fx-text-fill: #2c3e50; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="35.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="EMI TOTAL" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblTotalEmi" text="₹ 0" style="-fx-text-fill: #2c3e50; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="35.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="JOINING FEES" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblJoining" text="₹ 0" style="-fx-text-fill: #27ae60; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="35.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="MUMBAI COLLECTION" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblMumbaiCollection" text="₹ 0" style="-fx-text-fill: #e67e22; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="35.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="BADARGADH COLLECTION" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblBadargadhCollection" text="₹ 0" style="-fx-text-fill: #e67e22; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="35.0" />
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="GRAND TOTAL" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11; -fx-font-weight: bold;" />
+                <Label fx:id="lblGrandTotal" text="₹ 0" style="-fx-text-fill: #e74c3c; -fx-font-size: 20; -fx-font-weight: bold;" />
+            </VBox>
+        </children>
+    </HBox>
+</VBox>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root alignment="CENTER_LEFT" spacing="5" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <DatePicker fx:id="datePicker" prefHeight="35.0" prefWidth="150.0" promptText="Date" />
+        <ComboBox fx:id="hourCombo" prefHeight="35.0" prefWidth="75.0" promptText="HH" />
+        <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text=":" />
+        <ComboBox fx:id="minuteCombo" prefHeight="35.0" prefWidth="75.0" promptText="MM" />
+        
+        <Button onAction="#handleResetToNow" prefHeight="35.0" text="🔄" 
+                style="-fx-cursor: hand; -fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 3;" />
+    </children>
+</fx:root>

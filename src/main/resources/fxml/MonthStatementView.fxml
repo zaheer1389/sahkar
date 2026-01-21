@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="1123.0" prefWidth="794.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.MonthlyStatementController">
+   <children>
+      <Label layoutX="190.0" layoutY="30.0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-underline: true;" text="MONTHLY CASH STATEMENT" />
+
+      <HBox alignment="CENTER_LEFT" layoutX="60.0" layoutY="110.0" spacing="15">
+         <children>
+            <Label style="-fx-font-size: 20px; -fx-text-fill: #555555; -fx-font-style: italic;" text="Opening Balance:" />
+            <Label fx:id="lblOpeningBalance" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="₹ 0.00/-" />
+         </children>
+      </HBox>
+
+      <Line endX="397.0" endY="690.0" startX="397.0" startY="180.0" stroke="BLACK" strokeWidth="2.0" />
+
+      <HBox layoutX="50.0" layoutY="200.0" prefWidth="694.0" spacing="60">
+         <children>
+            
+            <VBox prefWidth="317.0" spacing="25">
+               <children>
+                  <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2980b9; -fx-border-color: transparent transparent black transparent; -fx-border-width: 0 0 2 0;" text="CASH INFLOW (INCOME)" />
+                  <VBox spacing="15" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="New Member Fees" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valNewMemberFee" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Monthly Fees" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valMonthlyFee" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Loan Deductions (New)" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valLoanDeduction" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Total EMI Payments" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valTotalEmi" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Total Full Payments" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valFullPayment" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Misc Credits" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valMiscCredit" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>    
+                        <Region VBox.vgrow="ALWAYS" /> <Line endX="310.0" stroke="#2980b9" strokeWidth="1.5" />
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Total Inflow:" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="valTotalIncome" style="-fx-font-size: 19px; -fx-font-weight: bold; -fx-font-style: italic; -fx-text-fill: #2980b9;" text="₹ 0.00/-" />
+                            </children>
+                        </HBox>                    
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <VBox prefWidth="317.0" spacing="25">
+               <children>
+                  <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #c0392b; -fx-border-color: transparent transparent black transparent; -fx-border-width: 0 0 2 0;" text="CASH OUTFLOW (OUTGOING)" />
+                  <VBox spacing="15" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Loans Granted" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valLoanGranted" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Member Refunds" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valFeeRefund" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT">
+                           <children>
+                              <Label prefWidth="185.0" style="-fx-font-size: 16px;" text="Misc Debits / Expenses" wrapText="true" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label fx:id="valExpenseDebit" minWidth="110.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic;" text="₹ 0.00/-" />
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" /> <Line endX="310.0" stroke="#c0392b" strokeWidth="1.5" />
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Total Outflow:" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="valTotalOutgoing" style="-fx-font-size: 19px; -fx-font-weight: bold; -fx-font-style: italic; -fx-text-fill: #c0392b;" text="₹ 0.00/-" />
+                            </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      
+      <VBox alignment="BOTTOM_RIGHT" layoutX="340.0" layoutY="580.0" prefWidth="410.0" spacing="5">
+         <children>
+            <HBox alignment="CENTER_RIGHT" spacing="15">
+               <children>
+                  <Label style="-fx-font-size: 22px; -fx-text-fill: #555555; -fx-font-style: italic;" text="Closing Balance:" />
+                  <Label fx:id="lblClosingBalance" style="-fx-font-size: 34px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="₹ 0.00/-" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      
+      <VBox layoutX="50.0" layoutY="680.0" prefWidth="694.0" spacing="10">
+		    <children>
+		        <HBox alignment="CENTER_LEFT" spacing="10">
+		            <children>
+		                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Month Closing Remarks" />
+		                <Region HBox.hgrow="ALWAYS" />
+		                <Button fx:id="btnEditSave" onAction="#handleEditSaveRemarks" style="-fx-background-color: #34495e; -fx-text-fill: white;" text="Edit Remarks" />
+		            </children>
+		        </HBox>
+		        <TextArea fx:id="txtClosingRemarks" editable="false" prefHeight="80.0" prefWidth="694.0" promptText="Enter month closing notes or audit findings here..." style="-fx-font-size: 14px;" wrapText="true" />
+		    </children>
+		</VBox>
+
+      <!--<HBox alignment="CENTER" layoutX="50.0" layoutY="800.0" prefWidth="694.0" spacing="20">
+         <children>
+            <Button onAction="#handlePrintPdf" prefWidth="150.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Export PDF" />
+            <Button onAction="#handleClose" prefWidth="150.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Close" />
+         </children>
+      </HBox>
+      -->
+   </children>
+</AnchorPane>

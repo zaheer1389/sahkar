@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1100.0" spacing="0.0" stylesheets="@../css/tabs.css"  xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.AccountBookController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+         <children>
+            <Label text="FINANCIAL ACCOUNT BOOKS" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Separator orientation="VERTICAL" />
+            <Label text="Select Year:" textFill="WHITE" />
+            <ComboBox fx:id="comboYear" prefWidth="120.0" />
+            <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#handleRefresh" styleClass="btn-primary" text="Load Data" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnPrint" mnemonicParsing="false" onAction="#handlePrint" styleClass="btn-success" text="Export to PDF" />
+         </children>
+      </HBox>
+
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+            <TabPane fx:id="tabPaneBooks" side="TOP" tabClosingPolicy="UNAVAILABLE" styleClass="custom-tab-pane">
+              <tabs>
+                <Tab text="LOAN ACCOUNT BOOK">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TableView fx:id="tblLoanBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                <columns>
+                                  <TableColumn fx:id="colLoanMNo" prefWidth="60.0" text="M.No" />
+                                  <TableColumn fx:id="colLoanName" prefWidth="200.0" text="Member Name" />
+                                  <TableColumn fx:id="colOpeningBal" prefWidth="120.0" text="Opening Balance" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                
+                <Tab text="FEE ACCOUNT BOOK">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TableView fx:id="tblFeeBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                <columns>
+                                  <TableColumn fx:id="colFeeMNo" prefWidth="60.0" text="M.No" />
+                                  <TableColumn fx:id="colFeeName" prefWidth="200.0" text="Member Name" />
+                                  <TableColumn fx:id="colTotalFees" prefWidth="120.0" text="Opening Balance" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+
+            <VBox fx:id="loaderPane" alignment="CENTER" spacing="15.0" visible="false" style="-fx-background-color: rgba(255, 255, 255, 0.85);">
+               <children>
+                  <ProgressIndicator prefHeight="60.0" prefWidth="60.0" />
+                  <Label text="Processing Financial Records..." textFill="#2c3e50">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+      
+      <HBox alignment="CENTER_RIGHT" prefHeight="30.0" style="-fx-background-color: #ecf0f1;">
+         <children>
+            <Label fx:id="lblStatus" text="Ready" textFill="#7f8c8d">
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>

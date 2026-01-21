@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.badargadh.sahkar.component.DateTimePicker?>
+
+<HBox spacing="20.0" style="-fx-background-color: #f1f3f5;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10" fx:controller="com.badargadh.sahkar.controller.LoanController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <VBox fx:id="vboxLoanForm" spacing="15.0" minWidth="380.0" maxWidth="400.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #dee2e6; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+        <children>
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Loan Application Form" />
+            <Separator />
+            
+            <VBox spacing="5.0">
+                <Label text="Application Date and Time" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                <DateTimePicker fx:id="loanDateTimePicker" />
+            </VBox>
+            
+            <VBox spacing="5.0">
+                <Label text="Application Number" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                <TextField fx:id="txtApplicationNo" prefHeight="35.0" promptText="Enter App. No." style="-fx-background-color: #f8f9fa;" />
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Member Number" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                <HBox spacing="10">
+                    <TextField fx:id="txtMemberNumber" HBox.hgrow="ALWAYS" prefHeight="35.0" promptText="Enter No. &amp; Press Enter" />
+                    <Button onAction="#handleFetchMember" prefHeight="35.0" style="-fx-cursor: hand; -fx-background-color: #3498db; -fx-text-fill: white;" text="Fetch" />
+                </HBox>
+            </VBox>
+
+            <VBox fx:id="vboxStatus"  spacing="8.0" visible="false" style="-fx-padding: 12; -fx-background-color: #fdfdfe; -fx-background-radius: 8; -fx-border-color: #e9ecef; -fx-border-style: dashed;">
+                <children>
+                    <Label fx:id="lblMemberName" wrapText="true" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Name: -" />
+                    <Label fx:id="lblEligibility" wrapText="true" style="-fx-font-size: 13; -fx-font-weight: bold;" text="STATUS" />
+                    <Label fx:id="lblCoolingInfo" wrapText="true" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" text="• Monthly Fees: -" />
+                    <Label fx:id="lblBalanceInfo" wrapText="true" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" text="• Pending Balance: -" />
+                </children>
+            </VBox>
+
+            <VBox fx:id="vboxAppForm" disable="true" spacing="15.0">
+                <children>
+                    <VBox spacing="5.0">
+                        <Label text="Loan Amount (₹)" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                        <TextField fx:id="txtAmount" prefHeight="40.0" style="-fx-font-size: 15; -fx-font-weight: bold;" promptText="0" />
+                    </VBox>
+
+                    <Button fx:id="btnSubmit" maxWidth="Infinity" onAction="#handleApply" prefHeight="45.0" 
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="SUBMIT APPLICATION" />
+                            
+                            <Button fx:id="btnReset" maxWidth="Infinity" onAction="#resetForm" prefHeight="45.0" 
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="CLEAR FORM" />
+                            
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+
+    <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #dee2e6;">
+        <children>
+            <HBox alignment="BOTTOM_LEFT" spacing="15.0">
+			    <children>
+			        <VBox spacing="2">
+			            <Label text="Search Member" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+			            <TextField fx:id="txtSearch" promptText="🔍 Name or Number..." 
+			                       prefWidth="180" prefHeight="35" style="-fx-font-size: 12;"/>
+			        </VBox>
+			
+			        <VBox spacing="2">
+			            <Label text="Application Month" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+			            <ComboBox fx:id="cmbMonths" prefWidth="150" prefHeight="35" promptText="Select Month"/>
+			        </VBox>
+			
+			        <VBox spacing="2">
+			            <Label text="Loan Status" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+			            <ComboBox fx:id="cmbStatusFilter" prefWidth="130" prefHeight="35" promptText="All Status"/>
+			        </VBox>
+			        
+			        <VBox alignment="BOTTOM_LEFT">
+			            <Button text="✖ Reset" onAction="#handleResetFilters" prefHeight="35"
+			                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+			        </VBox>
+			
+			        <Region HBox.hgrow="ALWAYS" />
+			        
+			        <HBox alignment="BOTTOM_RIGHT" spacing="10">
+					    <Button text="✖ Reject Applications" onAction="#handleRejectApplications" prefHeight="35"
+					            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+					            
+					    <Button text="🕒 Recent Applications" onAction="#refreshRecentData" prefHeight="35"
+					            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+					    
+					    <Button text="📋 All Applications" onAction="#refreshAllData" prefHeight="35"
+					            style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+					</HBox>
+			    </children>
+			</HBox>
+            <TableView fx:id="tblLoans" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colMemberNo" prefWidth="80.0" text="Member No #" />
+                    <TableColumn fx:id="colMember" prefWidth="200.0" text="Member Name" />
+                    <TableColumn fx:id="colAmount" prefWidth="120.0" text="Amount (₹)" />
+                    <TableColumn fx:id="colDate" prefWidth="120.0" text="Application Date" />
+                    <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
+                    <TableColumn fx:id="colActions" prefWidth="130.0" text="Actions" sortable="false" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </children>
+    </VBox>
+</HBox>
