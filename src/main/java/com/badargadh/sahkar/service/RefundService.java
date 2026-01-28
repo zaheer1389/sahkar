@@ -38,6 +38,10 @@ public class RefundService {
     public List<Member> getEligibleMembers(LocalDate endDate) {
         return memberRepo.findMembersEligibleForRefund(endDate);
     }
+    
+    public List<Member> getMonthlyRefundReportList(LocalDate startDate, LocalDate endDate) {
+        return memberRepo.findMonthlyRefundReportList(startDate, endDate);
+    }
 
     /**
      * Core logic: Records the refund, archives the member, and clears active ID.

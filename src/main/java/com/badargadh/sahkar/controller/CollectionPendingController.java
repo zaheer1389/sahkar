@@ -2,20 +2,25 @@ package com.badargadh.sahkar.controller;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.badargadh.sahkar.data.AppConfig;
+import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.dto.EmiCounterDTO;
 import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.dto.PendingMonthlyCollectionDTO;
 import com.badargadh.sahkar.repository.MemberRepository;
 import com.badargadh.sahkar.service.AppConfigService;
 import com.badargadh.sahkar.service.FinancialMonthService;
+import com.badargadh.sahkar.service.MemberService;
+import com.badargadh.sahkar.service.report.JasperReportService;
 import com.badargadh.sahkar.service.report.ReportService;
 import com.badargadh.sahkar.util.DialogManager;
+import com.badargadh.sahkar.util.FileUtil;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
@@ -43,13 +48,14 @@ public class CollectionPendingController {
     @FXML private Label lblTotalFees, lblTotalEmi, lblGrandTotal, lblTotalPendingPayments;
     @FXML private Label lblFeesCount, lbl100EmiCount, lbl200EmiCount, lbl300EmiCount, lbl400EmiCount;
     
+    @Autowired private MainController mainController;
     @Autowired private MemberRepository memberRepo;
     @Autowired private FinancialMonthService monthService;
     @Autowired private AppConfigService appConfigService;
-    @Autowired private ReportService reportService;
+    @Autowired private JasperReportService jasperReportService;
     
-    AppConfig appConfig;
-    
+    private AppConfig appConfig;
+    private FinancialMonth month;
     private ObservableList<PendingMonthlyCollectionDTO> masterPendingData = FXCollections.observableArrayList();
 
     @FXML
@@ -94,7 +100,7 @@ public class CollectionPendingController {
     @FXML
     public void refreshPendingList() {
     	monthService.getActiveMonth().ifPresent(active -> {
-            // Fetch updated list from DB
+            month = active;
             List<PendingMonthlyCollectionDTO> pending = memberRepo.findActiveMembersPendingForMonth1(active.getId());
             
             // Update the master list which automatically updates the filtered list
@@ -146,13 +152,20 @@ public class CollectionPendingController {
             return;
         }
         
-        String fileName = "Pending_Collection_Report_" + LocalDateTime.now() + ".pdf";
-        File file = DialogManager.showSaveDialog(tblPending, "Save Pending Collection Report", fileName);
+        if(month == null) {
+        	return;
+        }
+        
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+    	String fileName = "Monthly_Collection_Pending_Report_" + timestamp + ".pdf";
+    	File targetFile = FileUtil.getReportOutputFile(fileName);
 
-        if (file != null) {
+        if (targetFile != null) {
             try {
-                reportService.generatePendingCollectionPdf(masterPendingData, appConfig, file.getAbsolutePath());
+            	List<PendingMonthlyCollectionDTO> pending = memberRepo.findActiveMembersPendingForMonth1(month.getId());
+            	jasperReportService.generatePendingCollectionReport(pending, month.getMonthId(), targetFile.getAbsolutePath());
                 NotificationManager.show("Report Saved Successfully", NotificationType.SUCCESS, Pos.CENTER);
+                mainController.showReport(targetFile);
             } catch (Exception e) {
                 NotificationManager.show("Export Error: " + e.getMessage(), NotificationType.ERROR, Pos.CENTER);
             }

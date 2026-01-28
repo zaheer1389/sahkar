@@ -1,84 +1,100 @@
 package com.badargadh.sahkar.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.io.*;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
+import java.util.*;
+import java.util.zip.*;
 import com.badargadh.sahkar.util.AppLogger;
 
 public class MySqlBackupService {
 
-	private final static String APP_HOME = System.getProperty("user.dir");
+    private final static String APP_HOME = System.getProperty("user.dir");
     private final static String CONFIG_FILE = APP_HOME + File.separator + "application.properties";
     private final static String SETTINGS_PATH = APP_HOME + File.separator + "sahkar_settings.properties";
 
-    // Variables loaded from file
-    private static String dbName;
-    private static String dbUser;
-    private static String dbPass;
-    private static String dbPort;
-    private static String mysqlBin;
+    private static String dbName, dbUser, dbPass, dbPort, dumpBin, mysqlBin;
 
-    private static final String CLOUD_PATH = APP_HOME + File.separator + "Google Drive/SocietyBackups/";
+    //private static final String CLOUD_PATH = APP_HOME + File.separator + "Google Drive/SocietyBackups/";
     private static final String LOCAL_PATH = APP_HOME + File.separator + "backups" + File.separator;
 
     private static void loadSettings() {
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(CONFIG_FILE)) {
             prop.load(input);
-            
-            // Extract values (using defaults if keys are missing)
             dbName = prop.getProperty("db.name", "society_db");
-            dbUser = prop.getProperty("spring.datasource.username", "root");
-            dbPass = prop.getProperty("spring.datasource.password", "$sahkarbadargadh$");
+            dbUser = prop.getProperty("spring.datasource.username", "sahkar");
+            dbPass = prop.getProperty("spring.datasource.password", "Sahkar@2026");
             
-            // Extract port from the JDBC URL (e.g., localhost:3307)
-            String url = prop.getProperty("spring.datasource.url", "3307");
-            dbPort = url.contains("3307") ? "3307" : "3306"; 
+            String url = prop.getProperty("spring.datasource.url", "");
+            dbPort = url.contains("3307") ? "3307" : "3306";
 
-            mysqlBin = APP_HOME + File.separator + "mysql" + File.separator + "bin" + File.separator + "mysqldump.exe";
+            // Find System Installed MySQL Binaries
+            dumpBin = findExecutable("mysqldump");
+            mysqlBin = findExecutable("mysql");
             
-            AppLogger.info("Database settings loaded from application.properties");
+            AppLogger.info("Database settings loaded. Port: " + dbPort);
         } catch (IOException ex) {
-            AppLogger.error("Could not load application.properties. Using hardcoded defaults.", ex);
-            // Fallbacks
-            dbName = "society_db";
-            dbUser = "root";
-            dbPass = "$sahkarbadargadh$";
-            dbPort = "3307";
-            mysqlBin = APP_HOME + File.separator + "mysql" + File.separator + "bin" + File.separator + "mysqldump.exe";
+            AppLogger.error("Could not load properties. Using fallbacks.", ex);
+            dumpBin = "mysqldump";
+            mysqlBin = "mysql";
         }
     }
 
-    public static void performBackup() {
-        loadSettings(); // Ensure we have latest settings
+    private static String findExecutable(String name) {
+        String exe = name + (System.getProperty("os.name").toLowerCase().contains("win") ? ".exe" : "");
+        // Check system PATH
+        try {
+            Process p = Runtime.getRuntime().exec(exe + " --version");
+            if (p.waitFor() == 0) return exe;
+        } catch (Exception ignored) {}
+
+        // Fallback to common Windows install paths
+        String[] paths = {
+            "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\",
+            "C:\\Program Files\\MySQL\\MySQL Server 8.4\\bin\\",
+            "C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\"
+        };
+        for (String path : paths) {
+            File file = new File(path + exe);
+            if (file.exists()) return file.getAbsolutePath();
+        }
+        return exe; // Return just the name and hope for the best
+    }
+
+    /**
+     * BACKUP FUNCTION
+     */
+    public static boolean performBackup() {
+        loadSettings(); 
         AppLogger.info("Starting backup for database: " + dbName);
 
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm"));
         String sqlFileName = "db_dump_" + timestamp + ".sql";
         String zipFileName = "Sahkar_Backup_" + timestamp + ".zip";
 
-        File localDir = new File(LOCAL_PATH);
-        if (!localDir.exists()) localDir.mkdirs();
-
-        File sqlFile = new File(localDir, sqlFileName);
-        File zipFile = new File(localDir, zipFileName);
-
         try {
+            // 1. Ensure Local Backups Directory Exists
+            Path localDirPath = Paths.get(LOCAL_PATH);
+            if (Files.notExists(localDirPath)) {
+                Files.createDirectories(localDirPath);
+                AppLogger.info("Created local backup directory: " + LOCAL_PATH);
+            }
+
+            // 2. Ensure Cloud Backups Directory Exists
+            /*Path cloudPath = Paths.get(CLOUD_PATH);
+            if (Files.notExists(cloudPath)) {
+                Files.createDirectories(cloudPath);
+                AppLogger.info("Created cloud backup directory: " + CLOUD_PATH);
+            }*/
+
+            File sqlFile = new File(LOCAL_PATH, sqlFileName);
+            File zipFile = new File(LOCAL_PATH, zipFileName);
+
+            // Execute mysqldump
             ProcessBuilder pb = new ProcessBuilder(
-                mysqlBin, 
+                dumpBin, 
                 "--port=" + dbPort,
                 "-u" + dbUser, 
                 "-p" + dbPass, 
@@ -87,33 +103,91 @@ public class MySqlBackupService {
             );
             
             Process process = pb.start();
-
-            // Capture error stream for the app log
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String line;
-            while ((line = reader.readLine()) != null) { AppLogger.log("MYSQL", line); }
+            logProcessErrors(process);
 
             if (process.waitFor() == 0) {
-            	// 2. Compress to ZIP
                 zipFile(sqlFile, zipFile);
-                
-                // 3. Delete bulky .sql
-                sqlFile.delete();
+                sqlFile.delete(); // Remove .sql after zipping
 
-                // 4. Sync to Cloud
-                syncToCloud(zipFile);
-                
-                // 5. Cleanup
-                cleanupOldBackups(localDir, 30);
-                
+                //syncToCloud(zipFile);
+                cleanupOldBackups(new File(LOCAL_PATH), 30);
                 updateLastBackupTime();
                 
                 AppLogger.info("Backup successful: " + zipFileName);
-            } else {
-                AppLogger.log("ERROR", "mysqldump failed. Check sahkar_app.log for MySQL errors.");
+                
+                return true;
             }
         } catch (Exception e) {
             AppLogger.error("Backup service critical failure", e);
+            
+            return false;
+        }
+        
+		return false;
+    }
+
+    /*private static void syncToCloud(File file) {
+        try {
+            Path destDir = Paths.get(CLOUD_PATH);
+            // Double check/create cloud path just before sync
+            if (Files.notExists(destDir)) {
+                Files.createDirectories(destDir);
+            }
+            
+            Path destFile = destDir.resolve(file.getName());
+            Files.copy(file.toPath(), destFile, StandardCopyOption.REPLACE_EXISTING);
+            AppLogger.info("Synced to cloud: " + file.getName());
+        } catch (IOException e) {
+            AppLogger.error("Cloud sync failed: ", e);
+        }
+    }*/
+
+    /**
+     * RESTORE FUNCTION
+     */
+    public static boolean performRestore(File selectedZipFile) {
+        loadSettings();
+        AppLogger.info("Starting restore from: " + selectedZipFile.getName());
+        
+        File tempSql = new File(LOCAL_PATH, "temp_restore.sql");
+
+        try {
+            // 1. Unzip
+            unzip(selectedZipFile, tempSql);
+
+            // 2. Execute Restore Command
+            // Format: mysql -u user -p pass db_name < file.sql
+            ProcessBuilder pb = new ProcessBuilder(
+                mysqlBin, "--port=" + dbPort, "-u" + dbUser, "-p" + dbPass, dbName
+            );
+            pb.redirectInput(tempSql); // Directs SQL file content into MySQL stdin
+            
+            Process process = pb.start();
+            logProcessErrors(process);
+
+            if (process.waitFor() == 0) {
+                AppLogger.info("Restore completed successfully.");
+                tempSql.delete();
+                return true;
+            } else {
+                AppLogger.error("MySQL Restore process failed.");
+            }
+        } catch (Exception e) {
+            AppLogger.error("Critical failure during restore", e);
+        } finally {
+            if (tempSql.exists()) tempSql.delete();
+        }
+        return false;
+    }
+
+    private static void logProcessErrors(Process process) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains("password on the command line interface")) { // Ignore MySQL warning
+                    AppLogger.log("MYSQL", line);
+                }
+            }
         }
     }
 
@@ -121,52 +195,39 @@ public class MySqlBackupService {
         try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(target));
              FileInputStream fis = new FileInputStream(source)) {
             zos.putNextEntry(new ZipEntry(source.getName()));
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = fis.read(buffer)) > 0) zos.write(buffer, 0, len);
+            fis.transferTo(zos);
             zos.closeEntry();
         }
     }
 
-    private static void syncToCloud(File file) {
-        try {
-            File cloudDestDir = new File(CLOUD_PATH);
-            if (!cloudDestDir.exists()) cloudDestDir.mkdirs();
-            
-            File cloudDest = new File(cloudDestDir, file.getName());
-            Files.copy(file.toPath(), cloudDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-        	AppLogger.error("Cloud sync failed (Path not found): ", e);
+    private static void unzip(File zipSource, File targetSql) throws IOException {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipSource))) {
+            ZipEntry entry = zis.getNextEntry();
+            if (entry != null) {
+                try (FileOutputStream fos = new FileOutputStream(targetSql)) {
+                    zis.transferTo(fos);
+                }
+            }
         }
     }
 
     private static void cleanupOldBackups(File dir, int keepCount) {
         File[] files = dir.listFiles((d, name) -> name.endsWith(".zip"));
         if (files != null && files.length > keepCount) {
-            java.util.Arrays.sort(files, (f1, f2) -> Long.compare(f1.lastModified(), f2.lastModified()));
+            Arrays.sort(files, Comparator.comparingLong(File::lastModified));
             for (int i = 0; i < files.length - keepCount; i++) files[i].delete();
         }
     }
-    
+
     public static void updateLastBackupTime() {
-        File file = new File(SETTINGS_PATH);
         Properties prop = new Properties();
-
-        if (file.exists()) {
-            try (InputStream input = new FileInputStream(file)) {
-                prop.load(input);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm a"));
-        prop.setProperty("last.backup", now);
-
-        try (OutputStream output = new FileOutputStream(file)) {
-            prop.store(output, "System Settings - Integrated MySQL");
-        } catch (IOException io) {
-            io.printStackTrace();
+        File file = new File(SETTINGS_PATH);
+        try {
+            if (file.exists()) try (InputStream in = new FileInputStream(file)) { prop.load(in); }
+            prop.setProperty("last.backup", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm a")));
+            try (OutputStream out = new FileOutputStream(file)) { prop.store(out, "Settings"); }
+        } catch (IOException e) {
+            AppLogger.error("Failed to update backup timestamp", e);
         }
     }
 }

@@ -1,19 +1,16 @@
 package com.badargadh.sahkar.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,12 +27,17 @@ import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.MemberOnboardingService;
 import com.badargadh.sahkar.service.MemberService;
 import com.badargadh.sahkar.service.ReceiptPrintingService;
-import com.badargadh.sahkar.service.report.ReportService;
+import com.badargadh.sahkar.service.report.JasperReportService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.DialogManager.ChoiceWithRemark;
+import com.badargadh.sahkar.util.FileUtil;
+import com.badargadh.sahkar.util.FullBarakhadiEngine;
+import com.badargadh.sahkar.util.GujaratiTransliterator;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 import com.badargadh.sahkar.util.Refreshable;
+import com.badargadh.sahkar.util.SurnameUtil;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -50,12 +52,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -70,7 +75,9 @@ import javafx.stage.Stage;
 public class MemberController extends BaseController implements Initializable, Refreshable {
 
 	@FXML private Label lblTotalMembers;
-	@FXML private TextField txtSearch, txtMemberNo, txtFirstName, txtMiddleName, txtLastName, txtEmi;
+	@FXML private TextField txtSearch, txtMemberNo, txtFirstName, txtMiddleName, txtEmi;
+	@FXML private TextField txtGujFirstName, txtGujMiddleName, txtGujLastName, txtGujUpName;
+	@FXML private ComboBox<String> cmbLastName, cmbBranchName;
     @FXML private ComboBox<String> cmbVillage;
     @FXML private ComboBox<MemberStatus> cmbStatus;
     
@@ -81,15 +88,19 @@ public class MemberController extends BaseController implements Initializable, R
     @FXML private TableColumn<MemberSummaryDTO, MemberStatus> colStatus;
     @FXML private TableColumn<MemberSummaryDTO, Void> colAction;
     @FXML private TableColumn<MemberSummaryDTO, String> colCancelledDate;
+    
+    private ContextMenu gujFirstNameMenu = new ContextMenu();
+    private ContextMenu gujMiddleNameMenu = new ContextMenu();
 
-    @Autowired private MemberRepository memberRepository;
     @Autowired private MemberService memberService;
     @Autowired private MemberOnboardingService memberOnboardingService;
     @Autowired private FinancialMonthService financialMonthService;
-    @Autowired private ReportService reportService;
+    @Autowired private JasperReportService jasperReportService;
     @Autowired private FeeService feeService;
     @Autowired private ReceiptPrintingService printingService;
     @Autowired private AppConfigService appConfigService;
+    
+    @Autowired MainController mainController;
     
     private Member selectedMember = null;
 
@@ -98,6 +109,24 @@ public class MemberController extends BaseController implements Initializable, R
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     
     private Long joiningFee;
+    
+    private static final List<String> SURNAMES = new ArrayList<String>();
+    
+	static {
+		SURNAMES.add("KHORAJIYA");
+		SURNAMES.add("NONSOLA");
+		SURNAMES.add("VARALIYA");
+		SURNAMES.add("KADIVAL");
+		SURNAMES.add("CHAUDHARI");
+		SURNAMES.add("MALPARA");
+		SURNAMES.add("NODOLIYA");
+		SURNAMES.add("BHORANIYA");
+		SURNAMES.add("AGLODIYA");
+	    SURNAMES.add("MANASIYA");
+	    SURNAMES.add("MAREDIYA");
+	    SURNAMES.add("SHERU");
+	    SURNAMES.add("SUNASARA");
+	}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -121,7 +150,31 @@ public class MemberController extends BaseController implements Initializable, R
     	        Platform.runLater(() -> cmbVillage.show());
     	    }
     	});
+    	
+    	cmbLastName.setItems(FXCollections.observableArrayList(SURNAMES));
+    	cmbLastName.setOnAction(e -> {
+    	    String surname = cmbLastName.getValue();
+    	    if(surname != null && !surname.isEmpty() ) {
+    	    	txtGujLastName.setText(SurnameUtil.getGujSurname(surname));
+    	    	cmbBranchName.setItems(FXCollections.observableArrayList(SurnameUtil.getBrnachName(surname)));
+    	    }
+    	    
+    	});
+    	
+    	cmbBranchName.setOnAction(e -> {
+    		String surname = cmbBranchName.getValue();
+    	    txtGujUpName.setText(SurnameUtil.getGujBranchName(surname));
+    	});
 
+    	txtFirstName.textProperty().addListener((obs, o, n) ->
+	        txtGujFirstName.setText(GujaratiTransliterator.toGujarati(n))
+	    );
+	
+	    txtMiddleName.textProperty().addListener((obs, o, n) ->
+	        txtGujMiddleName.setText(GujaratiTransliterator.toGujarati(n))
+	    );
+
+    	
         colMemberNo.setCellValueFactory(new PropertyValueFactory<>("memberNo"));
         colFullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         //colFullName.setCellValueFactory(new PropertyValueFactory<>("gujaratiName"));
@@ -149,6 +202,9 @@ public class MemberController extends BaseController implements Initializable, R
         //setupSearch();
         
         lblTotalMembers.setText(masterData.stream().filter(m -> m.getStatus() == MemberStatus.ACTIVE).count()+"");
+        
+        setupGujaratiSuggestions( txtFirstName, txtGujFirstName, gujFirstNameMenu );
+        setupGujaratiSuggestions( txtMiddleName, txtGujMiddleName, gujMiddleNameMenu );
     }
  	
     private void setupActionColumn() {
@@ -322,8 +378,15 @@ public class MemberController extends BaseController implements Initializable, R
         txtMemberNo.setText(String.valueOf(member.getMemberNo()));
         txtFirstName.setText(member.getFirstName());
         txtMiddleName.setText(member.getMiddleName());
-        txtLastName.setText(member.getLastName());
+        cmbLastName.setValue(member.getLastName());
+        cmbBranchName.setValue(member.getBranchName());
         cmbVillage.setValue(member.getVillage());
+        
+        txtGujFirstName.setText(selectedMember.getFirstNameGuj());
+        txtGujMiddleName.setText(selectedMember.getMiddleNameGuj());
+        txtGujLastName.setText(selectedMember.getLastNameGuj());
+        txtGujUpName.setText(selectedMember.getBranchNameGuj());
+       
     }
     
     @FXML
@@ -374,6 +437,7 @@ public class MemberController extends BaseController implements Initializable, R
         	}
         	catch(Exception e) {
         		DialogManager.showError("Registartion Failed", e.getMessage());
+                AppLogger.error("Member_Creation_Error", e);
         		resetForm(false);
         	}
         }
@@ -392,7 +456,7 @@ public class MemberController extends BaseController implements Initializable, R
             return false;
         }
     	
-    	if (txtFirstName.getText().isEmpty() || txtMiddleName.getText().isEmpty() || txtLastName.getText().isEmpty()) {
+    	if (txtFirstName.getText().isEmpty() || txtMiddleName.getText().isEmpty() || cmbLastName.getValue() == null) {
             DialogManager.showError("Input Required", "Please fill in all mandatory fields.");
             return false;
         }
@@ -413,9 +477,15 @@ public class MemberController extends BaseController implements Initializable, R
         txtMemberNo.clear();
         txtFirstName.clear();
         txtMiddleName.clear();
-        txtLastName.clear();
+        cmbLastName.getSelectionModel().clearSelection();
+        cmbBranchName.getSelectionModel().clearSelection();
         cmbVillage.getSelectionModel().clearSelection();
         //cmbStatus.getSelectionModel().clearSelection();
+        
+        txtGujFirstName.clear();
+        txtGujMiddleName.clear();
+        txtGujLastName.clear();
+        txtGujUpName.clear();
         
         if(reloadData) {
         	loadDynamicData();
@@ -427,7 +497,10 @@ public class MemberController extends BaseController implements Initializable, R
     	member.setMemberNo(Integer.parseInt(txtMemberNo.getText()));
     	member.setFirstName(txtFirstName.getText().toUpperCase());
     	member.setMiddleName(txtMiddleName.getText().toUpperCase());
-    	member.setLastName(txtLastName.getText().toUpperCase());
+    	member.setLastName(cmbLastName.getValue().toUpperCase());
+    	if(cmbBranchName.getValue() != null) {
+    		member.setBranchName(cmbBranchName.getValue().toUpperCase());
+    	}
     	member.setVillage(cmbVillage.getValue());
     	member.setFinancialMonth(financialMonthService.getActiveMonth().get());
     	
@@ -457,7 +530,18 @@ public class MemberController extends BaseController implements Initializable, R
     public void updateMember() {
     	selectedMember.setFirstName(txtFirstName.getText().toUpperCase());
     	selectedMember.setMiddleName(txtMiddleName.getText().toUpperCase());
-    	selectedMember.setLastName(txtLastName.getText().toUpperCase());
+    	selectedMember.setLastName(cmbLastName.getValue().toUpperCase());
+    	if(cmbBranchName.getValue() != null) {
+    		selectedMember.setBranchName(cmbBranchName.getValue().toUpperCase());
+    	}
+    	
+    	selectedMember.setFirstNameGuj(txtGujFirstName.getText());
+    	selectedMember.setMiddleNameGuj(txtGujMiddleName.getText());
+    	selectedMember.setLastNameGuj(txtGujLastName.getText());
+    	if(cmbBranchName.getValue() != null) {
+    		selectedMember.setBranchNameGuj(txtGujUpName.getText());
+    	}
+    	
     	selectedMember.setVillage(cmbVillage.getValue());
     	selectedMember = memberService.save(selectedMember);
 
@@ -506,8 +590,10 @@ public class MemberController extends BaseController implements Initializable, R
                         loadDynamicData(); // Refresh Table
                     } catch (BusinessException e) {
                         DialogManager.showError("Cancellation Denied", e.getMessage());
+                        AppLogger.error("Member_Cancellation_Error", e);
                     } catch (Exception e) {
                         DialogManager.showError("Error", "An unexpected error occurred: " + e.getMessage());
+                        AppLogger.error("Member_Cancellation_Error", e);
                     }
 
             	}
@@ -515,9 +601,11 @@ public class MemberController extends BaseController implements Initializable, R
     	}
     	catch(BusinessException e) {
     		DialogManager.showError("Cancellation Denied", e.getMessage());
+            AppLogger.error("Member_Cancellation_Error", e);
     	}
     	catch (Exception e) {
             DialogManager.showError("Error", "An unexpected error occurred: " + e.getMessage());
+            AppLogger.error("Member_Cancellation_Error", e);
         }
     }
     
@@ -529,79 +617,22 @@ public class MemberController extends BaseController implements Initializable, R
             return;
         }
     	
-    	String fileName = "Member_Details_Report" + LocalDateTime.now() + ".pdf";
-        File file = DialogManager.showSaveDialog(tblMembers, "Save Member Details Report", fileName);
+    	String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+    	String fileName = "Member_Details_Report_" + timestamp + ".pdf";
+    	File targetFile = FileUtil.getReportOutputFile(fileName);
 
-        if (file != null) {
+        if (targetFile != null) {
             try {
-            	List<MemberSummaryDTO> dtos = masterData.stream().filter(m -> m.getStatus() == MemberStatus.ACTIVE).toList();
-                // Simply call the service
-                reportService.generateMemberSummaryPdf(dtos, file.getAbsolutePath());
+            	jasperReportService.generateMemberReport(memberService.findActiveMembersForReport(), targetFile.getAbsolutePath());
+                NotificationManager.show("Report generated: " + targetFile.getName(), NotificationType.SUCCESS, Pos.TOP_RIGHT);
                 
-                NotificationManager.show("Report generated: " + file.getName(), NotificationType.SUCCESS, Pos.TOP_RIGHT);
+                mainController.showReport(targetFile);
+                
             } catch (Exception e) {
                 e.printStackTrace();
                 DialogManager.showError("Export Error", "Could not generate PDF: " + e.getMessage());
+                AppLogger.error("Member_Export_PDF_Error", e);
             }
-        }
-    	
-    	//generateExcel();
-    }
-    
-    private void generateExcel() {
-        File file = new File("D:\\data\\sahkar\\Sahkar_Member_Witness_Remarks_Cancelled.xlsx");
-        
-        List<Member> dtos = memberRepository.findAllByStatus(MemberStatus.CANCELLED);
-        dtos.addAll(memberRepository.findAllByStatus(MemberStatus.REFUNDED));
-
-        if (dtos == null || dtos.isEmpty()) {
-            System.out.println("No data to export.");
-            return;
-        }
-
-        // Use try-with-resources to ensure the workbook is closed properly
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Members");
-
-            // 1. Create Header Row
-            /*Row headerRow = sheet.createRow(0);
-            Cell headerCell = headerRow.createCell(0);
-            headerCell.setCellValue("Member Number");
-            
-            Cell headerCellName = headerRow.createCell(1);
-            headerCellName.setCellValue("Member Name");
-            
-            // Optional: Style the header to be bold
-            CellStyle headerStyle = workbook.createCellStyle();
-            Font font = workbook.createFont();
-            font.setBold(true);
-            headerStyle.setFont(font);
-            headerCell.setCellStyle(headerStyle);*/
-
-            // 2. Write Data Rows
-            int rowNum = 0;
-            for (Member dto : dtos) {
-            	Row row = sheet.createRow(rowNum++);
-                // Assuming MemberSummaryDTO has a getMemberNo() method
-                row.createCell(0).setCellValue(dto.getFirstName());
-                row.createCell(1).setCellValue(dto.getMiddleName());
-                row.createCell(2).setCellValue(dto.getLastName());
-                row.createCell(3).setCellValue(dto.getId());
-                //row.createCell(4).setCellValue(dto.getPendingLoan());
-            }
-
-            // 3. Auto-size the column for a clean look
-            sheet.autoSizeColumn(0);
-
-            // 4. Write to File
-            try (FileOutputStream fileOut = new FileOutputStream(file)) {
-                workbook.write(fileOut);
-            }
-
-            System.out.println("Excel file generated successfully at: " + file.getAbsolutePath());
-            
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -631,8 +662,59 @@ public class MemberController extends BaseController implements Initializable, R
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            AppLogger.error("Member_Remark_List_Popup_Error", e);
             NotificationManager.show("Error opening popup: " + e.getMessage(), NotificationType.ERROR, Pos.CENTER);
         }
     }
+    
+    private void setupGujaratiSuggestions( TextField englishField, TextField gujaratiField, ContextMenu menu ) {
+
+        englishField.textProperty().addListener((obs, oldVal, newVal) -> {
+
+            menu.getItems().clear();
+
+            if (newVal == null || newVal.isBlank()) {
+                menu.hide();
+                gujaratiField.clear();
+                return;
+            }
+
+            // Generate suggestions
+            //Set<String> suggestions = GujaratiSuggestionUtil.getSuggestions(newVal);
+            
+            //Set<String> suggestions = SmartGujaratiSuggestionUtil.getSuggestions(newVal);
+            
+            Set<String> suggestions = FullBarakhadiEngine.getSuggestions(newVal);
+
+            if (suggestions.isEmpty()) {
+                menu.hide();
+                return;
+            }
+
+            // Default autofill (first suggestion)
+            gujaratiField.setText(suggestions.iterator().next());
+
+            // Build popup menu
+            for (String s : suggestions) {
+                MenuItem item = new MenuItem(s);
+                item.setOnAction(e -> {
+                    gujaratiField.setText(s);
+                    menu.hide();
+                });
+                menu.getItems().add(item);
+            }
+
+            // Show popup below Gujarati field
+            if (!menu.isShowing()) {
+                menu.show(gujaratiField, Side.BOTTOM, 0, 0);
+            }
+        });
+
+        // Hide menu when Gujarati field loses focus
+        gujaratiField.focusedProperty().addListener((o, was, is) -> {
+            if (!is) menu.hide();
+        });
+    }
+
     
 }

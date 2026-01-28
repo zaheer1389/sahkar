@@ -23,6 +23,7 @@ import com.badargadh.sahkar.repository.FeesRefundRepository;
 import com.badargadh.sahkar.repository.FinancialMonthRepository;
 import com.badargadh.sahkar.repository.LoanAccountRepository;
 import com.badargadh.sahkar.repository.MonthlyExpenseRepository;
+import com.badargadh.sahkar.util.AppLogger;
 
 @Service
 public class FinancialMonthService {
@@ -95,7 +96,8 @@ public class FinancialMonthService {
             //int monthValue = java.time.Month.valueOf(name.toUpperCase()).getValue();
             //target.setStartDate(LocalDate.of(year, monthValue, 1));
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid month name provided: " + name);
+        	AppLogger.error("financial month service error", e);
+            throw new RuntimeException("Invalid month name provided: " + name);            
         }
 
         return monthRepo.save(target);

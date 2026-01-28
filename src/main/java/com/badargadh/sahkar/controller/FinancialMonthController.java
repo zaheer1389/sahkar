@@ -220,6 +220,7 @@ public class FinancialMonthController extends BaseController implements Initiali
                 DialogManager.showInfo("Closed", active.getMonthName() + " is now finalized.");
             } catch (Exception e) {
                 DialogManager.showError("Process Failed", e.getMessage());
+                AppLogger.error("Financial_Month_Closing_Error", e);
             }
         }
     }

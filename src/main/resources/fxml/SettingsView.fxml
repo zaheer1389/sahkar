@@ -8,25 +8,33 @@
     <content>
         <VBox spacing="20.0" style="-fx-padding: 25;">
             <children>
-                <VBox spacing="5.0">
-                    <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Application Configuration" />
-                    <Label style="-fx-text-fill: #7f8c8d;" text="Manage financial parameters, operational constraints, and disciplinary rules." />
-                    <Separator prefWidth="200.0">
+                <VBox>
+	            	<HBox alignment="CENTER_LEFT" spacing="15.0">
+	                    <children>
+		                    <VBox spacing="5.0">
+			                    <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Application Configuration" />
+			                    <Label style="-fx-text-fill: #7f8c8d;" text="Manage financial parameters, operational constraints, and disciplinary rules." />
+			                </VBox>
+			                <HBox spacing="20" HBox.hgrow="ALWAYS" />
+	                        <Button onAction="#handleReset" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="RELOAD SETTINGS" />
+	                    </children>
+	                </HBox>
+            		<Separator prefWidth="200.0">
                         <VBox.margin><Insets top="10.0" /></VBox.margin>
                     </Separator>
-                </VBox>
+            	</VBox>
 
                 <GridPane hgap="20.0" vgap="25.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="400.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="400.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" maxWidth="400.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" maxWidth="400.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" maxWidth="400.0" />
                     </columnConstraints>
                     
                     <children>
                         <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <children>
                                 <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2980b9;" text="👥 Member Configurations" />
-                                
                                 <VBox spacing="5.0">
                                     <Label text="Monthly Fees" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -34,7 +42,6 @@
                                         <Button fx:id="btnEditMonthly" onAction="#toggleMonthlyEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
                                     </HBox>
                                 </VBox>
-
                                 <VBox spacing="5.0">
                                     <Label text="New Member Fees" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -42,7 +49,6 @@
                                         <Button fx:id="btnEditNewMember" onAction="#toggleNewMemberEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
                                     </HBox>
                                 </VBox>
-                                
                                 <VBox spacing="5.0">
                                     <Label text="Fees Refund Cooling Period (Months)" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -65,6 +71,28 @@
                                 </VBox>
                             </children>
                         </VBox>
+                        
+                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="💰 Configured EMI Amounts" />
+                                <VBox spacing="5.0">
+								    <TableView fx:id="tblEmiAmounts" fixedCellSize="35.0" prefHeight="180.0" maxWidth="320.0" style="-fx-background-radius: 4; -fx-border-color: #dee2e6;">
+								        <columns>
+								            <TableColumn fx:id="colEmiValue" maxWidth="100.0" text="Amount (₹)" />
+								            <TableColumn fx:id="colEmiStatus" maxWidth="100.0" text="Status" />
+								            <TableColumn fx:id="colEmiAction" maxWidth="100.0" text="Action" />
+								        </columns>
+								        <columnResizePolicy>
+								            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+								        </columnResizePolicy>
+								    </TableView>
+								    <HBox spacing="10.0">
+								        <TextField fx:id="txtNewEmiValue" onAction="#handleAddEmi" prefHeight="35.0" prefWidth="180.0" promptText="Enter Amount (Multiple of 100)" />
+								        <Button onAction="#handleAddEmi" prefHeight="35.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ ADD" />
+								    </HBox>
+								</VBox>
+                            </children>
+                        </VBox>
 
                         <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <children>
@@ -79,7 +107,7 @@
                             </children>
                         </VBox>
                         
-                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <children>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                                     <children>
@@ -88,24 +116,20 @@
                                         <Button fx:id="btnEditRemarkSettings" onAction="#handleToggleRemarkEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎" />
                                     </children>
                                 </HBox>
-                                
                                 <VBox fx:id="vboxRemarkFields" disable="true" spacing="15.0">
                                     <children>
                                         <CheckBox fx:id="chkAutoRemark" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Enable Automatic Remarks" />
-                                        
                                         <Separator />
-                                        
                                         <GridPane hgap="10.0" vgap="15.0">
                                             <columnConstraints>
                                                 <ColumnConstraints prefWidth="150.0" />
                                                 <ColumnConstraints hgrow="ALWAYS" />
                                             </columnConstraints>
                                             <children>
-                                                <Label text="Cut-off Date (of Month):" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                                                <Spinner fx:id="spnRemarkDate" prefHeight="35.0" prefWidth="120.0" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-                                                
-                                                <Label text="Cut-off Time (Daily):" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                                                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                                <Label text="Cut-off Date (of Month):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <Spinner fx:id="spnRemarkDate" prefHeight="35.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Label text="Cut-off Time (Daily):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                     <children>
                                                         <ComboBox fx:id="cbRemarkHour" prefHeight="35.0" prefWidth="75.0" />
                                                         <Label style="-fx-font-weight: bold;" text=":" />
@@ -119,15 +143,31 @@
                                 </VBox>
                             </children>
                         </VBox>
+
+                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <children>
+                                <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #673ab7;" text="🖨 POS Printer Settings" />
+                                <VBox spacing="10.0">
+                                    <children>
+                                        <Label text="Select Default POS Printer" />
+                                        <HBox spacing="10.0">
+                                            <children>
+                                                <ComboBox fx:id="cbPrinters" prefHeight="35.0" promptText="Detecting Printers..." HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                                <Button onAction="#handleRefreshPrinters" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="🔄" />
+                                            </children>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                            <VBox.margin><Insets bottom="5.0" top="5.0" /></VBox.margin>
+                                        </Separator>
+                                        <Button onAction="#handleTestPrint" prefHeight="40.0" maxWidth="Infinity" style="-fx-background-color: #673ab7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="PRINT TEST RECEIPT" />
+                                        <Label style="-fx-font-style: italic; -fx-text-fill: #95a5a6; -fx-font-size: 11px;" text="* Ensure the printer is powered on and paper is loaded." wrapText="true" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
                     </children>
                 </GridPane>
-
-                <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                    <children>
-                        <Button onAction="#handleReset" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="RELOAD SETTINGS" />
-                    </children>
-                    <VBox.margin><Insets top="20.0" /></VBox.margin>
-                </HBox>
             </children>
         </VBox>
     </content>

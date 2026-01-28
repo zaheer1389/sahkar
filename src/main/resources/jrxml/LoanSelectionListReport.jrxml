@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="SelectedLoans" pageWidth="595" pageHeight="842" columnWidth="555" 
+    leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    
+    <property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
+
+    <parameter name="reportDate" class="java.lang.String"/>
+    <parameter name="monthLabel" class="java.lang.String"/>
+    <parameter name="totalCount" class="java.lang.Integer"/>
+
+    <field name="memberNo" class="java.lang.Integer"/>
+    <field name="gujFullname" class="java.lang.String"/>
+
+    <title>
+        <band height="100">
+            <textField>
+                <reportElement x="350" y="0" width="205" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["તારીખ : " + $P{reportDate}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="25" width="555" height="30" forecolor="#003366"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[સહકાર સોસાયટી બાદરગઢ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="60" width="555" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="13" isBold="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["લોન પાસ થયેલ સભ્યો ની યાદી : " + $P{monthLabel}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="0" width="110" height="30" backcolor="#E6E6E6"/>
+                <box><pen lineWidth="0.5" lineColor="#999999"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[મેમ્બર નંબર]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="110" y="0" width="445" height="30" backcolor="#E6E6E6"/>
+                <box><pen lineWidth="0.5" lineColor="#999999"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[સભ્ય નું નામ]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25">
+            <textField>
+                <reportElement x="0" y="0" width="110" height="25"/>
+                <box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{memberNo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="0" width="445" height="25"/>
+                <box leftPadding="10"><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{gujFullname}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="30">
+            <textField>
+                <reportElement x="0" y="10" width="555" height="20"/>
+                <textElement>
+                    <font fontName="Noto Sans Gujarati" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["કુલ પસંદગી: " + $P{totalCount} + " સભ્યો"]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

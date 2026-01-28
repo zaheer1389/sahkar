@@ -50,6 +50,8 @@
 			        <Label text="System Status:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
 			        <Label fx:id="lblLastBackup" text="Last Backup: Never" 
 			               style="-fx-background-color: #dff0d8; -fx-text-fill: #3c763d; -fx-padding: 3 10; -fx-background-radius: 5; -fx-font-size: 13px; -fx-font-weight: bold;" />
+			       	<Button fx:id="btnBackup" onAction="#handleBackupNow" text="Backup Now" 
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15;" />
 			    </children>
 			</HBox>
 

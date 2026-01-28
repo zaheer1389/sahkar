@@ -3,6 +3,8 @@ package com.badargadh.sahkar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import com.badargadh.sahkar.util.AppLogger;
+
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
@@ -27,7 +29,8 @@ public abstract class BaseController {
             return controller.isAuthorized();
             
         } catch (Exception e) {
-            e.printStackTrace();
+        	e.printStackTrace();
+            AppLogger.error("Error in Password Confirm!!", e);
             return false;
         }
     }

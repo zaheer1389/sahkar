@@ -427,3 +427,46 @@
     -fx-border-color: #e0e0e0;
     -fx-border-width: 1 0 0 0;
 }
+
+/* Container Track */
+.toggle-switch {
+    -fx-padding: 0;
+}
+
+.toggle-switch .box {
+    -fx-background-color: #dee2e6;
+    -fx-background-radius: 20;
+    -fx-pref-width: 45;
+    -fx-pref-height: 22;
+}
+
+/* The Sliding Circle */
+.toggle-switch .mark {
+    -fx-background-color: white;
+    -fx-shape: "M10,20 C15.5,20 20,15.5 20,10 C20,4.5 15.5,0 10,0 C4.5,0 0,4.5 0,10 C0,15.5 4.5,20 10,20 Z";
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    -fx-translateX: -10;
+}
+
+/* Active State Styles */
+.toggle-switch:selected .box {
+    -fx-background-color: #27ae60;
+}
+
+.toggle-switch:selected .mark {
+    -fx-translateX: 10;
+}
+
+/* Remove extra empty rows and background scroll */
+.table-view {
+    -fx-background-color: transparent;
+}
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: -10;
+}
+.table-view .column-header-background {
+    -fx-background-color: #f8f9fa;
+}

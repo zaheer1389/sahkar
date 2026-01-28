@@ -16,7 +16,7 @@ import javafx.util.Duration;
 public class NotificationManager {
 
     public enum NotificationType {
-        SUCCESS("#27ae60"), ERROR("#e74c3c"), INFO("#2980b9"), WARNING("#ffcc00");
+        SUCCESS("#27ae60"), ERROR("#e74c3c"), INFO("#2980b9"), WARNING("#5d6905");
         final String color;
         NotificationType(String color) { this.color = color; }
     }

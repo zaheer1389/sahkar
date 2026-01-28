@@ -28,7 +28,7 @@ public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> 
     List<LoanAccount> findByStartDateBetweenAndLoanStatus(LocalDate start, LocalDate end, LoanStatus loanStatus);
     
     // Get all active loans to generate monthly EMI collection lists
-    List<LoanAccount> findAllByLoanStatus(String loanStatus);
+    List<LoanAccount> findAllByLoanStatus(LoanStatus loanStatus);
     
     List<LoanAccount> findByFinancialMonth(FinancialMonth month);
     

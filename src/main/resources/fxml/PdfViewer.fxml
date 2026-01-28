@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.geometry.Insets?>
+
+<VBox prefHeight="800.0" prefWidth="1000.0" spacing="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.PdfViewerController">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 12;">
+            <children>
+                <Button onAction="#handlePrint" prefHeight="35.0" prefWidth="100.0" 
+                        style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🖨 PRINT" />
+                
+                <Region HBox.hgrow="ALWAYS" />
+                
+                <VBox alignment="CENTER">
+                    <Label fx:id="lblReportName" style="-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" text="Document Viewer" />
+                    <Label style="-fx-text-fill: #bdc3c7; -fx-font-size: 14;-fx-font-weight: bold;" text="Sahkar Digital Report System" />
+                </VBox>
+                
+                <Region HBox.hgrow="ALWAYS" />
+                
+                <Button onAction="#handleClose" prefHeight="35.0" prefWidth="100.0" 
+                        style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="✕ CLOSE" />
+            </children>
+        </HBox>
+        
+        <StackPane VBox.vgrow="ALWAYS">
+            <children>
+                <WebView fx:id="webView" />
+            </children>
+        </StackPane>
+    </children>
+</VBox>

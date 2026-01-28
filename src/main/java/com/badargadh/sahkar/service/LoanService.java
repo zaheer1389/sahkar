@@ -16,16 +16,20 @@ import com.badargadh.sahkar.data.AppConfig;
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.LoanAccount;
 import com.badargadh.sahkar.data.LoanApplication;
+import com.badargadh.sahkar.data.LoanWitness;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.data.PaymentRemark;
 import com.badargadh.sahkar.enums.LoanApplicationStatus;
 import com.badargadh.sahkar.enums.LoanStatus;
 import com.badargadh.sahkar.enums.MemberStatus;
+import com.badargadh.sahkar.enums.RemarkType;
 import com.badargadh.sahkar.exception.BusinessException;
 import com.badargadh.sahkar.repository.EmiPaymentRepository;
 import com.badargadh.sahkar.repository.FeePaymentRepository;
 import com.badargadh.sahkar.repository.LoanAccountRepository;
 import com.badargadh.sahkar.repository.LoanApplicationRepository;
+import com.badargadh.sahkar.repository.LoanWitnessRepository;
+import com.badargadh.sahkar.repository.MemberRepository;
 import com.badargadh.sahkar.repository.PaymentRemarkRepository;
 import com.badargadh.sahkar.util.AppLogger;
 
@@ -34,6 +38,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class LoanService {
 
+	@Autowired private LoanWitnessRepository loanWitnessRepository;
     @Autowired private LoanAccountRepository loanAccountRepo;
     @Autowired private FeePaymentRepository feeRepo;
     @Autowired private AppConfigService configService;
@@ -41,6 +46,8 @@ public class LoanService {
     @Autowired private FinancialMonthService monthService;
     @Autowired private EmiPaymentRepository emiPaymentRepo;
     @Autowired private PaymentRemarkRepository paymentRemarkRepository;
+    @Autowired private PaymentRemarkRepository remarkRepo;
+    @Autowired private MemberRepository memberRepository;
 
     public AppConfig getLoanSettings() {
         return configService.getSettings();
@@ -199,6 +206,7 @@ public class LoanService {
         loanAppRepo.save(loanApplication);
         
         if(finalStatus == LoanApplicationStatus.NO_SHOW) {
+        	addLoanNoShowRemarks(loanApplication);
         	promoteNextWaitingMember(loanApplication.getFinancialMonth());
         }
     }
@@ -222,6 +230,18 @@ public class LoanService {
             // Note: You can optionally re-index the remaining WL members 
             // but usually, leaving them as WL-02, WL-03 is fine for history.
         });
+    }
+    
+    @Transactional
+    public void addLoanNoShowRemarks(LoanApplication application) {
+    	for(int i = 0; i <= 2; i++) {
+    		PaymentRemark remark = new PaymentRemark();
+            remark.setMember(application.getMember());
+            remark.setRemarkType(RemarkType.FORM_CANCELLED);
+            remark.setIssuedDate(LocalDate.now());
+            remark.setFinancialMonth(application.getFinancialMonth());
+            remarkRepo.save(remark);
+    	}
     }
     
     @Transactional
@@ -271,5 +291,15 @@ public class LoanService {
     
     public Optional<LoanApplication> findByIdWithWitnesses(Long id) {
     	return loanAppRepo.findByIdWithWitnesses(id);
+    }
+    
+    public LoanWitness getLoanWitness(Integer memberNo) {
+    	Member member = memberRepository.findByMemberNo(memberNo).get();
+    	LoanAccount loanAccount = findMemberActiveLoan(member);
+    	if(loanAccount != null) {
+    		List<LoanWitness> loanWitness = loanWitnessRepository.findByLoanApplicationOrderByIdAsc(loanAccount.getLoanApplication());
+        	return loanWitness != null && loanWitness.size() > 0 ? loanWitness.get(0) : null;
+    	}
+    	return null;
     }
 }

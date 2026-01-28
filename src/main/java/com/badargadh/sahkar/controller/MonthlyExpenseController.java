@@ -10,6 +10,7 @@ import com.badargadh.sahkar.enums.ExpenseCategory;
 import com.badargadh.sahkar.enums.ExpenseType;
 import com.badargadh.sahkar.exception.BusinessException;
 import com.badargadh.sahkar.service.MonthlyExpenseService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
@@ -110,8 +111,10 @@ public class MonthlyExpenseController extends BaseController {
 
         } catch (BusinessException e) {
             DialogManager.showError("Logic Error", e.getMessage());
+            AppLogger.error("Monthly_Expense_Page_Error", e);
         } catch (Exception e) {
             DialogManager.showError("Error", e.getMessage());
+            AppLogger.error("Monthly_Expense_Page_Error", e);
         }
     }
 

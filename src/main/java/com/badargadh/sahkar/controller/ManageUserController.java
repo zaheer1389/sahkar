@@ -12,6 +12,7 @@ import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.enums.Role;
 import com.badargadh.sahkar.service.MemberService;
 import com.badargadh.sahkar.service.UserService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
@@ -74,6 +75,7 @@ public class ManageUserController implements Initializable {
             }
         } catch (Exception e) {
             NotificationManager.show("Invalid Member Number", NotificationType.ERROR,Pos.CENTER);
+            AppLogger.error("Manage_User_Handle_Fetch_Member_Error", e);
         }
     }
 

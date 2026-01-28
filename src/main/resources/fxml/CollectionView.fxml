@@ -8,7 +8,7 @@
          xmlns:fx="http://javafx.com/fxml/1" 
          fx:controller="com.badargadh.sahkar.controller.CollectionMainController">
     <tabs>
-        <Tab text="Mumbai Collection">
+        <Tab text="Monthly Collection">
             <fx:include fx:id="paymentForm" source="CollectionFormView.fxml" />
         </Tab>
         <Tab text="Pending Payments">

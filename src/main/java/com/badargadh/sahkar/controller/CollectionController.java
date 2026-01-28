@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.badargadh.sahkar.component.DateTimePicker;
 import com.badargadh.sahkar.data.AppConfig;
+import com.badargadh.sahkar.data.EmiConfig;
 import com.badargadh.sahkar.data.EmiPaymentGroup;
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.LoanAccount;
@@ -47,6 +48,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -68,7 +70,7 @@ public class CollectionController extends BaseController implements Initializabl
     @FXML private TextField txtMemberNumber, txtMonthlyFees;
     @FXML private Label lblMemberName, lblLoanStatus, lblBalanceInfo, lblMemberStatus;
     @FXML private VBox vboxStatus, vboxCollectionForm;
-    @FXML private ComboBox<Integer> cmbEmiAmount;
+    @FXML private ComboBox<EmiConfig> cmbEmiAmount;
     @FXML private ToggleButton btnFullPayment, btnToggleRemarks;
     @FXML private TextArea txtRemarks;
     @FXML private Button btnSubmit;
@@ -145,11 +147,11 @@ public class CollectionController extends BaseController implements Initializabl
     private void setGUI() {
     	
     	cmbCollectionLocation.setItems(FXCollections.observableArrayList(CollectionLocation.values()));
-        cmbCollectionLocation.setValue(CollectionLocation.MUMBAI);
+        //cmbCollectionLocation.setValue(CollectionLocation.MUMBAI);
         
         
     	// Setup EMI Dropdown values
-        cmbEmiAmount.getItems().addAll(100, 200, 300, 400);
+    	setupEmiComboBox();
         
         // Default date to today
         paymentDateTimePicker.setValue(LocalDateTime.now());
@@ -255,6 +257,47 @@ public class CollectionController extends BaseController implements Initializabl
         
     }
     
+    private void setupEmiComboBox() {
+        // 1. Load all configs (Active + Inactive)
+        cmbEmiAmount.getItems().setAll(appConfigService.getAllEmiConfigs());
+
+        // 2. Set the CellFactory (Controls how items look in the DROPDOWN list)
+        cmbEmiAmount.setCellFactory(lv -> new ListCell<EmiConfig>() {
+            @Override
+            protected void updateItem(EmiConfig item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setDisable(false);
+                } else {
+                    setText(String.format("₹ %.0f", item.getAmount()));
+                    
+                    if (item.isActive()) {
+                        setStyle("-fx-text-fill: black; -fx-font-weight: normal;");
+                        setDisable(false); // Can be selected
+                    } else {
+                        setText(getText() + " (Disabled)");
+                        setStyle("-fx-text-fill: #a0a0a0; -fx-font-style: italic;");
+                        setDisable(true); // CANNOT be selected
+                    }
+                }
+            }
+        });
+
+        // 3. Set the ButtonCell (Controls how the SELECTED value looks when closed)
+        cmbEmiAmount.setButtonCell(new ListCell<EmiConfig>() {
+            @Override
+            protected void updateItem(EmiConfig item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("₹ %.0f", item.getAmount()));
+                }
+            }
+        });
+    }
+    
     @FXML
     private void handleFetchDepositor() {
         String memberNo = txtDepositorMemberNo.getText().trim();
@@ -289,6 +332,11 @@ public class CollectionController extends BaseController implements Initializabl
         	NotificationManager.show("Please specify a valid Depositor Member first.", NotificationType.WARNING, Pos.CENTER);
         	txtDepositorName.requestFocus();
             return;
+        }
+        
+        if(cmbCollectionLocation.getValue() == null) {
+        	NotificationManager.show("Please select deposit location", NotificationType.WARNING, Pos.CENTER);
+        	return;
         }
 
         // 2. Confirmation
@@ -327,6 +375,7 @@ public class CollectionController extends BaseController implements Initializabl
                 
             } catch (Exception e) {
             	e.printStackTrace();
+            	AppLogger.error("Monthly_Collection_Deposit_Error", e);
                 NotificationManager.show("Error processing deposit: " + e.getMessage(), NotificationType.ERROR, Pos.CENTER);
             }
         }
@@ -445,7 +494,7 @@ public class CollectionController extends BaseController implements Initializabl
                     cmbEmiAmount.setDisable(false);
                     cmbEmiAmount.setPromptText("Select EMI");
                 } else {
-                    cmbEmiAmount.setValue(activeLoan.getEmiAmount().intValue());
+                    cmbEmiAmount.setValue(appConfigService.findByEmiAmount(activeLoan.getEmiAmount()));
                     cmbEmiAmount.setDisable(true);
                 }
             } else {
@@ -462,6 +511,8 @@ public class CollectionController extends BaseController implements Initializabl
             vboxCollectionForm.setDisable(false);
             
         } catch (Exception e) {
+        	e.printStackTrace();
+        	AppLogger.error("Monthly_Collection_Fetch_Member_Error", e);
             resetForm();
         	lblMemberStatus.setText("Member not found!");
             //NotificationManager.show("Member not found!", NotificationType.ERROR, Pos.CENTER);
@@ -550,7 +601,7 @@ public class CollectionController extends BaseController implements Initializabl
             payment.setMonthlyFees(Integer.parseInt(txtMonthlyFees.getText()));
             
          // --- NEW LOGIC: Handle EMI Amount vs Pending Balance ---
-            Integer selectedEmi = cmbEmiAmount.getValue();
+            Integer selectedEmi = cmbEmiAmount.getValue().getAmount().intValue();
             int actualEmiToRecord = 0;
 
             if (activeLoan != null && selectedEmi != null) {
@@ -584,6 +635,7 @@ public class CollectionController extends BaseController implements Initializabl
             
         } catch (Exception e) {
         	e.printStackTrace();
+        	AppLogger.error("Monthly_Collection_Save_Error", e);
             NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
         }
     }
@@ -591,7 +643,7 @@ public class CollectionController extends BaseController implements Initializabl
 
     @FXML
     private void dropPayments() {
-        if(DialogManager.confirm("Drop Payments?", "Do you really want ti=o drop all payments?")) {
+        if(DialogManager.confirm("Drop Payments?", "Do you really want to drop all payments?")) {
         	monthlyPayments.clear();
         	resetForm();
         }
@@ -611,6 +663,7 @@ public class CollectionController extends BaseController implements Initializabl
         btnFullPayment.setDisable(false);
         btnToggleRemarks.setSelected(false);
         txtRemarks.clear();
+        cmbCollectionLocation.setValue(null);
         txtMemberNumber.requestFocus();
     }
 

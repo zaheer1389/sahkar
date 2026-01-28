@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="FlexibleTableSubreport" pageWidth="260" pageHeight="842" 
+    whenNoDataType="NoDataSection" columnWidth="260" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+    
+    <parameter name="tableTitle" class="java.lang.String"/>
+    <parameter name="hasAmount" class="java.lang.Boolean"/>
+    
+    <field name="_THIS" class="java.util.List"/>
+
+    <columnHeader>
+        <band height="35">
+            <textField>
+                <reportElement x="0" y="0" width="260" height="15"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{tableTitle}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="15" width="25" height="20" forecolor="#FFFFFF" backcolor="#2C3E50"/>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Sr.]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement mode="Opaque" x="25" y="15" width="35" height="20" forecolor="#FFFFFF" backcolor="#2C3E50"/>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[M.No]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement mode="Opaque" x="60" y="15" width="200" height="20" forecolor="#FFFFFF" backcolor="#2C3E50">
+                    <printWhenExpression><![CDATA[!$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Member Name"]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement mode="Opaque" x="60" y="15" width="140" height="20" forecolor="#FFFFFF" backcolor="#2C3E50">
+                    <printWhenExpression><![CDATA[$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[Member Name]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement mode="Opaque" x="200" y="15" width="60" height="20" forecolor="#FFFFFF" backcolor="#2C3E50">
+                    <printWhenExpression><![CDATA[$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Amount]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="15">
+            <textField>
+                <reportElement x="0" y="0" width="25" height="15"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="25" y="0" width="35" height="15"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{_THIS}.get(0)]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="60" y="0" width="200" height="15">
+                    <printWhenExpression><![CDATA[!$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="9" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                    <paragraph leftIndent="3"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{_THIS}.get(1)]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="60" y="0" width="140" height="15">
+                    <printWhenExpression><![CDATA[$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="9" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                    <paragraph leftIndent="3"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{_THIS}.get(1)]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="200" y="0" width="60" height="15">
+                    <printWhenExpression><![CDATA[$P{hasAmount}]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9"/>
+                    <paragraph rightIndent="3"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{_THIS}.size() > 2 ? $F{_THIS}.get(2) : ""]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <noData>
+        <band height="55">
+            <textField>
+                <reportElement x="0" y="0" width="260" height="15"/>
+                <textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{tableTitle}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="15" width="260" height="20" forecolor="#FFFFFF" backcolor="#2C3E50"/>
+                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <text><![CDATA[Record Status]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="35" width="260" height="20"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[No records for this month]]></text>
+            </staticText>
+        </band>
+    </noData>
+</jasperReport>

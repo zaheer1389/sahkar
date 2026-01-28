@@ -141,6 +141,7 @@ public class DialogManager {
             dialog.getDialogPane().getStylesheets().add(css);
         } catch (Exception e) {
             System.err.println("Could not load dialog stylesheet.");
+        	AppLogger.error("payment remark choice dialog error", e);
         }
 
         // 6. Convert the Result when OK is clicked

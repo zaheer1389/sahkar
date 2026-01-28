@@ -35,6 +35,7 @@ import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.LoanDisbursementService;
 import com.badargadh.sahkar.service.LoanService;
 import com.badargadh.sahkar.service.MemberService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
@@ -471,6 +472,7 @@ public class LoanControllerForRemark extends BaseController implements Initializ
             lblBalanceInfo.setText("");
             
             vboxAppForm.setDisable(true);
+            AppLogger.error("Loan_Application_Error", e);
         }
     }
 
@@ -500,6 +502,7 @@ public class LoanControllerForRemark extends BaseController implements Initializ
 
             } catch (BusinessException e) {
                 NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.BOTTOM_CENTER);
+                AppLogger.error("Loan_Application_Error", e);
             }
         }
 
@@ -555,8 +558,10 @@ public class LoanControllerForRemark extends BaseController implements Initializ
         } catch (BusinessException e) {
             // Show eligibility error and block the popup
             NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
+            AppLogger.error("Loan_Application_Error", e);
         } catch (IOException e) {
             e.printStackTrace();
+            AppLogger.error("Loan_Application_Error", e);
         }
     }
     
@@ -606,6 +611,7 @@ public class LoanControllerForRemark extends BaseController implements Initializ
                     NotificationManager.show("Status updated to " + finalStatus, NotificationType.SUCCESS, Pos.TOP_RIGHT);
                 } catch (Exception e) {
                     DialogManager.showError("Update Failed", e.getMessage());
+                    AppLogger.error("Loan_Application_Error", e);
                 }
             }
         }

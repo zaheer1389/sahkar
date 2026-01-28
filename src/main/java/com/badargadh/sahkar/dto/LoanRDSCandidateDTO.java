@@ -1,5 +1,7 @@
 package com.badargadh.sahkar.dto;
 
+import java.time.LocalDateTime;
+
 import com.badargadh.sahkar.data.LoanApplication;
 import com.badargadh.sahkar.data.Member;
 
@@ -7,10 +9,12 @@ public class LoanRDSCandidateDTO {
 
 	private Member member;
 	private LoanApplication application;
+	private LocalDateTime selectionDateTime;
 	
-	public LoanRDSCandidateDTO(Member member, LoanApplication application) {
+	public LoanRDSCandidateDTO(Member member, LoanApplication application, LocalDateTime selectionDateTime) {
 		this.member = member;
 		this.application = application;
+		this.selectionDateTime = selectionDateTime;
 	}
 
 	public Member getMember() {
@@ -29,4 +33,13 @@ public class LoanRDSCandidateDTO {
 		this.application = application;
 	}
 
+	public LocalDateTime getSelectionDateTime() {
+		return selectionDateTime;
+	}
+
+	public void setSelectionDateTime(LocalDateTime selectionDateTime) {
+		this.selectionDateTime = selectionDateTime;
+	}
+
+	
 }

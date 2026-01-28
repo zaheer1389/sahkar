@@ -8,6 +8,7 @@ import com.badargadh.sahkar.data.MonthlyStatementDTO;
 import com.badargadh.sahkar.repository.FinancialMonthRepository;
 import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.MonthlyStatementService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
@@ -76,6 +77,7 @@ public class MonthlyStatementController {
         }
         catch(Exception e) {
         	NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
+            AppLogger.error("Monthly_Statement_Data_Load_Error", e);
         }
     }
 

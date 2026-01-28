@@ -3,6 +3,8 @@ package com.badargadh.sahkar.controller;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.management.Notification;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,8 @@ import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.PaymentCollectionService;
 import com.badargadh.sahkar.service.ReceiptPrintingService;
 import com.badargadh.sahkar.util.AppLogger;
+import com.badargadh.sahkar.util.NotificationManager;
+import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -99,6 +103,7 @@ public class CollectionHistoryController {
                 	        // Fallback for old records without a group
                 	    	System.out.println("No Group ID found for this payment.");
                 	        AppLogger.info("No Group ID found for this payment.");
+                	        NotificationManager.show("No Group ID found for this payment.", NotificationType.ERROR, Pos.CENTER);
                 	    }
                 	});
                 }

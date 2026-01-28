@@ -1,10 +1,11 @@
 package com.badargadh.sahkar.controller;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,8 +41,10 @@ import com.badargadh.sahkar.service.FeeService;
 import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.LoanService;
 import com.badargadh.sahkar.service.MonthlyStatementService;
-import com.badargadh.sahkar.service.report.ReportService;
+import com.badargadh.sahkar.service.report.JasperReportService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
+import com.badargadh.sahkar.util.FileUtil;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
@@ -78,7 +81,7 @@ public class LoanPlanningController extends BaseController implements Initializa
     @Autowired private FeePaymentRepository feePaymentRepository;
     @Autowired private LoanService loanService;
     @Autowired private AppConfigService appConfigService;
-    @Autowired private ReportService reportService;
+    @Autowired private JasperReportService jasperReportService;
     @Autowired private MonthlyStatementService monthlyStatementService;
     @Autowired private FeeService feeService;
     
@@ -103,10 +106,16 @@ public class LoanPlanningController extends BaseController implements Initializa
         appConfig = appConfigService.getSettings();
         loanAmount = appConfig.getLoanAmount();
         
+        btnRunDraw.setDisable(true);
+        
         monthService.getActiveMonth().ifPresent(activeMonth -> {
             this.month = activeMonth;
-            setupTable();
-            refresh();
+            if(activeMonth.getStartDate().isAfter(LocalDate.of(2025, Month.DECEMBER, 31))) {
+            	btnRunDraw.setDisable(false);
+            	
+            	setupTable();
+                refresh();
+            }
         });
     }
 
@@ -255,7 +264,7 @@ public class LoanPlanningController extends BaseController implements Initializa
         lblSelectedCount.setText(String.valueOf(selectedCount));
 
         candidateDTOs = loanApplications.stream()
-            .map(a -> new LoanRDSCandidateDTO(a.getMember(), a))
+            .map(a -> new LoanRDSCandidateDTO(a.getMember(), a, LocalDateTime.now()))
             .sorted(Comparator.comparing(dto -> dto.getApplication().getDrawRank(), Comparator.nullsLast(Comparator.naturalOrder())))
             .collect(Collectors.toList());
 
@@ -325,7 +334,7 @@ public class LoanPlanningController extends BaseController implements Initializa
                     if (!phase1Saved.isEmpty()) {
                         updateMessage("RESTORING PHASE 1 RESULTS...");
                         for (LoanApplication a : phase1Saved) {
-                            results.add(new LoanRDSCandidateDTO(a.getMember(), a));
+                            results.add(new LoanRDSCandidateDTO(a.getMember(), a, LocalDateTime.now()));
                         }
                         startSl = phase1Saved.stream().filter(a -> a.getDrawRank().startsWith("SL"))
                                     .mapToInt(a -> Integer.parseInt(a.getDrawRank().split("-")[1])).max().orElse(0) + 1;
@@ -393,6 +402,7 @@ public class LoanPlanningController extends BaseController implements Initializa
                 LoanRDSCandidateDTO dto = getLoanDrawDTO(m);
                 dto.getApplication().setDrawRank(rank);
                 dto.getApplication().setStatus(status);
+                dto.getApplication().setSelectionDateTime(LocalDateTime.now());
                 drawTypeMap.put(m.getId(), tag);
                 results.add(dto);
                 memberRankMap.put(m.getId(), dto.getApplication());
@@ -423,14 +433,23 @@ public class LoanPlanningController extends BaseController implements Initializa
 
     @FXML 
     private void confirmAndSaveDraw() { 
+    	if(tblDrawResults.getItems().size() == 0) {
+    		DialogManager.warning("Saving List", "No applications found to save");
+    		return;
+    	}
+    	
         if (memberRankMap.isEmpty()) return;
+        
         if (DialogManager.confirm("Confirm Save", "Save rankings for " + memberRankMap.size() + " members?")) {
             if(showSecurityGate("Authorize Draw Results")) {
                 try {
                     loanService.processDrawResults(memberRankMap, this.month);
                     NotificationManager.show("Results Saved!", NotificationType.SUCCESS, Pos.CENTER);
                     refresh();
-                } catch (Exception e) { DialogManager.showError("Save Error", e.getMessage()); }
+                } catch (Exception e) { 
+                	DialogManager.showError("Save Error", e.getMessage()); 
+                	AppLogger.error("Loan_Draw_Save_Result_Error", e);
+                }
             }
         }
     }
@@ -448,13 +467,19 @@ public class LoanPlanningController extends BaseController implements Initializa
                 .map(LoanRDSCandidateDTO::getMember).collect(Collectors.toList());
         if (selected.isEmpty()) return;
         
-        String fileName = "loan_selection_report_" + LocalDateTime.now() + ".pdf";
-        File file = DialogManager.showSaveDialog(tblDrawResults, "Save loan selection list", fileName);
-        if (file != null) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+    	String fileName = "Loan_Application_Selection_List_Report_" + timestamp + ".pdf";
+    	File targetFile = FileUtil.getReportOutputFile(fileName);
+        if (targetFile != null) {
             try {
-                reportService.generateSelectedLoansPdf(selected, month, file.getAbsolutePath());
+                //reportService.generateSelectedLoansPdf(selected, month, targetFile.getAbsolutePath());
+            	jasperReportService.generateSelectedLoansJasper(selected, month, targetFile.getAbsolutePath());
+                mainController.showReport(targetFile);
                 NotificationManager.show("PDF Generated!", NotificationType.SUCCESS, Pos.TOP_RIGHT);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) { 
+            	e.printStackTrace();
+            	AppLogger.error("Loan_Draw_List_Export_Error", e);
+            }
         }
     }
     
@@ -480,6 +505,6 @@ public class LoanPlanningController extends BaseController implements Initializa
     }
 
     private LoanRDSCandidateDTO getLoanDrawDTO(Member m) {
-        return new LoanRDSCandidateDTO(m, loanAppRepo.findByMemberAndFinancialMonth(m, this.month).get());
+        return new LoanRDSCandidateDTO(m, loanAppRepo.findByMemberAndFinancialMonth(m, this.month).get(), LocalDateTime.now());
     }
 }

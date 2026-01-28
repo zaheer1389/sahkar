@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -21,17 +19,15 @@ import org.springframework.stereotype.Component;
 import com.badargadh.sahkar.PrimaryStageInitializer;
 import com.badargadh.sahkar.SessionManager;
 import com.badargadh.sahkar.data.AppUser;
-import com.badargadh.sahkar.data.EmiPayment;
-import com.badargadh.sahkar.data.FinancialMonth;
-import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.enums.Role;
 import com.badargadh.sahkar.event.FinancialStatusChangedEvent;
 import com.badargadh.sahkar.event.ShortcutKeyEvent;
 import com.badargadh.sahkar.repository.EmiPaymentRepository;
 import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.MemberService;
-import com.badargadh.sahkar.service.MonthlyLoadDataService;
-import com.badargadh.sahkar.service.TestDataService;
+import com.badargadh.sahkar.service.MySqlBackupService;
+import com.badargadh.sahkar.util.AppLogger;
+import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 import com.badargadh.sahkar.util.Refreshable;
@@ -56,7 +52,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 @Component
@@ -79,15 +74,13 @@ public class MainController implements Initializable {
     @Autowired private ApplicationContext springContext;
     @Autowired private FinancialMonthService financialMonthService;
     @Autowired private MemberService memberService;
-    @Autowired private MonthlyLoadDataService monthlyLoadDataService;
     @Autowired private EmiPaymentRepository emiPaymentRepository;
     @Autowired private SessionManager sessionManager;
     @Autowired private PrimaryStageInitializer primaryStageInitializer;
-    @Autowired private TestDataService dataService;
     
     @Autowired private ApplicationEventPublisher eventPublisher;
     
-
+    private PdfViewerController pdfViewerController;
     private Object currentActiveController;
     
     @Override
@@ -131,6 +124,18 @@ public class MainController implements Initializable {
         });
     }
     
+    @FXML
+    private void handleBackupNow() {
+    	if(DialogManager.confirm("Database backup", "Do you want to take database backup now?")) {
+    		if(MySqlBackupService.performBackup()) {
+    			DialogManager.showInfo("Database backup", "Backup Successfull");
+    		}
+    		else {
+    			DialogManager.showError("Database backup", "Error occured while Backup");
+    		}
+    	}
+    }
+    
     public void refreshBackupStatus() {
         Properties prop = new Properties();
         File file = new File(SETTINGS_PATH);
@@ -147,6 +152,7 @@ public class MainController implements Initializable {
                 }
             } catch (IOException ex) {
                 lblLastBackup.setText("Last Backup: Error");
+                AppLogger.error("Database_Backup_Error", ex);
             }
         }
     }
@@ -186,6 +192,7 @@ public class MainController implements Initializable {
             // If parsing fails (corrupted string), treat as old/error
             lblLastBackup.setText("Last Backup: Format Error");
             lblLastBackup.setStyle("-fx-background-color: #fcf8e3; -fx-text-fill: #8a6d3b;");
+            AppLogger.error("Database_Backup_Status_Load_Error", e);
         }
     }
     
@@ -218,6 +225,10 @@ public class MainController implements Initializable {
             updateStatusHeader(); 
             System.out.println("Header refreshed via Event System");
         });
+    }
+    
+    public void loadDashboard() {
+    	handleShowDashboard();
     }
     
     @FXML
@@ -383,23 +394,8 @@ public class MainController implements Initializable {
             
         } catch (IOException e) {
             e.printStackTrace();
+            AppLogger.error("Main_Window_Load_Error", e);
         }
-    }
-    
-    @FXML
-    private void handleLoadData(ActionEvent event) {
-    	//handleExportCsv();
-    	monthlyLoadDataService.readExcelFile("data");
-    }
-    
-    @FXML
-    private void handle2(ActionEvent event) {
-    	monthlyLoadDataService.readExcelFile("loans");
-    }
-    
-    @FXML
-    private void handle3(ActionEvent event) {
-    	monthlyLoadDataService.readExcelFile("cancellations");    	
     }
 
     /**
@@ -423,63 +419,43 @@ public class MainController implements Initializable {
     	return contentArea;
     }
     
-    
-    public void exportCombinedCmiCsv(List<MemberSummaryDTO> payments, File file) {
-        try (PrintWriter writer = new PrintWriter(file)) {
-            // 1. Write Header
-            writer.println("Member_EMI_Combination");
-
-            // 2. Write Data
-            for (MemberSummaryDTO p : payments) {
-                
-            	// Create the combined string: "MemberNo - Amount"
-            	
-            	if(p.getEmiAmount() <= 0) continue;
-            	
-                String combined = String.format("%s - %s", 
-                    p.getMemberNo(), 
-                    String.valueOf(p.getEmiAmount()));
-                
-                // CSV best practice: wrap in quotes if there are spaces/commas
-                writer.println("\"" + combined + "\"");
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void showReport(File file) {
+        if (file == null || !file.exists()) {
+            NotificationManager.show("Error: File not found", NotificationType.ERROR, Pos.CENTER);
+            return;
         }
-    }
-    
-    @FXML
-    private void handleExportCsv() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        fileChooser.setInitialFileName("Member_EMI_List.csv");
-        
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            // Pass your table items to the export method
-            //exportCombinedCmiCsv(memberService.findActiveMembers(), file);
-        	//writeToCsv(file);
-            NotificationManager.show("CSV Exported successfully!", NotificationType.SUCCESS, Pos.TOP_RIGHT);
-        }
-    }
-    
-    private void writeToCsv(File file) {
-    	FinancialMonth financialMonth = financialMonthService.getMonthFromMonthAndYear("APRIL", 2025).get();
-    	List<EmiPayment> emiPayments = emiPaymentRepository.findByFinancialMonthAndFullPaymentIsTrue(financialMonth);
-    	
-    	try (PrintWriter writer = new PrintWriter(file)) {
-            // 1. Write Header
-            writer.println("Member_EMI_Combination");
 
-            // 2. Write Data
-            for (EmiPayment p : emiPayments) {
-                
-            	writer.println(p.getMember().getMemberNo());
-            }
+        try {
+            // 1. Load FXML immediately (This is fast and MUST be on FX thread)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PdfViewer.fxml"));
+            loader.setControllerFactory(springContext::getBean);
+            Parent view = loader.load(); 
             
-        } catch (Exception e) {
-            e.printStackTrace();
+            PdfViewerController controller = loader.getController();
+
+            // 2. Show the view immediately (empty or with a loading state)
+            contentArea.getChildren().setAll(view);
+
+            // 3. Perform the heavy PDF processing in a Background Task
+            Task<Void> pdfTask = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    // This simulates the 'heavy lifting' of reading the file
+                    // If loadPdf reads bytes and converts to Base64, do that here
+                    controller.preparePdfData(file); 
+                    return null;
+                }
+            };
+
+            pdfTask.setOnSucceeded(e -> {
+                // 4. Finalize the UI display on the FX Thread
+                controller.renderPdf();
+            });
+
+            new Thread(pdfTask).start();
+
+        } catch (IOException e) {
+            AppLogger.error("FX Thread Violation or IO Error", e);
         }
     }
 }

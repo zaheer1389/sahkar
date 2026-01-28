@@ -1,6 +1,7 @@
 package com.badargadh.sahkar.dto;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import com.badargadh.sahkar.enums.MemberStatus;
 
@@ -17,6 +18,7 @@ public class MemberSummaryDTO {
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	private String branchName;
 	
 	private Integer joiningFees;
 	
@@ -25,10 +27,50 @@ public class MemberSummaryDTO {
 	private LocalDateTime transactionDate;
 	
 	private String gujaratiName;
-	
+	private String firstNameGuj;
+	private String lastNameGuj;
+	private String middleNameGuj;
 	private String branchNameGuj;
 	
-	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, 
+	private String rowColor = "#FFFFFF"; // Default White
+	
+	public MemberSummaryDTO(
+            Integer memberNo, 
+            String firstName, 
+            String middleName, 
+            String lastName, 
+            String branchName,   // Argument 5
+            String village,      // Argument 6
+            MemberStatus status, // Argument 7
+            Double totalFees,    // Argument 8 (Subquery result)
+            Double pendingLoan,  // Argument 9 (Subquery result)
+            Double emiAmount,    // Argument 10 (Subquery result)
+            LocalDateTime transactionDate // Argument 11
+    ) {
+        this.memberNo = memberNo;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.branchName = branchName;
+        this.village = village;
+        this.status = status;
+        
+        // Handle Nulls and Conversions
+        this.totalFees = totalFees != null ? totalFees.intValue() : 0;
+        this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
+        this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
+        this.transactionDate = transactionDate;
+
+        // Logic for Full Name with Branch
+        String baseName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
+        if (branchName != null && !branchName.trim().isEmpty()) {
+            this.fullName = baseName + " (" + branchName.trim() + ")";
+        } else {
+            this.fullName = baseName;
+        }
+    }
+	
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String branchName, 
             String village, MemberStatus status, Double totalFees, 
             Double pendingLoan, Double emiAmount, Double joiningFees, LocalDateTime transactionDate) {
 		
@@ -37,7 +79,19 @@ public class MemberSummaryDTO {
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
-		this.fullName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
+		this.branchName = branchName;
+		this.branchName = branchName;
+
+		// Create the base name
+		String name = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
+
+		// Add branch name in parentheses if not null or empty
+		if (branchName != null && !branchName.trim().isEmpty()) {
+		    this.fullName = name + " (" + branchName.trim() + ")";
+		} else {
+		    this.fullName = name;
+		}
+		
 		this.village = village;
 		this.status = status;
 		this.totalFees = totalFees != null ? totalFees.intValue() : 0;
@@ -118,6 +172,16 @@ public class MemberSummaryDTO {
         this.pendingLoan = pendingLoanAmount.intValue();
         this.emiAmount = emiAmount.intValue();
     }
+    
+    public MemberSummaryDTO(Integer memberNo, String firstNameGuj, String middleNameGuj, 
+            String lastNameGuj, String branchNameGuj, String lastName) {
+		this.memberNo = memberNo;
+		this.gujaratiName = (firstNameGuj != null ? firstNameGuj : "") + " " +
+	               (middleNameGuj != null ? middleNameGuj : "") + " " +
+	               (lastNameGuj != null ? lastNameGuj : "") + " " +
+	               (branchNameGuj != null && branchNameGuj.length() > 0 ? "( "+branchNameGuj +" )" : "");
+		this.lastName = lastName;
+	}
 
 	public LocalDateTime getCancelledDate() {
 		return cancelledDate;
@@ -206,6 +270,38 @@ public class MemberSummaryDTO {
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
+	
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getFirstNameGuj() {
+		return firstNameGuj;
+	}
+
+	public void setFirstNameGuj(String firstNameGuj) {
+		this.firstNameGuj = firstNameGuj;
+	}
+
+	public String getLastNameGuj() {
+		return lastNameGuj;
+	}
+
+	public void setLastNameGuj(String lastNameGuj) {
+		this.lastNameGuj = lastNameGuj;
+	}
+
+	public String getMiddleNameGuj() {
+		return middleNameGuj;
+	}
+
+	public void setMiddleNameGuj(String middleNameGuj) {
+		this.middleNameGuj = middleNameGuj;
+	}
 
 	public Integer getJoiningFees() {
 		return joiningFees;
@@ -242,4 +338,19 @@ public class MemberSummaryDTO {
 	public String getFullGujName() {
 		return gujaratiName + (branchNameGuj != null && !branchNameGuj.isEmpty() ? "("+branchNameGuj+")" : "");
 	}
+	
+	// Logic to match surname with legend colors
+    public void assignColor(Map<String, String> colorMap) {
+        if (this.lastName == null) return;
+        String upperLast = this.lastName.toUpperCase().trim();
+        
+        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
+            if (upperLast.contains(entry.getKey())) {
+                this.rowColor = entry.getValue();
+                break;
+            }
+        }
+    }
+    public String getRowColor() { return rowColor; }
+    public void setRowColor(String rowColor) { this.rowColor = rowColor; }
 }

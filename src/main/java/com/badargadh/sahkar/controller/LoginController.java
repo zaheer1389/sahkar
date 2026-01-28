@@ -151,6 +151,7 @@ public class LoginController implements Initializable {
         loadTask.setOnFailed(e -> {
             rootPane.getChildren().remove(loaderOverlay);
             lblMessage.setText("Failed to load dashboard.");
+            
             loadTask.getException().printStackTrace();
         });
 

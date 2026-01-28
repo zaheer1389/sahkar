@@ -2460,3 +2460,805 @@
 [2026-01-19 09:36:12] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
 [2026-01-19 09:39:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
 [2026-01-19 09:42:20] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 14:52:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 15:20:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 15:47:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 15:50:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 16:01:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 16:02:50] INFO: Collection Module: Received SAVE Event
+[2026-01-21 16:02:54] INFO: Collection Module: Received SAVE Event
+[2026-01-21 16:02:58] INFO: Collection Module: Received SAVE Event
+[2026-01-21 16:04:18] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-21 16:04:18] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-21 16:04:18] INFO: Starting backup for database: society_db
+[2026-01-21 16:04:18] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-21 16:04:18] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-21 16:12:17] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 17:43:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 17:45:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 17:49:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 17:51:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 17:51:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 18:26:58] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-21 18:26:58] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-21 18:26:58] INFO: Starting backup for database: society_db
+[2026-01-21 18:26:58] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-21 18:26:58] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-21 21:27:41] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:28:06] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-21 21:28:06] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-21 21:30:39] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:33:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:35:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:35:57] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:36:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-21 21:37:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 11:40:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 11:40:52] INFO: Collection Module: Received SAVE Event
+[2026-01-22 11:41:10] INFO: Collection Module: Received SAVE Event
+[2026-01-22 11:41:17] INFO: Collection Module: Received SAVE Event
+[2026-01-22 11:41:21] INFO: Collection Module: Received SAVE Event
+[2026-01-22 11:41:24] INFO: Collection Module: Received SAVE Event
+[2026-01-22 12:33:22] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:34:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:35:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:39:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:48:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:49:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:52:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:53:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:54:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:55:17] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 12:56:05] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 13:03:20] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:35:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:36:00] ERROR: Member_Export_PDF_Error | Exception: Input stream must not be null
+[2026-01-22 14:36:00] DEBUG: Stacktrace: javafx.scene.image.Image.validateInputStream(Image.java:1140)
+[2026-01-22 14:36:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:39:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:40:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:44:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:46:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 14:51:19] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:13:05] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:14:38] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:18:00] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:18:26] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:20:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:20:51] ERROR: Canvas PDF Render Error | Exception: Cannot invoke "java.net.URL.toExternalForm()" because the return value of "java.lang.Class.getResource(String)" is null
+[2026-01-22 15:20:51] DEBUG: Stacktrace: com.badargadh.sahkar.controller.PdfViewerController.loadPdf(PdfViewerController.java:34)
+[2026-01-22 15:22:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:23:00] ERROR: Canvas PDF Render Error | Exception: Cannot invoke "java.net.URL.toExternalForm()" because the return value of "java.lang.Class.getResource(String)" is null
+[2026-01-22 15:23:00] DEBUG: Stacktrace: com.badargadh.sahkar.controller.PdfViewerController.loadPdf(PdfViewerController.java:34)
+[2026-01-22 15:23:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:25:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:46:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:58:18] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 15:59:03] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 15:59:03] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 15:59:03] INFO: Starting backup for database: society_db
+[2026-01-22 15:59:03] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 15:59:03] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 15:59:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:00:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:12:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:15:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:16:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:17:07] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 16:17:07] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 16:17:07] INFO: Starting backup for database: society_db
+[2026-01-22 16:17:07] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 16:17:07] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 16:18:22] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:22:44] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 16:23:03] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-22 16:23:03] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-22 17:33:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:34:44] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 17:34:44] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 17:34:44] INFO: Starting backup for database: society_db
+[2026-01-22 17:34:44] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 17:34:44] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 17:38:41] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:45:21] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:47:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:51:07] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:52:54] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 17:52:54] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 17:52:54] INFO: Starting backup for database: society_db
+[2026-01-22 17:52:54] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 17:52:54] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 17:53:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:54:23] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:23] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:25] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:25] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:26] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:26] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:26] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:26] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:26] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:26] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:26] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:26] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:26] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:26] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:27] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:27] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:27] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:27] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:27] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:27] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:54:27] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:54:27] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 17:55:43] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 17:56:13] ERROR: Native Print Error | Exception: null
+[2026-01-22 17:56:13] DEBUG: Stacktrace: java.desktop/java.awt.Desktop.getDesktop(Desktop.java:302)
+[2026-01-22 18:04:30] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 18:09:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 18:15:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 18:20:23] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 18:20:23] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 18:20:23] INFO: Starting backup for database: society_db
+[2026-01-22 18:20:23] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 18:20:23] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 18:21:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 18:25:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 18:26:21] ERROR: FX Thread Violation or IO Error | Exception: 
+/D:/projects/sahkarROSCA/target/classes/fxml/PdfViewer.fxml:31
+
+[2026-01-22 18:26:21] DEBUG: Stacktrace: javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+[2026-01-22 21:14:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 21:19:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 21:19:51] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 21:19:51] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 21:19:51] INFO: Starting backup for database: society_db
+[2026-01-22 21:19:51] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 21:19:51] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 21:23:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 21:23:27] ERROR: Loan_Draw_List_Export_Error | Exception: file:/D:/projects/sahkarROSCA/target/classes/static/fonts/Gujrati-Saral-1.ttf cannot be embedded due to licensing restrictions.
+[2026-01-22 21:23:27] DEBUG: Stacktrace: com.lowagie.text.pdf.TrueTypeFontUnicode.<init>(TrueTypeFontUnicode.java:106)
+[2026-01-22 21:27:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 21:32:37] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-22 21:32:37] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-22 21:32:37] INFO: Starting backup for database: society_db
+[2026-01-22 21:32:37] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-22 21:32:37] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-22 22:00:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 22:15:00] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-22 22:16:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 10:55:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 10:58:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:08:18] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:08:40] ERROR: Monthly_Statement_Report_Generation_Error | Exception: f != java.lang.String
+[2026-01-23 11:08:40] DEBUG: Stacktrace: java.base/java.util.Formatter$FormatSpecifier.failConversion(Formatter.java:4442)
+[2026-01-23 11:10:21] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:14:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:19:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:20:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:21:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:22:30] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 11:22:30] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 11:22:30] INFO: Starting backup for database: society_db
+[2026-01-23 11:22:30] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 11:22:30] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 11:22:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:27:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:31:53] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:33:53] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 11:33:53] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 11:33:53] INFO: Starting backup for database: society_db
+[2026-01-23 11:33:53] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 11:33:53] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 11:34:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:36:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:36:51] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 11:36:51] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 11:36:51] INFO: Starting backup for database: society_db
+[2026-01-23 11:36:51] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 11:36:51] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 11:42:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:44:43] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 11:56:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:00:18] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:08:17] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:09:04] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:09:39] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:09:57] ERROR: Member_Summary_Report_Generation_Error | Exception: null
+[2026-01-23 12:09:57] DEBUG: Stacktrace: com.itextpdf.layout.element.Text.<init>(Text.java:69)
+[2026-01-23 12:10:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:14:49] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 12:14:49] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 12:14:49] INFO: Starting backup for database: society_db
+[2026-01-23 12:14:49] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 12:14:49] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 12:16:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:16:57] ERROR: Member_Summary_Report_Generation_Error | Exception: null
+[2026-01-23 12:16:57] DEBUG: Stacktrace: com.itextpdf.layout.element.Text.<init>(Text.java:69)
+[2026-01-23 12:17:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:20:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 12:22:22] ERROR: Member_Export_PDF_Error | Exception: Pdf indirect object belongs to other PDF document. Copy object to current pdf document.
+[2026-01-23 12:22:22] DEBUG: Stacktrace: com.itextpdf.kernel.pdf.PdfOutputStream.write(PdfOutputStream.java:212)
+[2026-01-23 14:07:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:13:26] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:13:47] ERROR: Member_Summary_Report_Generation_Error | Exception: null
+[2026-01-23 14:13:47] DEBUG: Stacktrace: com.itextpdf.layout.element.Text.<init>(Text.java:69)
+[2026-01-23 14:14:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:16:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:19:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:20:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:23:16] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:35:22] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:37:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:37:32] ERROR: Member_Summary_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 73; columnNumber: 152; The element type "propertyExpression" must be terminated by the matching end-tag "</propertyExpression>".
+[2026-01-23 14:37:32] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-23 14:39:45] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:40:08] ERROR: Member_Summary_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 13; columnNumber: 85; Error at line 13 char 85: Invalid UUID string: 7a6d8e12
+[2026-01-23 14:40:08] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-23 14:40:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 14:41:05] ERROR: Member_Summary_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 13; columnNumber: 80; Error at line 13 char 80: Invalid UUID string: 121
+[2026-01-23 14:41:05] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-23 14:43:47] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:13:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:14:29] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 15:14:29] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 15:14:29] INFO: Starting backup for database: society_db
+[2026-01-23 15:14:29] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 15:14:29] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 15:17:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:22:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:25:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:26:08] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 15:26:08] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 15:26:08] INFO: Starting backup for database: society_db
+[2026-01-23 15:26:08] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 15:26:08] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 15:28:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:30:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:32:48] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 15:32:48] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 15:32:48] INFO: Starting backup for database: society_db
+[2026-01-23 15:32:48] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 15:32:48] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 15:33:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 15:34:30] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 15:34:30] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 15:34:30] INFO: Starting backup for database: society_db
+[2026-01-23 15:34:30] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 15:34:30] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 17:36:16] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 17:37:38] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 17:39:13] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 17:39:13] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 17:39:13] INFO: Starting backup for database: society_db
+[2026-01-23 17:39:13] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 17:39:13] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 17:39:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 17:41:43] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 17:41:43] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 17:41:43] INFO: Starting backup for database: society_db
+[2026-01-23 17:41:43] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 17:41:43] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-23 17:48:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 17:49:01] ERROR: Member_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 71; columnNumber: 72; cvc-complex-type.3.2.2: Attribute 'leftIndent' is not allowed to appear in element 'textElement'.
+[2026-01-23 17:49:01] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-23 17:50:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 17:59:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 18:01:04] ERROR: Member_Summary_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 186; columnNumber: 13; cvc-complex-type.2.3: Element 'band' cannot have character [children], because the type's content type is element-only.
+[2026-01-23 18:01:04] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-23 18:02:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 18:05:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 18:18:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-23 18:26:21] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-23 18:26:21] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-23 18:26:21] INFO: Starting backup for database: society_db
+[2026-01-23 18:26:21] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-23 18:26:21] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 07:34:47] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 08:17:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 08:18:07] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 08:18:07] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 08:18:07] INFO: Starting backup for database: society_db
+[2026-01-24 08:18:07] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 08:18:07] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 08:31:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 08:31:59] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 08:31:59] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 08:31:59] INFO: Starting backup for database: society_db
+[2026-01-24 08:31:59] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 08:31:59] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 09:14:45] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:19:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:24:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:31:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:34:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:37:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:39:04] ERROR: Member_Creation_Error | Exception: Cannot invoke "String.toUpperCase()" because the return value of "javafx.scene.control.ComboBox.getValue()" is null
+[2026-01-24 09:39:04] DEBUG: Stacktrace: com.badargadh.sahkar.controller.MemberController.updateMember(MemberController.java:521)
+[2026-01-24 09:48:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 09:53:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:22:28] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:29:47] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:34:36] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 10:34:36] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 10:34:36] INFO: Starting backup for database: society_db
+[2026-01-24 10:34:36] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 10:34:36] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 10:35:21] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:40:17] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:43:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:48:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:53:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 10:53:24] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-24 10:53:24] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-24 11:00:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:03:41] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 11:03:41] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 11:03:41] INFO: Starting backup for database: society_db
+[2026-01-24 11:03:41] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 11:03:41] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 11:05:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:09:47] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:13:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:21:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:23:01] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 11:23:01] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 11:23:01] INFO: Starting backup for database: society_db
+[2026-01-24 11:23:01] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 11:23:01] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 11:23:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:29:41] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:30:01] ERROR: Member_Report_Generation_Error | Exception: Cannot instantiate class 'com.badargadh.sahkar.dto.MemberSummaryDTO' (it has no constructor with signature [java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.badargadh.sahkar.enums.MemberStatus, java.lang.Double, java.lang.Double, java.lang.Double, java.time.LocalDateTime], and not every argument has an alias)
+[2026-01-24 11:30:01] DEBUG: Stacktrace: org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:368)
+[2026-01-24 11:32:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:33:37] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 11:33:37] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 11:33:37] INFO: Starting backup for database: society_db
+[2026-01-24 11:33:37] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 11:33:37] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 11:39:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 11:39:27] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-24T11:39:21.166188900
+[2026-01-24 11:39:41] INFO: No Group ID found for this payment.
+[2026-01-24 11:39:44] INFO: No Group ID found for this payment.
+[2026-01-24 11:42:17] ERROR: Report Generation Task Error | Exception: Cannot instantiate class 'com.badargadh.sahkar.dto.MemberSummaryDTO' (it has no constructor with signature [java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.badargadh.sahkar.enums.MemberStatus, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.time.LocalDateTime], and not every argument has an alias)
+[2026-01-24 11:42:17] DEBUG: Stacktrace: org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:368)
+[2026-01-24 14:00:25] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 14:00:26] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 14:00:26] INFO: Starting backup for database: society_db
+[2026-01-24 14:00:26] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 14:00:26] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-24 16:55:44] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-24 17:03:50] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-24 17:03:50] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-24 17:03:50] INFO: Starting backup for database: society_db
+[2026-01-24 17:03:50] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-24 17:03:50] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 10:56:44] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 10:57:09] ERROR: Member_Summary_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 91; columnNumber: 162; Attribute name "Element" associated with an element type "text" must be followed by the ' = ' character.
+[2026-01-27 10:57:09] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 10:58:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:02:38] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:03:45] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:18:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:18:48] ERROR: Monthly_Collection_Report_Generation_Error | Exception: Pdf indirect object belongs to other PDF document. Copy object to current pdf document.
+[2026-01-27 11:18:48] DEBUG: Stacktrace: com.itextpdf.kernel.pdf.PdfOutputStream.write(PdfOutputStream.java:212)
+[2026-01-27 11:26:37] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:29:12] ERROR: Monthly_Collection_Report_Error | Exception: Error generating Jasper PDF
+[2026-01-27 11:29:12] DEBUG: Stacktrace: com.badargadh.sahkar.service.report.JasperReportService.generateCollectionReport(JasperReportService.java:96)
+[2026-01-27 11:31:16] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:31:42] ERROR: Monthly_Collection_Report_Error | Exception: Error generating Jasper PDF
+[2026-01-27 11:31:42] DEBUG: Stacktrace: com.badargadh.sahkar.service.report.JasperReportService.generateCollectionReport(JasperReportService.java:96)
+[2026-01-27 11:32:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:33:23] ERROR: Monthly_Collection_Report_Error | Exception: Error generating Jasper PDF
+[2026-01-27 11:33:23] DEBUG: Stacktrace: com.badargadh.sahkar.service.report.JasperReportService.generateCollectionReport(JasperReportService.java:96)
+[2026-01-27 11:34:34] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 11:41:39] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:21:45] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:22:25] ERROR: Monthly_Statement_Report_Generation_Error | Exception: java.net.MalformedURLException: Cannot invoke "String.length()" because "spec" is null
+[2026-01-27 12:22:25] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 12:23:06] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:23:31] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 157; columnNumber: 17; cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://jasperreports.sourceforge.net/jasperreports":pageFooter}'. One of '{"http://jasperreports.sourceforge.net/jasperreports":noData}' is expected.
+[2026-01-27 12:23:31] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 12:25:28] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:25:56] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Report design not valid : 
+	 1. Parameter not found : newMemberFee
+	 2. Parameter not found : monthlyFee
+	 3. Parameter not found : loanDeduction
+	 4. Parameter not found : totalEmi
+	 5. Parameter not found : emiBreakdownString
+	 6. Parameter not found : fullPaymentAmount
+	 7. Parameter not found : expenseCredit
+	 8. Parameter not found : totalLoanGranted
+	 9. Parameter not found : totalFeeRefund
+	 10. Parameter not found : expenseDebit
+[2026-01-27 12:25:56] DEBUG: Stacktrace: net.sf.jasperreports.engine.design.JRAbstractCompiler.verifyDesign(JRAbstractCompiler.java:316)
+[2026-01-27 12:27:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:30:27] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 12:30:27] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 12:30:27] INFO: Starting backup for database: society_db
+[2026-01-27 12:30:28] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 12:30:28] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 12:31:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:32:22] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 89; columnNumber: 49; cvc-complex-type.3.2.2: Attribute 'positionType' is not allowed to appear in element 'textField'.
+[2026-01-27 12:32:22] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 12:33:49] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:34:19] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 92; columnNumber: 70; cvc-complex-type.3.2.2: Attribute 'positionType' is not allowed to appear in element 'textField'.
+[2026-01-27 12:34:19] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 12:35:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 12:35:50] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 92; columnNumber: 70; cvc-complex-type.3.2.2: Attribute 'positionType' is not allowed to appear in element 'textField'.
+[2026-01-27 12:35:50] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 12:39:22] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 13:55:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 13:59:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:00:17] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 86; columnNumber: 70; cvc-complex-type.3.2.2: Attribute 'positionType' is not allowed to appear in element 'textField'.
+[2026-01-27 14:00:17] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 14:08:22] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:16:29] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 14:16:29] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 14:16:29] INFO: Starting backup for database: society_db
+[2026-01-27 14:16:29] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 14:16:29] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 14:20:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:22:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:22:59] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-27 14:22:59] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-27 14:23:01] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-27 14:23:01] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-27 14:28:00] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:28:27] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Error evaluating expression for source text: $P{openingBal} < 0 ? "#FF0000" : "#006400"
+[2026-01-27 14:28:27] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-27 14:29:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:33:41] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 14:59:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:06:04] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:28:24] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 15:28:24] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 15:28:24] INFO: Starting backup for database: society_db
+[2026-01-27 15:28:24] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 15:28:24] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 15:31:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:41:00] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 15:41:00] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 15:41:00] INFO: Starting backup for database: society_db
+[2026-01-27 15:41:00] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 15:41:00] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 15:41:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:41:50] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 2; columnNumber: 254; cvc-complex-type.3.2.2: Attribute 'uuid' is not allowed to appear in element 'jasperReport'.
+[2026-01-27 15:41:50] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 15:47:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:48:25] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 2; columnNumber: 210; cvc-complex-type.3.2.2: Attribute 'summaryWithPageHeaderAndFooter' is not allowed to appear in element 'jasperReport'.
+[2026-01-27 15:48:25] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 15:48:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 15:50:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 16:01:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 16:04:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:35:01] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 17:35:01] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 17:35:01] INFO: Starting backup for database: society_db
+[2026-01-27 17:35:01] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 17:35:01] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 17:35:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:35:50] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 138; columnNumber: 67; cvc-complex-type.3.2.2: Attribute 'positionType' is not allowed to appear in element 'textField'.
+[2026-01-27 17:35:50] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 17:36:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:40:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:42:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:51:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:53:38] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 17:57:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:00:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:01:14] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 423; columnNumber: 26; cvc-complex-type.2.3: Element 'subreportParameter' cannot have character [children], because the type's content type is element-only.
+[2026-01-27 18:01:14] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 18:01:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:01:59] ERROR: Monthly_Statement_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 423; columnNumber: 26; cvc-complex-type.2.3: Element 'subreportParameter' cannot have character [children], because the type's content type is element-only.
+[2026-01-27 18:01:59] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 18:02:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:10:49] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:11:14] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 18:11:14] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 18:12:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:17:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:17:49] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 18:17:49] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 18:21:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:21:41] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 18:21:41] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 18:28:06] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:30:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:31:10] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 18:31:10] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 18:54:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:55:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:58:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 18:58:30] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 18:58:30] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 19:02:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:02:50] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:02:50] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:05:28] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:06:00] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:06:00] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:06:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:07:30] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:07:30] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:08:37] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:09:15] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 19:09:15] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 19:10:53] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:11:34] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Font "Noto Sans Gujarati" is not available to the JVM. See the Javadoc for more details.
+[2026-01-27 19:11:34] DEBUG: Stacktrace: net.sf.jasperreports.engine.fonts.FontUtil.checkAwtFont(FontUtil.java:581)
+[2026-01-27 19:15:05] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:15:35] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:15:35] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:17:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:17:27] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 19:17:27] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 19:17:27] INFO: Starting backup for database: society_db
+[2026-01-27 19:17:27] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 19:17:27] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 19:17:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:18:00] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 19:18:00] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 19:18:00] INFO: Starting backup for database: society_db
+[2026-01-27 19:18:00] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 19:18:00] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 19:18:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:18:55] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:18:55] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:25:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:26:06] ERROR: Monthly_Statement_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 19:26:06] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 19:29:26] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 19:29:26] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 19:29:26] INFO: Starting backup for database: society_db
+[2026-01-27 19:29:26] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 19:29:26] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 19:39:53] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:42:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:46:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 19:51:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:03:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:05:18] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 20:05:18] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 20:05:18] INFO: Starting backup for database: society_db
+[2026-01-27 20:05:18] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 20:05:18] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 20:42:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:43:15] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-27 20:43:15] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-27 20:43:18] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-27 20:43:18] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-27 20:43:23] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-27 20:43:23] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-27 20:43:38] ERROR: Financial_Year_Report_Generation_Error | Exception: class java.lang.Boolean cannot be cast to class java.lang.String (java.lang.Boolean and java.lang.String are in module java.base of loader 'bootstrap')
+[2026-01-27 20:43:38] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JRFillElement.evaluateProperties(JRFillElement.java:1796)
+[2026-01-27 20:49:38] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:50:22] ERROR: Financial_Year_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 20:50:22] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 20:50:55] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 20:50:55] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 20:50:55] INFO: Starting backup for database: society_db
+[2026-01-27 20:50:55] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 20:50:55] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 20:51:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:52:19] ERROR: Financial_Year_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 20:52:19] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 20:53:09] ERROR: Financial_Year_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 20:53:09] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 20:54:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 20:57:44] ERROR: Financial_Year_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 20:57:44] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 20:58:31] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 20:58:31] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 20:58:31] INFO: Starting backup for database: society_db
+[2026-01-27 20:58:31] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 20:58:31] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 21:00:17] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:00:52] ERROR: Financial_Year_Report_Generation_Error | Exception: Could not load the following font: 
+pdfFontName: Helvetica
+pdfEncoding: Identity-H
+isPdfEmbedded : true
+[2026-01-27 21:00:52] DEBUG: Stacktrace: net.sf.jasperreports.engine.export.JRPdfExporter.setFont(JRPdfExporter.java:2603)
+[2026-01-27 21:01:03] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 21:01:03] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 21:01:03] INFO: Starting backup for database: society_db
+[2026-01-27 21:01:03] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 21:01:03] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 21:02:43] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:10:48] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:10:56] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:11:21] ERROR: Financial_Year_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 92; columnNumber: 82; cvc-complex-type.2.4.d: Invalid content was found starting with element 'propertyExpression'. No child element is expected at this point.
+[2026-01-27 21:11:21] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 21:12:49] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:13:17] ERROR: Financial_Year_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 94; columnNumber: 82; cvc-complex-type.2.4.d: Invalid content was found starting with element 'propertyExpression'. No child element is expected at this point.
+[2026-01-27 21:13:17] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-27 21:13:54] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 21:13:54] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 21:13:54] INFO: Starting backup for database: society_db
+[2026-01-27 21:13:54] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 21:13:54] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 21:16:20] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:21:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:23:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:29:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:41:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:43:02] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 21:47:09] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-27 21:47:09] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-27 21:47:09] INFO: Starting backup for database: society_db
+[2026-01-27 21:47:09] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-27 21:47:09] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-27 21:53:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 22:23:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 22:26:20] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 22:26:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-27 22:26:57] ERROR: Report Generation Task Error | Exception: Cannot invoke "String.startsWith(String)" because the return value of "com.badargadh.sahkar.data.LoanApplication.getDrawRank()" is null
+[2026-01-27 22:26:57] DEBUG: Stacktrace: com.badargadh.sahkar.controller.FinancialReportController.lambda$8(FinancialReportController.java:257)
+[2026-01-27 22:27:26] ERROR: Loan_Selection_Report_Generation_Error | Exception: Error evaluating expression for source text: $F{memberNo}
+[2026-01-27 22:27:26] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-28 00:08:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:09:19] ERROR: Loan_Selection_Report_Generation_Error | Exception: Error evaluating expression for source text: $F{memberNo}
+[2026-01-28 00:09:19] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-28 00:15:05] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:21:24] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 00:21:24] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 00:21:24] INFO: Starting backup for database: society_db
+[2026-01-28 00:21:24] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-28 00:21:24] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-28 00:21:26] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:24:43] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 00:24:43] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 00:24:43] INFO: Starting backup for database: society_db
+[2026-01-28 00:24:43] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-28 00:24:43] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-28 00:28:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:29:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:30:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:30:36] ERROR: Report Generation Task Error | Exception: JDBC exception executing SQL [SELECT m.* FROM members m CROSS JOIN app_settings c WHERE (   (m.member_status = 'REFUNDED' AND m.refund_date_time BETWEEN ? AND ?)    OR    (m.member_status IN ('CANCELLED', 'REFUNDED', 'ARCHIVED')     AND (       m.cancellation_reason = 'MEMBER_EXPIRED'        OR (           CASE                WHEN m.cancellation_date_time < '2026-01-01'                THEN DATE_ADD(m.cancellation_date_time, INTERVAL 3 MONTH)                ELSE DATE_ADD(m.cancellation_date_time, INTERVAL c.fees_refund_cooling_period MONTH)            END BETWEEN ? AND ?       )    )   )) ORDER BY m.member_no ASC] [Unknown column 'm.refund_date_time' in 'where clause'] [n/a]; SQL [n/a]
+[2026-01-28 00:30:36] DEBUG: Stacktrace: org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:277)
+[2026-01-28 00:33:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:36:22] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-77
+[2026-01-28 00:36:22] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 00:36:26] ERROR: Fees_Refund_Report_Generation_Error | Exception: Error evaluating expression for source text: $F{memberNo}
+[2026-01-28 00:36:26] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-28 00:36:47] ERROR: Fees_Refund_Report_Generation_Error | Exception: Error evaluating expression for source text: $F{memberNo}
+[2026-01-28 00:36:47] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-28 00:37:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:38:37] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:39:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 00:41:59] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-83
+[2026-01-28 00:41:59] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 00:42:18] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-90
+[2026-01-28 00:42:18] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 08:01:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 08:24:50] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-757
+[2026-01-28 08:24:50] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 08:35:21] ERROR: Could not load application.properties. Using hardcoded defaults. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 08:35:21] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 08:35:21] INFO: Starting backup for database: society_db
+[2026-01-28 08:35:21] ERROR: Backup service critical failure | Exception: Cannot run program "D:\projects\sahkarROSCA\mysql\bin\mysqldump.exe": CreateProcess error=2, The system cannot find the file specified
+[2026-01-28 08:35:21] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1143)
+[2026-01-28 14:21:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 14:21:52] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 14:21:52] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 14:21:52] ERROR: Backup failed | Exception: null
+[2026-01-28 14:21:52] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 14:22:16] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 14:22:16] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 14:22:16] ERROR: Backup failed | Exception: null
+[2026-01-28 14:22:16] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 15:28:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 15:28:52] INFO: Raw test receipt bytes sent to: EPSON TM-T82-42C ReceiptTC4
+[2026-01-28 15:29:37] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 15:29:37] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 15:29:37] INFO: Starting backup for database: null
+[2026-01-28 15:29:37] INFO: Created cloud backup directory: D:\projects\sahkarROSCA\Google Drive/SocietyBackups/
+[2026-01-28 15:29:37] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 15:29:37] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 15:30:53] INFO: Raw test receipt bytes sent to: Send To OneNote 16
+[2026-01-28 15:33:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 15:34:38] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-171
+[2026-01-28 15:34:38] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 15:38:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 15:38:45] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-278
+[2026-01-28 15:38:45] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 15:40:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 15:41:26] ERROR: Report Generation Task Error | Exception: Not on FX application thread; currentThread = Thread-198
+[2026-01-28 15:41:26] DEBUG: Stacktrace: com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:294)
+[2026-01-28 15:43:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 16:28:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 16:37:29] ERROR: Loan_Application_Error | Exception: Disbursement Blocked: Pending FEES/EMI for FEBRUARY must be cleared first.
+[2026-01-28 16:37:29] DEBUG: Stacktrace: com.badargadh.sahkar.service.LoanDisbursementService.validateDisbursementEligibility(LoanDisbursementService.java:66)
+[2026-01-28 17:37:14] INFO: Raw test receipt bytes sent to: Send To OneNote 16
+[2026-01-28 17:37:27] INFO: Raw test receipt bytes sent to: EPSON TM-T82-42C ReceiptTC4
+[2026-01-28 17:53:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 17:57:26] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 18:11:05] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 20:44:05] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 20:44:05] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 20:45:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 20:45:30] ERROR: Monthly__Pending_Collection_Report_Error | Exception: Error generating Pending collection Report
+[2026-01-28 20:45:30] DEBUG: Stacktrace: com.badargadh.sahkar.service.report.JasperReportService.generatePendingCollectionWithWitnessNamesReport(JasperReportService.java:161)
+[2026-01-28 20:46:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 20:49:01] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 20:49:01] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 20:49:01] INFO: Starting backup for database: null
+[2026-01-28 20:49:01] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 20:49:01] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 20:50:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 20:57:00] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:03:07] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:15:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:15:53] ERROR: Member_Report_Generation_Error | Exception: Error instantiating class 'com.badargadh.sahkar.dto.MemberDTO'
+[2026-01-28 21:15:53] DEBUG: Stacktrace: org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:341)
+[2026-01-28 21:38:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:39:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:39:26] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 21:39:26] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 21:39:29] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 21:39:29] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 21:39:41] ERROR: Member_Report_Generation_Error | Exception: Error evaluating expression for source text: $F{totalFees}
+[2026-01-28 21:39:41] DEBUG: Stacktrace: net.sf.jasperreports.engine.fill.JREvaluator.handleEvaluationException(JREvaluator.java:294)
+[2026-01-28 21:40:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 21:41:57] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 21:41:57] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 21:41:57] INFO: Starting backup for database: null
+[2026-01-28 21:41:57] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 21:41:57] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 22:05:46] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 22:05:46] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 22:05:52] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 22:05:52] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 22:05:56] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-28 22:05:56] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:69)
+[2026-01-28 22:07:08] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 22:07:08] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 22:07:08] INFO: Starting backup for database: null
+[2026-01-28 22:07:08] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 22:07:08] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 22:37:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 22:43:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 22:52:44] ERROR: Loan_Witness_Book_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 106; columnNumber: 149; cvc-complex-type.3.2.2: Attribute 'forecolor' is not allowed to appear in element 'font'.
+[2026-01-28 22:52:44] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-28 23:03:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 23:08:12] ERROR: Loan_Witness_Book_Report_Generation_Error | Exception: org.xml.sax.SAXParseException; lineNumber: 106; columnNumber: 149; cvc-complex-type.3.2.2: Attribute 'forecolor' is not allowed to appear in element 'font'.
+[2026-01-28 23:08:12] DEBUG: Stacktrace: net.sf.jasperreports.engine.xml.JRXmlLoader.loadXML(JRXmlLoader.java:273)
+[2026-01-28 23:16:02] ERROR: Loan_Witness_Book_Report_Generation_Error | Exception: Report design not valid : 
+	 1. Element reaches outside frame width: x=124, width=330, available width=450.
+	 2. Element reaches outside frame width: x=124, width=330, available width=450.
+[2026-01-28 23:16:02] DEBUG: Stacktrace: net.sf.jasperreports.engine.design.JRAbstractCompiler.verifyDesign(JRAbstractCompiler.java:316)
+[2026-01-28 23:32:26] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 23:32:26] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 23:32:26] INFO: Starting backup for database: null
+[2026-01-28 23:32:26] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 23:32:26] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)

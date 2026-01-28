@@ -1,6 +1,5 @@
 package com.badargadh.sahkar.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.LoanAccount;
 import com.badargadh.sahkar.data.Member;
+import com.badargadh.sahkar.dto.MemberDTO;
 import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.enums.CancellationReason;
 import com.badargadh.sahkar.enums.MemberStatus;
@@ -45,6 +45,14 @@ public class MemberService {
     
     public List<MemberSummaryDTO> findActiveMembers() {
     	return memberRepo.findActiveMembers();
+    }
+    
+    public List<MemberDTO> findActiveMembersForReport() {
+    	return memberRepo.findActiveMembersForReport();
+    }
+    
+    public List<MemberSummaryDTO> findActiveMembersGujNames() {
+    	return memberRepo.findActiveMembersGuj();
     }
 
 	public Member findByMemberNumber(Integer memberNo) {

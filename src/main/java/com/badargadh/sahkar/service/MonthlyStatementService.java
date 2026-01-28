@@ -105,7 +105,7 @@ public class MonthlyStatementService {
         dto.setRefundMembersData(feesRefunds.stream().map(member -> List.of(
         	getMemberNo(member.getMember()),
     		member.getMember().getGujFullname(),
-    		member.getAmount()+""
+    		String.format("%.0f",member.getAmount())
     	)).collect(Collectors.toList()));
         
         dto.setNewLoanListMembersData(loanAccounts.stream().map(member -> List.of(
@@ -116,7 +116,7 @@ public class MonthlyStatementService {
         dto.setFullpaymentsData(payments.stream().map(payment -> List.of(
         	getMemberNo(payment.getMember()),
         	payment.getMember().getGujFullname(),
-        	payment.getFullPaymentAmount()+""
+        	String.format("%.0f", payment.getFullPaymentAmount())
         )).toList());
         
         dto.setPrevMonthNewLoansEMIAmtData(accounts.stream().map(account -> List.of(

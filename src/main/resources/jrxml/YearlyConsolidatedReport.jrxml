@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YearlyConsolidatedReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    
+	<property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
+	<property name="net.sf.jasperreports.default.pdf.encoding" value="Identity-H"/>
+	<property name="net.sf.jasperreports.default.pdf.embedded" value="true"/>
+
+    <parameter name="yearRange" class="java.lang.String"/>
+    
+    <field name="category" class="java.lang.String"/>
+    <field name="jan" class="java.lang.Double"/>
+    <field name="feb" class="java.lang.Double"/>
+    <field name="mar" class="java.lang.Double"/>
+    <field name="apr" class="java.lang.Double"/>
+    <field name="may" class="java.lang.Double"/>
+    <field name="jun" class="java.lang.Double"/>
+    <field name="jul" class="java.lang.Double"/>
+    <field name="aug" class="java.lang.Double"/>
+    <field name="sep" class="java.lang.Double"/>
+    <field name="oct" class="java.lang.Double"/>
+    <field name="nov" class="java.lang.Double"/>
+    <field name="dec" class="java.lang.Double"/>
+    <field name="yearlyTotal" class="java.lang.Double"/>
+    <field name="isSectionHeader" class="java.lang.Boolean"/>
+    <field name="isTotalRow" class="java.lang.Boolean"/>
+
+    <title>
+        <band height="70">
+            <staticText>
+                <reportElement x="0" y="0" width="802" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[વાર્ષિક સંકલિત નાણાકીય નિવેદન]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="30" width="802" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["નાણાકીય વર્ષ: " + $P{yearRange}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="0" width="802" height="25" backcolor="#2C3E3C"/>
+                <staticText>
+                    <reportElement x="0" y="0" width="120" height="25" forecolor="#FFFFFF"/>
+                    <box leftPadding="5"><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                    <textElement verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true" pdfEncoding="Identity-H"/></textElement>
+                    <text><![CDATA[વિગત (Category)]]></text>
+                </staticText>
+                <staticText><reportElement x="120" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[જાન્યુઆરી]]></text></staticText>
+                <staticText><reportElement x="170" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[ફેબ્રુઆરી]]></text></staticText>
+                <staticText><reportElement x="220" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[માર્ચ]]></text></staticText>
+                <staticText><reportElement x="270" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[એપ્રિલ]]></text></staticText>
+                <staticText><reportElement x="320" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[મે]]></text></staticText>
+                <staticText><reportElement x="370" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[જૂન]]></text></staticText>
+                <staticText><reportElement x="420" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[જુલાઈ]]></text></staticText>
+                <staticText><reportElement x="470" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[ઓગસ્ટ]]></text></staticText>
+                <staticText><reportElement x="520" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[સપ્ટેમ્બર]]></text></staticText>
+                <staticText><reportElement x="570" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[ઓક્ટોબર]]></text></staticText>
+                <staticText><reportElement x="620" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[નવેમ્બર]]></text></staticText>
+                <staticText><reportElement x="670" y="0" width="50" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[ડિસેમ્બર]]></text></staticText>
+                <staticText><reportElement x="720" y="0" width="82" height="25" forecolor="#FFFFFF"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Noto Sans Gujarati" size="8" isBold="true"/></textElement><text><![CDATA[કુલ વાર્ષિક]]></text></staticText>
+            </frame>
+        </band>
+    </columnHeader>
+
+    <detail>
+	    <band height="20" splitType="Stretch">
+	        <frame>
+			    <reportElement mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#F5F5F5">
+			        <propertyExpression name="net.sf.jasperreports.style.backcolor">
+			            <![CDATA["#F5F5F5"]]>
+			        </propertyExpression>
+			        <printWhenExpression><![CDATA[$F{isSectionHeader}]]></printWhenExpression>
+			    </reportElement>
+			    <box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+			    <textField>
+			        <reportElement x="0" y="0" width="802" height="20"/>
+			        <textElement textAlignment="Center" verticalAlignment="Middle">
+			            <font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+			        </textElement>
+			        <textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			    </textField>
+			</frame>
+	
+	        <frame>
+			    <reportElement x="0" y="0" width="802" height="20">
+			        <propertyExpression name="net.sf.jasperreports.style.backcolor">
+			             <![CDATA[$F{isTotalRow} ? "#ECF0F1" : "#FFFFFF"]]>
+			        </propertyExpression>
+			        <printWhenExpression><![CDATA[!$F{isSectionHeader}]]></printWhenExpression>
+			    </reportElement>
+			    
+			    <textField>
+			        <reportElement x="0" y="0" width="120" height="20">
+			            <propertyExpression name="net.sf.jasperreports.style.isBold">
+			                <![CDATA[$F{isTotalRow} ? "true" : "false"]]>
+			            </propertyExpression>
+			        </reportElement>
+			        <box leftPadding="5"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+			        <textElement verticalAlignment="Middle">
+			            <font fontName="Noto Sans Gujarati" size="8" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+			        </textElement>
+			        <textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			    </textField>
+			
+			    <textField pattern="###0">
+			        <reportElement x="120" y="0" width="50" height="20"/>
+			        <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+			        <textElement textAlignment="Right" verticalAlignment="Middle">
+			            <font fontName="Noto Sans Gujarati" size="8" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+			        </textElement>
+			        <textFieldExpression><![CDATA[$F{jan} == 0 ? "" : $F{jan}]]></textFieldExpression>
+			    </textField>
+			    
+			    <textField pattern="###0">
+	                <reportElement x="170" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{feb} == 0 ? "" : $F{feb}]]></textFieldExpression>
+	            </textField>
+	
+	            <textField pattern="###0">
+	                <reportElement x="220" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{mar} == 0 ? "" : $F{mar}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="270" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{apr} == 0 ? "" : $F{apr}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="320" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{may} == 0 ? "" : $F{may}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="370" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{jun} == 0 ? "" : $F{jun}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="420" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{jul} == 0 ? "" : $F{jul}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="470" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{aug} == 0 ? "" : $F{aug}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="520" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{sep} == 0 ? "" : $F{sep}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="570" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{oct} == 0 ? "" : $F{oct}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="620" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{nov} == 0 ? "" : $F{nov}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement x="670" y="0" width="50" height="20"/>
+	                <box rightPadding="2"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{dec} == 0 ? "" : $F{dec}]]></textFieldExpression>
+	            </textField>
+	            
+	            <textField pattern="###0">
+	                <reportElement mode="Opaque" x="720" y="0" width="82" height="20" backcolor="#D2D2D2"/>
+	                <box rightPadding="5"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle">
+	                    <font fontName="Noto Sans Gujarati" size="8" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	                </textElement>
+	                <textFieldExpression><![CDATA[$F{yearlyTotal}]]></textFieldExpression>
+	            </textField>
+            
+	            <textField pattern="###0">
+	                <reportElement mode="Opaque" x="720" y="0" width="82" height="20" backcolor="#D2D2D2"/>
+	                <box rightPadding="5"><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+	                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="8" isBold="true" fontName="Noto Sans Gujarati" pdfEncoding="Identity-H" isPdfEmbedded="true"/></textElement>
+	                <textFieldExpression><![CDATA[$F{yearlyTotal}]]></textFieldExpression>
+	            </textField>
+            
+			</frame>
+	    </band>
+	</detail>
+
+    <pageFooter>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="802" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Bottom"><font size="7" isItalic="true"/></textElement>
+                <textFieldExpression><![CDATA["વાર્ષિક રિપોર્ટ " + $P{yearRange} + " | પાનું: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

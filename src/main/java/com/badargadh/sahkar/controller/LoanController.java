@@ -506,6 +506,8 @@ public class LoanController extends BaseController implements Initializable {
             lblBalanceInfo.setText("");
             
             vboxAppForm.setDisable(true);
+            
+            AppLogger.error("Loan_Application_Error", e);
         }
     }
 
@@ -535,6 +537,7 @@ public class LoanController extends BaseController implements Initializable {
 
             } catch (BusinessException e) {
                 NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.BOTTOM_CENTER);
+                AppLogger.error("Loan_Application_Error", e);
             }
         }
 
@@ -591,8 +594,10 @@ public class LoanController extends BaseController implements Initializable {
         } catch (BusinessException e) {
             // Show eligibility error and block the popup
             NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
+            AppLogger.error("Loan_Application_Error", e);
         } catch (IOException e) {
             e.printStackTrace();
+            AppLogger.error("Loan_Application_Error", e);
         }
     }
     
@@ -626,23 +631,28 @@ public class LoanController extends BaseController implements Initializable {
                 NotificationManager.show("Please select a reason first!", NotificationType.WARNING, Pos.CENTER);
                 return; // Exit or re-show dialog
             }
-
-            // 4. Verification Gate
-            if(showSecurityGate("Confirming Rejection: " + selectedReason)) {
-                try {
-                    // Determine status based on reason
-                    LoanApplicationStatus finalStatus = selectedReason.equals("APPLICANT NO SHOW") 
-                                                      ? LoanApplicationStatus.NO_SHOW 
-                                                      : LoanApplicationStatus.REJECTED;
-                    
-                    loanService.rejectApplication(app, finalStatus, selectedReason);
-                    
-                    loadTableData();
-                    
-                    NotificationManager.show("Status updated to " + finalStatus, NotificationType.SUCCESS, Pos.TOP_RIGHT);
-                } catch (Exception e) {
-                    DialogManager.showError("Update Failed", e.getMessage());
-                }
+            
+            if(selectedReason.equals("APPLICANT NO SHOW")) {
+            	if(DialogManager.confirm("Applicant No Show", "If you reject application with APPLICANT NO SHOW reason then 3 Remarks will be added for member? Do You really want to reject application with Form Cancelled")) {
+            		// 4. Verification Gate
+                    if(showSecurityGate("Confirming Rejection: " + selectedReason)) {
+                        try {
+                            // Determine status based on reason
+                            LoanApplicationStatus finalStatus = selectedReason.equals("APPLICANT NO SHOW") 
+                                                              ? LoanApplicationStatus.NO_SHOW 
+                                                              : LoanApplicationStatus.REJECTED;
+                            
+                            loanService.rejectApplication(app, finalStatus, selectedReason);
+                            
+                            loadTableData();
+                            
+                            NotificationManager.show("Status updated to " + finalStatus, NotificationType.SUCCESS, Pos.TOP_RIGHT);
+                        } catch (Exception e) {
+                            DialogManager.showError("Update Failed", e.getMessage());
+                            AppLogger.error("Loan_Application_Error", e);
+                        }
+                    }
+            	}            	
             }
         }
     }

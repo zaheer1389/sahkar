@@ -1,18 +1,20 @@
 package com.badargadh.sahkar.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.badargadh.sahkar.data.LoanAccount;
+import com.badargadh.sahkar.data.Member;
+import com.badargadh.sahkar.dto.EmiCounterDTO;
+import com.badargadh.sahkar.dto.MemberSummaryDTO;
+import com.badargadh.sahkar.enums.LoanStatus;
 import com.badargadh.sahkar.enums.MemberStatus;
 import com.badargadh.sahkar.repository.FeePaymentRepository;
 import com.badargadh.sahkar.repository.LoanAccountRepository;
@@ -88,36 +90,14 @@ public class DashboardController implements Initializable {
     
     private void loadEmiCards() {
         emiCardContainer.getChildren().clear();
-        List<Object[]> emiData = loanRepo.getEmiWiseCounts();
-
-        for (Object[] row : emiData) {
-            Integer amount = row[0] != null ? ((Double) row[0]).intValue() : 0;
-            Long count = (Long) row[1];
-            
-            // Define Legend Colors based on EMI amount
-            String color = "#27ae60";
-            
-            if(amount == 400) {
-            	color = "#674EA7";
-            }
-            else if(amount == 300) {
-            	color = "#28a745";
-            }
-            else if(amount == 200) {
-            	color = "#17a2b8";
-            }
-            else if(amount == 100) {
-            	color = "#dc3545";
-            }
-            else {
-            	color = "#007bff";
-            }
-
-            emiCardContainer.getChildren().add(createStyledEmiCard(amount, count, color));
-        }
+        EmiCounterDTO counterDTO = calculateExpectedCollection();
+        emiCardContainer.getChildren().add(createStyledEmiCard(400, counterDTO.getEmi400(), "#674EA7"));
+        emiCardContainer.getChildren().add(createStyledEmiCard(300, counterDTO.getEmi300(), "#28a745"));
+        emiCardContainer.getChildren().add(createStyledEmiCard(200, counterDTO.getEmi200(), "#17a2b8"));
+        emiCardContainer.getChildren().add(createStyledEmiCard(100, counterDTO.getEmi100(), "#dc3545"));
     }
 
-    private VBox createStyledEmiCard(Integer amount, Long count, String color) {
+    private VBox createStyledEmiCard(int amount, int count, String color) {
         VBox card = new VBox(2);
         card.setPrefSize(220, 100);
         card.setPadding(new Insets(15));
@@ -149,5 +129,48 @@ public class DashboardController implements Initializable {
         public String getCount() { return count+""; }
     }
     
-    
+    public EmiCounterDTO calculateExpectedCollection() {
+        // 1. Get all active members
+        List<Member> activeMembers = memberRepo.findAllByStatus(MemberStatus.ACTIVE);
+        
+        // 2. Get all active loan accounts
+        List<LoanAccount> activeLoans = loanRepo.findAllByLoanStatus(LoanStatus.ACTIVE);
+        
+        // Map for quick lookup: MemberID -> LoanAccount
+        Map<Long, LoanAccount> loanMap = activeLoans.stream()
+                .collect(Collectors.toMap(l -> l.getMember().getId(), l -> l));
+
+        EmiCounterDTO counts = new EmiCounterDTO();
+        int feeOnlyCount = 0;
+
+        for (Member m : activeMembers) {
+            LoanAccount loan = loanMap.get(m.getId());
+
+            if (loan != null && loan.getPendingAmount() > 0) {
+                // Member has a loan - determine effective EMI
+                double standardEmi = loan.getEmiAmount() != null ? loan.getEmiAmount() : 0.0;
+                double pending = loan.getPendingAmount();
+                
+                // Effective EMI is the smaller of the two
+                int effectiveEmi = (int) Math.min(standardEmi, pending);
+
+                switch (effectiveEmi) {
+                    case 100 -> counts.setEmi100(counts.getEmi100() + 1);
+                    case 200 -> counts.setEmi200(counts.getEmi200() + 1);
+                    case 300 -> counts.setEmi300(counts.getEmi300() + 1);
+                    case 400 -> counts.setEmi400(counts.getEmi400() + 1);
+                    default -> {
+                        // Handle edge cases (e.g., final payment of 50 or 150)
+                        if (effectiveEmi > 0) counts.setOtherEmiCount(counts.getOtherEmiCount() + 1);
+                    }
+                }
+            } else {
+                // No active loan or pending amount is zero
+                feeOnlyCount++;
+            }
+        }
+        
+        counts.setFeesCount(feeOnlyCount);
+        return counts;
+    }
 }

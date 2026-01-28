@@ -1,12 +1,17 @@
 package com.badargadh.sahkar;
 
 import com.badargadh.sahkar.util.AppLogger;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Properties;
 
 public class Launcher {
@@ -20,8 +25,8 @@ public class Launcher {
             
             Properties props = loadProperties();
             String url = props.getProperty("spring.datasource.url", "jdbc:mysql://localhost:3307/society_db");
-            String user = props.getProperty("spring.datasource.username", "root");
-            String pass = props.getProperty("spring.datasource.password", "$sahkarbadargadh$");
+            String user = props.getProperty("spring.datasource.username", "sahkar");
+            String pass = props.getProperty("spring.datasource.password", "Sahkar@2026");
 
             // Connect to 'mysql' system db to perform user alterations
             String systemUrl = url.substring(0, url.lastIndexOf("/") + 1) + "mysql";
@@ -31,6 +36,11 @@ public class Launcher {
             AppLogger.info("Manual/IDE Mode detected: Skipping automated password synchronization.");
         }
 
+        List<FontFamily> families = DefaultJasperReportsContext.getInstance().getExtensions(FontFamily.class);
+    	for (FontFamily family : families) {
+    	    System.out.println("Available Font: " + family.getName());
+    	}
+    	
         // 3. Launch the actual Application
         SocietyManagementApplication.main(args);
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.Member;
+import com.badargadh.sahkar.dto.MemberDTO;
 import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.dto.MonthlyPaymentCollectionDTO;
 import com.badargadh.sahkar.dto.PendingMonthlyCollectionDTO;
@@ -50,15 +51,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 			+ "m.firstNameGuj, "
 			+ "m.middleNameGuj, "
 			+ "m.lastNameGuj, "
-			+ "m.village, "
-			+ "m.status, "
-			+ "(SELECT COALESCE(SUM(f.amount), 0) FROM FeePayment f WHERE f.member = m), "
-			+ "(SELECT COALESCE(la.pendingAmount, 0) FROM LoanAccount la WHERE la.member = m AND la.loanStatus = 'ACTIVE'), "
-			+ "(SELECT COALESCE(la.emiAmount, 0) FROM LoanAccount la WHERE la.member = m AND la.loanStatus = 'ACTIVE'),"
-			+ "m.cancellationDateTime"
-			+ ") "
+			+ "m.branchNameGuj,"
+			+ "m.lastName)"
 			+ "FROM Member m "
-			+ "WHERE m.status in ('ACTIVE','CANCELLED')"
+			+ "WHERE m.status in ('ACTIVE')"
 			+ "ORDER BY m.memberNo asc ")
 	List<MemberSummaryDTO> findActiveMembersGuj();
 	
@@ -67,6 +63,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 			+ "m.firstName, "
 			+ "m.middleName, "
 			+ "m.lastName, "
+			+ "m.branchName, "
 			+ "m.village, "
 			+ "m.status, "
 			+ "(SELECT COALESCE(SUM(f.amount), 0) FROM FeePayment f WHERE f.member = m), "
@@ -78,6 +75,21 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 			+ "WHERE m.status in ('ACTIVE','CANCELLED')"
 			+ "ORDER BY m.memberNo asc ")
 	List<MemberSummaryDTO> findActiveMembers();
+	
+	@Query("SELECT new com.badargadh.sahkar.dto.MemberDTO("
+	        + "m.memberNo, "
+	        + "m.firstName, m.middleName, m.lastName, "
+	        + "m.firstNameGuj, m.middleNameGuj, m.lastNameGuj, "
+	        + "m.branchName, "
+	        + "m.branchNameGuj, "
+	        + "(SELECT SUM(f.amount) FROM FeePayment f WHERE f.member = m), "
+	        + "(SELECT COALESCE(la.pendingAmount, 0.0) FROM LoanAccount la WHERE la.member = m AND la.loanStatus = 'ACTIVE'), "
+	        + "(SELECT COALESCE(la.emiAmount, 0.0) FROM LoanAccount la WHERE la.member = m AND la.loanStatus = 'ACTIVE') "
+	        + ") "
+	        + "FROM Member m "
+	        + "WHERE m.status IN ('ACTIVE') "
+	        + "ORDER BY m.memberNo ASC")
+	List<MemberDTO> findActiveMembersForReport();
 
 	@Query("SELECT new com.badargadh.sahkar.dto.MemberSummaryDTO("
 	        + "m.memberNo, m.firstName, m.middleName, m.lastName, m.village, m.status, "
@@ -234,6 +246,31 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	       ") ORDER BY m.cancellation_date_time ASC", 
 	       nativeQuery = true)
 	List<Member> findMembersEligibleForRefund(@Param("endDate") LocalDate endDate);
+	
+	@Query(value = "SELECT m.* FROM members m " +
+	       "CROSS JOIN app_settings c " +
+	       "LEFT JOIN member_history mh ON m.id = mh.original_member_id " +
+	       "WHERE (" +
+	       "   (m.member_status = 'REFUNDED' AND mh.refund_date_time BETWEEN :startDate AND :endDate) " +
+	       "   OR " +
+	       "   (m.member_status IN ('CANCELLED', 'ARCHIVED', 'MEMBER_EXPIRED') " +
+	       "    AND (" +
+	       "       m.cancellation_reason = 'MEMBER_EXPIRED' " + 
+	       "       OR (" +
+	       "           CASE " +
+	       "               WHEN m.cancellation_date_time < '2026-01-01' " +
+	       "               THEN DATE_ADD(m.cancellation_date_time, INTERVAL 3 MONTH) " +
+	       "               ELSE DATE_ADD(m.cancellation_date_time, INTERVAL c.fees_refund_cooling_period MONTH) " +
+	       "           END BETWEEN :startDate AND :endDate" +
+	       "       )" +
+	       "    )" +
+	       "   )" +
+	       ") " +
+	       "-- Group by ID to handle multiple history entries if any, though usually 1:1 for refunds -- " +
+	       "GROUP BY m.id " + 
+	       "ORDER BY m.member_no ASC", 
+	       nativeQuery = true)
+	List<Member> findMonthlyRefundReportList(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 	
 	@Query(value = "SELECT m.*, COALESCE((SELECT MAX(la.end_date) FROM loan_accounts la WHERE la.member_id = m.id), '1900-01-01') as last_loan_end, "
 			+ "TIMESTAMPDIFF(MONTH, COALESCE((SELECT MAX(la.end_date) FROM loan_accounts la WHERE la.member_id = m.id), '1900-01-01'), :currentMonthStart) as waiting_duration "

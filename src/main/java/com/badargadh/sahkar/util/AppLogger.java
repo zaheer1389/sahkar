@@ -26,12 +26,23 @@ public class AppLogger {
             System.err.println("Could not write to log file: " + e.getMessage());
         }
     }
+    
+    public static void error(String message, Throwable e) {
+        log("ERROR", message + " | Exception: " + e.getMessage());
+        if (e.getStackTrace().length > 0) {
+            log("DEBUG", "Stacktrace: " + e.getStackTrace()[0].toString());
+        }
+    }
 
     public static void error(String message, Exception e) {
         log("ERROR", message + " | Exception: " + e.getMessage());
         if (e.getStackTrace().length > 0) {
             log("DEBUG", "Stacktrace: " + e.getStackTrace()[0].toString());
         }
+    }
+    
+    public static void warn(String message) {
+        log("WARNING", message );
     }
     
     public static void error(String message) {

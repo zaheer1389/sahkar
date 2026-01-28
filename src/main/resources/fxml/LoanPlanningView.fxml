@@ -11,7 +11,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #dee2e6;">
                      <VBox>
                         <Label text="Loan Draw Planning" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                        <Label fx:id="lblMonthInfo" text="Financial Period: Loading..." style="-fx-text-fill: #7f8c8d;" />
+                        <!--<Label fx:id="lblMonthInfo" text="Financial Period: Loading..." style="-fx-text-fill: #7f8c8d;" />-->
                     </VBox>
                     <Region HBox.hgrow="ALWAYS" />
                     <HBox spacing="10" alignment="CENTER_RIGHT">

@@ -20,6 +20,7 @@ import com.badargadh.sahkar.service.FeeService;
 import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.ReceiptPrintingService;
 import com.badargadh.sahkar.service.RefundService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
@@ -174,6 +175,7 @@ public class FeesRefundController extends BaseController {
             refreshTable();
         } catch (Exception e) {
             DialogManager.showError("Refund Error", e.getMessage());
+            AppLogger.error("Member_Fee_Refund_Error", e);
         }
     }
 

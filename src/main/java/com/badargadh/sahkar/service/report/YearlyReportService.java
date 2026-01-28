@@ -1,7 +1,6 @@
 package com.badargadh.sahkar.service.report;
 
-import java.awt.Color;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -10,176 +9,204 @@ import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 import com.badargadh.sahkar.data.MonthlyStatementDTO;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPageEventHelper;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.events.Event;
+import com.itextpdf.kernel.events.IEventHandler;
+import com.itextpdf.kernel.events.PdfDocumentEvent;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Canvas;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 
 @Service
 public class YearlyReportService {
 
-    // Fonts for different sections
-    private final Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, Color.WHITE);
-    private final Font categoryFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8);
-    private final Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC);
-    private final Font totalFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8, Font.ITALIC);
+    private PdfFont headFont;
+    private PdfFont categoryFont;
+    private PdfFont dataFont;
+    private PdfFont totalFont;
 
     private final String[] financialMonths = {
-    		"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
-    	    "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+            "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+            "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
     };
 
+    private void initFonts() throws Exception {
+        if (headFont == null) {
+            headFont = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+            categoryFont = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+            dataFont = PdfFontFactory.createFont(StandardFonts.HELVETICA_OBLIQUE);
+            totalFont = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLDOBLIQUE);
+        }
+    }
+
     public void generateYearlyReport(Map<String, MonthlyStatementDTO> yearlyData, String yearRange, String filePath) throws Exception {
-        // 1. Create Landscape Document
-        Document document = new Document(PageSize.A4.rotate(), 20, 20, 30, 30);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+        initFonts();
         
-        // Add Footer Event for Page Numbers and Timestamp
-        writer.setPageEvent(new PdfPageEventHelper() {
-            public void onEndPage(PdfWriter writer, Document document) {
-                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-                Phrase p = new Phrase("Yearly Report " + yearRange + " | Generated: " + timestamp + " | Page: " + writer.getPageNumber(), 
-                                    FontFactory.getFont(FontFactory.HELVETICA, 7, Font.ITALIC));
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, p, document.right(), 20, 0);
-            }
-        });
-
-        document.open();
-
-        // 2. Title
-        Paragraph title = new Paragraph("YEARLY CONSOLIDATED FINANCIAL STATEMENT", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
+        PdfWriter writer = new PdfWriter(filePath);
+        PdfDocument pdf = new PdfDocument(writer);
         
-        Phrase subTitle = new Phrase("Financial Period: " + yearRange, FontFactory.getFont(FontFactory.HELVETICA, 12));
-        Paragraph pSub = new Paragraph(subTitle);
-        pSub.setAlignment(Element.ALIGN_CENTER);
-        pSub.setSpacingAfter(20);
-        document.add(pSub);
+        // Add Footer Event
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler(yearRange));
 
-        // 3. Table Setup: 14 Columns (Category + 12 Months + Yearly Total)
+        // Create Landscape Document
+        Document document = new Document(pdf, PageSize.A4.rotate());
+        document.setMargins(20, 20, 40, 20);
+
+        // 1. Title
+        document.add(new Paragraph("YEARLY CONSOLIDATED FINANCIAL STATEMENT")
+                .setFont(headFont)
+                .setFontSize(18)
+                .setTextAlignment(TextAlignment.CENTER));
+
+        document.add(new Paragraph("Financial Period: " + yearRange)
+                .setFontSize(12)
+                .setTextAlignment(TextAlignment.CENTER)
+                .setMarginBottom(20));
+
+        // 2. Table Setup: 14 Columns
         float[] columnWidths = {4.5f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 3f};
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-        table.setHeaderRows(1);
+        Table table = new Table(UnitValue.createPercentArray(columnWidths)).useAllAvailableWidth();
 
-        // Table Header Row
+        // Table Header
         String[] headers = {"Category", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "YRLY TOTAL"};
         for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, headFont));
-            cell.setBackgroundColor(new Color(44, 62, 80));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setPadding(5);
-            table.addCell(cell);
+            table.addHeaderCell(new Cell().add(new Paragraph(h).setFont(headFont).setFontSize(8).setFontColor(ColorConstants.WHITE))
+                    .setBackgroundColor(new DeviceRgb(44, 62, 80))
+                    .setTextAlignment(TextAlignment.CENTER));
         }
-        
-        addRow(table, "MONTH OPENING BALANCE", yearlyData, MonthlyStatementDTO::getOpeningBal, true, new Color(224, 236, 248));
 
-        // 4. Data Rows - CASH INFLOW
+        // 3. Opening Balance
+        addRow(table, "MONTH OPENING BALANCE", yearlyData, MonthlyStatementDTO::getOpeningBal, true, new DeviceRgb(224, 236, 248));
+
+        // 4. CASH INFLOW
         addSectionHeader(table, "CASH INFLOW / INCOME");
-        addRow(table, "New Member Fees", yearlyData, MonthlyStatementDTO::getNewMemberFee, false,null);
-        addRow(table, "Monthly Fees", yearlyData, MonthlyStatementDTO::getMonthlyFee, false,null);
-        addRow(table, "EMI Collection", yearlyData, MonthlyStatementDTO::getTotalEmi, false,null);
-        addRow(table, "Loan Deductions", yearlyData, MonthlyStatementDTO::getLoanDeduction, false,null);
-        addRow(table, "Misc Credits", yearlyData, MonthlyStatementDTO::getExpenseCredit, false,null);
-        addRow(table, "TOTAL INFLOW", yearlyData, MonthlyStatementDTO::getTotalIncome, true, new Color(236, 240, 241));
+        addRow(table, "New Member Fees", yearlyData, MonthlyStatementDTO::getNewMemberFee, false, null);
+        addRow(table, "Monthly Fees", yearlyData, MonthlyStatementDTO::getMonthlyFee, false, null);
+        addRow(table, "EMI Collection", yearlyData, MonthlyStatementDTO::getTotalEmi, false, null);
+        addRow(table, "Loan Deductions", yearlyData, MonthlyStatementDTO::getLoanDeduction, false, null);
+        addRow(table, "Misc Credits", yearlyData, MonthlyStatementDTO::getExpenseCredit, false, null);
+        addRow(table, "TOTAL INFLOW", yearlyData, MonthlyStatementDTO::getTotalIncome, true, new DeviceRgb(236, 240, 241));
 
-        // Spacer Row
-        table.addCell(new PdfPCell(new Phrase(" ")) {{ setColspan(14); setBorder(Rectangle.NO_BORDER); setFixedHeight(10); }});
+        // Spacer
+        table.addCell(new Cell(1, 14).setHeight(10).setBorder(Border.NO_BORDER));
 
-        // 5. Data Rows - CASH OUTFLOW
+        // 5. CASH OUTFLOW
         addSectionHeader(table, "CASH OUTFLOW / EXPENSES");
         addRow(table, "Loans Granted", yearlyData, MonthlyStatementDTO::getTotalLoanGranted, false, null);
-        addRow(table, "Fee Refunds", yearlyData, MonthlyStatementDTO::getTotalFeeRefund, false,null);
-        addRow(table, "Misc Debits", yearlyData, MonthlyStatementDTO::getExpenseDebit, false,null);
-        addRow(table, "TOTAL OUTFLOW", yearlyData, MonthlyStatementDTO::getTotalOutgoing, true, new Color(236, 240, 241));
+        addRow(table, "Fee Refunds", yearlyData, MonthlyStatementDTO::getTotalFeeRefund, false, null);
+        addRow(table, "Misc Debits", yearlyData, MonthlyStatementDTO::getExpenseDebit, false, null);
+        addRow(table, "TOTAL OUTFLOW", yearlyData, MonthlyStatementDTO::getTotalOutgoing, true, new DeviceRgb(236, 240, 241));
 
-        // 6. Final Summary Row
-        table.addCell(new PdfPCell(new Phrase(" ")) {{ setColspan(14); setBorder(Rectangle.NO_BORDER); setFixedHeight(10); }});
-        addRow(table, "NET CLOSING BALANCE", yearlyData, MonthlyStatementDTO::getClosingBalance, true, new Color(236, 240, 241));
+        // 6. Final Summary
+        table.addCell(new Cell(1, 14).setHeight(10).setBorder(Border.NO_BORDER));
+        addRow(table, "NET CLOSING BALANCE", yearlyData, MonthlyStatementDTO::getClosingBalance, true, new DeviceRgb(236, 240, 241));
 
         document.add(table);
         document.close();
     }
 
-    private void addRow(PdfPTable table, String label, Map<String, MonthlyStatementDTO> dataMap, 
-            Function<MonthlyStatementDTO, Double> extractor, boolean isBoldRow, Color customColor) {
+    private void addRow(Table table, String label, Map<String, MonthlyStatementDTO> dataMap,
+                        Function<MonthlyStatementDTO, Double> extractor, boolean isBoldRow, DeviceRgb customColor) {
 
-		Color bgColor = customColor != null ? customColor : (isBoldRow ? new Color(236, 240, 241) : null);
-		
-		// Label Cell
-		PdfPCell labelCell = new PdfPCell(new Phrase(label, isBoldRow ? categoryFont : FontFactory.getFont(FontFactory.HELVETICA, 8)));
-		if (bgColor != null) labelCell.setBackgroundColor(bgColor);
-		table.addCell(labelCell);
-		
-		double horizontalValue = 0.0;
-		
-		// 1. Logic for Monthly Columns
-		for (String month : financialMonths) {
-		MonthlyStatementDTO monthDto = dataMap.get(month);
-		double val = (monthDto != null && extractor.apply(monthDto) != null) ? extractor.apply(monthDto) : 0.0;
-		
-		PdfPCell cell = new PdfPCell(new Phrase(val == 0 ? "-" : String.format("%.0f", val), isBoldRow ? totalFont : dataFont));
-		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		if (bgColor != null) cell.setBackgroundColor(bgColor);
-			table.addCell(cell);
+        try {
+			DeviceRgb bgColor = customColor != null ? customColor : (isBoldRow ? new DeviceRgb(236, 240, 241) : null);
+			PdfFont font = isBoldRow ? categoryFont : PdfFontFactory.createFont(StandardFonts.HELVETICA);
+
+			// Label Cell
+			Cell labelCell = new Cell().add(new Paragraph(label).setFont(font).setFontSize(8));
+			if (bgColor != null) labelCell.setBackgroundColor(bgColor);
+			table.addCell(labelCell);
+
+			double horizontalValue = 0.0;
+
+			// 1. Monthly Columns
+			for (String month : financialMonths) {
+			    MonthlyStatementDTO monthDto = dataMap.get(month);
+			    double val = (monthDto != null && extractor.apply(monthDto) != null) ? extractor.apply(monthDto) : 0.0;
+
+			    Cell cell = new Cell().add(new Paragraph(val == 0 ? "-" : String.format("%.0f", val))
+			            .setFont(isBoldRow ? totalFont : dataFont).setFontSize(8))
+			            .setTextAlignment(TextAlignment.RIGHT);
+			    if (bgColor != null) cell.setBackgroundColor(bgColor);
+			    table.addCell(cell);
+			}
+
+			// 2. Logic for "YRLY TOTAL"
+			if (label.contains("OPENING")) {
+			    for (String month : financialMonths) {
+			        if (dataMap.containsKey(month) && dataMap.get(month) != null) {
+			            horizontalValue = dataMap.get(month).getOpeningBal();
+			            break;
+			        }
+			    }
+			} else if (label.contains("CLOSING")) {
+			    for (int i = financialMonths.length - 1; i >= 0; i--) {
+			        String month = financialMonths[i];
+			        if (dataMap.containsKey(month) && dataMap.get(month) != null) {
+			            horizontalValue = dataMap.get(month).getClosingBalance();
+			            break;
+			        }
+			    }
+			} else {
+			    for (String month : financialMonths) {
+			        MonthlyStatementDTO mDto = dataMap.get(month);
+			        if (mDto != null && extractor.apply(mDto) != null) {
+			            horizontalValue += extractor.apply(mDto);
+			        }
+			    }
+			}
+
+			// Total Cell
+			table.addCell(new Cell().add(new Paragraph(String.format("%.0f", horizontalValue)).setFont(totalFont).setFontSize(8))
+			        .setTextAlignment(TextAlignment.RIGHT)
+			        .setBackgroundColor(new DeviceRgb(210, 210, 210)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		// 2. Logic for the "YRLY TOTAL" Column (The Balancing Fix)
-	    if (label.contains("OPENING")) {
-	        // Find the FIRST month in the sequence that actually has data
-	        double firstFoundOpening = 0.0;
-	        for (String month : financialMonths) {
-	            if (dataMap.containsKey(month) && dataMap.get(month) != null) {
-	                firstFoundOpening = dataMap.get(month).getOpeningBal();
-	                break; // Stop at the first month found
-	            }
-	        }
-	        horizontalValue = firstFoundOpening;
-	    } 
-	    else if (label.contains("CLOSING") || label.contains("NET CASH")) {
-	        // Find the LAST month in the sequence that actually has data
-	        double lastFoundClosing = 0.0;
-	        for (int i = financialMonths.length - 1; i >= 0; i--) {
-	            String month = financialMonths[i];
-	            if (dataMap.containsKey(month) && dataMap.get(month) != null) {
-	                lastFoundClosing = dataMap.get(month).getClosingBalance();
-	                break; // Stop at the last month found
-	            }
-	        }
-	        horizontalValue = lastFoundClosing;
-	    } 
-	    else {
-	        // Income/Expenses remain cumulative (Sum of all available data)
-	        for (String month : financialMonths) {
-	            MonthlyStatementDTO mDto = dataMap.get(month);
-	            if (mDto != null && extractor.apply(mDto) != null) {
-	                horizontalValue += extractor.apply(mDto);
-	            }
-	        }
-	    }
-		
-		// Yearly Total Cell
-		PdfPCell totalCell = new PdfPCell(new Phrase(String.format("%.0f", horizontalValue), totalFont));
-		totalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		totalCell.setBackgroundColor(new Color(210, 210, 210));
-		table.addCell(totalCell);
-	}
+    }
 
-    private void addSectionHeader(PdfPTable table, String text) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8, Color.DARK_GRAY)));
-        cell.setColspan(14);
-        cell.setBackgroundColor(new Color(245, 245, 245));
-        cell.setPadding(3);
-        table.addCell(cell);
+    private void addSectionHeader(Table table, String text) {
+        table.addCell(new Cell(1, 14).add(new Paragraph(text).setFont(headFont).setFontSize(8).setFontColor(ColorConstants.DARK_GRAY))
+                .setBackgroundColor(new DeviceRgb(245, 245, 245))
+                .setPadding(3));
+    }
+
+    // --- Footer Handler ---
+    private static class FooterHandler implements IEventHandler {
+        private final String yearRange;
+        public FooterHandler(String yearRange) { this.yearRange = yearRange; }
+
+        @Override
+        public void handleEvent(Event event) {
+            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
+            PdfDocument pdf = docEvent.getDocument();
+            PdfPage page = docEvent.getPage();
+            int pageNum = pdf.getPageNumber(page);
+            
+            PdfCanvas pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
+            Canvas canvas = new Canvas(pdfCanvas, page.getPageSize());
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            String footerText = "Yearly Report " + yearRange + " | Generated: " + timestamp + " | Page: " + pageNum;
+
+            canvas.showTextAligned(new Paragraph(footerText).setFontSize(7).setItalic(),
+                    page.getPageSize().getRight() - 20, 20, TextAlignment.RIGHT);
+            canvas.close();
+        }
     }
 }

@@ -1,13 +1,13 @@
 package com.badargadh.sahkar.service.report;
 
-import java.awt.Color;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -16,550 +16,370 @@ import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.dto.PendingMonthlyCollectionDTO;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.events.Event;
+import com.itextpdf.kernel.events.IEventHandler;
+import com.itextpdf.kernel.events.PdfDocumentEvent;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Canvas;
+import com.itextpdf.layout.ColumnDocumentRenderer;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.AreaBreakType;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 @Service
 public class ReportService {
 
-	private static final String GUJARATI_FONT_PATH = "/static/fonts/Shruti.ttf";
-	private static final String GUJARATI_FONT_PATH_LOHIT = "/static/fonts/Lohit-Gujarati.ttf";
+    private static final String GUJARATI_FONT_PATH = "/static/fonts/NotoSansGujarati.ttf";
 
-	
-    // Define standard fonts to simulate weights
-    private static final Font FONT_HEADER = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, Color.BLACK);
-    private static final Font FONT_DATA = FontFactory.getFont(FontFactory.HELVETICA, 9, Color.BLACK); // Clean 400-500 weight
-    private static final Font FONT_TITLE = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, Color.BLACK);
+    // Standard Colors
+    private static final DeviceRgb DARK_BLUE = new DeviceRgb(44, 62, 80);
+    private static final DeviceRgb SUCCESS_GREEN = new DeviceRgb(39, 174, 96);
+    private static final DeviceRgb ACCENT_ORANGE = new DeviceRgb(230, 126, 34);
+
+    // Initialized in a central method to avoid repeating code
+    private PdfFont gujFont;
+    private PdfFont engFontBold;
+    private PdfFont engFontNormal;
+    
+    private static final Map<String, DeviceRgb> SURNAME_COLORS = new HashMap<>();
+
+    static {
+        SURNAME_COLORS.put("KHORAJIYA", new DeviceRgb(255, 200, 200)); // Light Red
+        SURNAME_COLORS.put("NONSOLA", new DeviceRgb(200, 255, 200));   // Light Green
+        SURNAME_COLORS.put("VARALIYA", new DeviceRgb(200, 200, 255));  // Light Blue
+        SURNAME_COLORS.put("KADIVAL", new DeviceRgb(255, 255, 200));   // Light Yellow
+        SURNAME_COLORS.put("CHAUDHARI", new DeviceRgb(255, 200, 255)); // Light Pink
+        SURNAME_COLORS.put("MALPARA", new DeviceRgb(200, 255, 255));   // Cyan
+        SURNAME_COLORS.put("NODOLIYA", new DeviceRgb(255, 220, 150));  // Peach
+        SURNAME_COLORS.put("BHORANIYA", new DeviceRgb(220, 220, 220)); // Light Grey
+        SURNAME_COLORS.put("AGLODIYA", new DeviceRgb(180, 255, 180));  // Mint
+        SURNAME_COLORS.put("MANASIYA", new DeviceRgb(255, 235, 205));  // Bisque
+        SURNAME_COLORS.put("MAREDIYA", new DeviceRgb(230, 230, 250));  // Lavender
+        SURNAME_COLORS.put("SHERU", new DeviceRgb(240, 255, 240));     // Honeydew
+        SURNAME_COLORS.put("SUNASARA", new DeviceRgb(255, 250, 205));  // Lemon Chiffon
+    }
+
+    private void initFonts() throws Exception {
+        if (gujFont == null) {
+            URL fontUrl = getClass().getResource(GUJARATI_FONT_PATH);
+            gujFont = PdfFontFactory.createFont(fontUrl.toString(), PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
+            engFontBold = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+            engFontNormal = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+        }
+    }
 
     public void generateMemberSummaryPdf(List<MemberSummaryDTO> data, String filePath) throws Exception {
-        Document document = new Document(PageSize.A4);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        document.open();
-
-        // 1. Title
-        Paragraph title = new Paragraph("SAHKAR SOCIETY BADARGADH", FONT_TITLE);
-        title.setAlignment(Element.ALIGN_CENTER);
-        //document.add(title);
-        //document.add(new Paragraph(" "));
-
-        // 2. Table Definition (Optimized Widths)
-        float[] columnWidths = {1.0f, 5.5f, 1.8f, 1.8f, 1.5f, 2.5f}; 
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-
-        // 3. Table Headers (Weight 700)
-        String[] headers = {"M.No", "Member Full Name", "Fees", "Pending", "EMI", "Remark"};
-        for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, FONT_HEADER));
-            cell.setBackgroundColor(new Color(245, 245, 245));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setPadding(6);
-            table.addCell(cell);
-        }
-
-        // 4. Data Rows (Weight 400-500)
-        for (MemberSummaryDTO m : data) {
-            table.addCell(createCenterCell(String.valueOf(m.getMemberNo()), FONT_DATA));
-            
-            // Member Name (Left Aligned)
-            PdfPCell nameCell = new PdfPCell(new Phrase(m.getFullName(), FONT_DATA));
-            nameCell.setPaddingLeft(5);
-            nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(nameCell);
-            
-            table.addCell(createRightCell(formatCurrency(m.getTotalFees()), FONT_DATA));
-            table.addCell(createRightCell(formatCurrency(m.getPendingLoan()), FONT_DATA));
-            table.addCell(createRightCell(formatCurrency(m.getEmiAmount()), FONT_DATA));
-            
-            // Remark Cell
-            PdfPCell remarkCell = new PdfPCell(new Phrase(""));
-            remarkCell.setMinimumHeight(18f);
-            table.addCell(remarkCell);
-        }
-
-        document.add(table);
+        initFonts();
+        PdfWriter writer = new PdfWriter(filePath);
+        PdfDocument pdf = new PdfDocument(writer);
         
-        Paragraph meta = new Paragraph("Total Members : "+data.size());
-        meta.setAlignment(Element.ALIGN_CENTER);
-        document.add(meta);
-        document.add(new Paragraph(" "));
+        // Add Footer
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler());
+
+        // 1. Start with a standard document
+        Document document = new Document(pdf, PageSize.A4);
+        document.setMargins(40, 30, 60, 30);
+
+        // --- STEP 1: ADD LEGEND TO PAGE 1 ---
+        document.add(new Paragraph("SURNAME COLOR LEGEND")
+                .setFont(engFontBold).setFontSize(14).setTextAlignment(TextAlignment.CENTER));
+
+        // 3-Column legend to save space
+        Table legendTable = new Table(UnitValue.createPercentArray(new float[]{20, 13, 20, 13, 20, 13}))
+                .useAllAvailableWidth().setMarginTop(10).setMarginBottom(20);
         
-        document.close();
-    }
-    
-    public void generatePendingCollectionPdf(List<PendingMonthlyCollectionDTO> data, AppConfig config, String filePath) throws Exception {
-        // Standard Date Formatters for English
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+        SURNAME_COLORS.forEach((surname, color) -> {
+            legendTable.addCell(new Cell().add(new Paragraph(surname).setFontSize(8)).setBorder(Border.NO_BORDER));
+            legendTable.addCell(new Cell().setBackgroundColor(color).setHeight(10).setBorder(new SolidBorder(0.5f)));
+        });
+        document.add(legendTable);
+
+        // --- STEP 2: FORCE PAGE BREAK AND SWITCH TO COLUMNS ---
+        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+        // Define column areas for Page 2 onwards
+        float gutter = 20f;
+        float columnWidth = (PageSize.A4.getWidth() - 60 - gutter) / 2;
+        float columnHeight = PageSize.A4.getHeight() - 110; // Adjust for margins
+
+        Rectangle[] columns = new Rectangle[] {
+            new Rectangle(30, 60, columnWidth, columnHeight),         // Left
+            new Rectangle(30 + columnWidth + gutter, 60, columnWidth, columnHeight) // Right
+        };
         
-        Document document = new Document(PageSize.A4, 20, 20, 30, 30);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        document.open();
+        // Apply the multi-column renderer
+        document.setRenderer(new ColumnDocumentRenderer(document, columns));
 
-        // --- FONT CONFIGURATION (Standard English) ---
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, new Color(44, 62, 80));
-        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Color.WHITE);
-        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL);
-        Font boldDataFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Font.NORMAL);
+        // --- STEP 3: CREATE THE MEMBER TABLE ---
+        Table table = new Table(UnitValue.createPercentArray(new float[]{2.5f, 7.5f}))
+                .useAllAvailableWidth();
         
-        Color accentOrange = new Color(230, 126, 34);
-        Color successGreen = new Color(39, 174, 96);
-
-        // 1. Header (English Title)
-        Paragraph title = new Paragraph("SAHKAR SOCIETY - PENDING PAYMENT LIST", titleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
-        
-        // Meta Data
-        Paragraph meta = new Paragraph("Date: " + formatter.format(LocalDate.now()) + " | Total Pending Members: " + data.size(), dataFont);
-        meta.setAlignment(Element.ALIGN_CENTER);
-        document.add(meta);
-        document.add(new Paragraph(" "));
-
-        // 2. Table Definition (5 Columns)
-        // Widths: No(0.8), Name(3.5), Fees(0.7), EMI(0.7), Witness/Sign(4.3)
-        float[] columnWidths = {0.8f, 3.5f, 0.7f, 0.7f, 4.3f};
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-
-        // 3. Table Headers (English Labels)
-        String[] headers = {"M.No", "Member Name", "Fees", "EMI", "Witness Name"};
-        for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, headFont));
-            cell.setBackgroundColor(new Color(44, 62, 80));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPadding(6);
-            table.addCell(cell);
-        }
-
-        // 4. Data Rows
-        for (PendingMonthlyCollectionDTO member : data) {
-            // Member Number
-            table.addCell(createStyledCell(String.valueOf(member.getMemberNo()), dataFont, Element.ALIGN_CENTER));
-            
-            // English Member Name (Using firstName/lastName instead of GujName)
-            String fullName = member.getFirstName()+" "+ member.getMiddleName() + " " + member.getLastName();
-            PdfPCell nameCell = new PdfPCell(new Phrase(fullName.toUpperCase(), dataFont));
-            nameCell.setPaddingLeft(5);
-            nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(nameCell);
-            
-            // Fees
-            Font feesFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, successGreen);
-            table.addCell(createStyledCell(String.valueOf(config.getMonthlyFees()), feesFont, Element.ALIGN_RIGHT));
-            
-            // EMI
-            Double emi = member.getEmiAmountDue() != null ? member.getEmiAmountDue() : 0;
-            Font emiFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, accentOrange);
-            table.addCell(createStyledCell(String.valueOf(emi.intValue()), emiFont, Element.ALIGN_RIGHT));
-            
-            // Blank Witness Column
-            PdfPCell signCell = new PdfPCell(new Phrase(""));
-            signCell.setMinimumHeight(20f); 
-            table.addCell(signCell);
-        }
-
-        document.add(table);
-        
-        // 5. Note in English
-        document.add(new Paragraph(" "));
-        Paragraph note = new Paragraph("NOTE: If any cancellation or tampering is found on a member's name, 3 extra remarks will be added to that member. Please take note.", 
-                FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, Color.RED));
-        note.setAlignment(Element.ALIGN_CENTER);
-        //document.add(note);
-        
-        // 6. Signature
-        Paragraph signature = new Paragraph("\n\n\n__________________________\nAuthorized Signatory (Chairman)", dataFont);
-        signature.setAlignment(Element.ALIGN_RIGHT);
-        document.add(signature);
-        
-        document.close();
-    }
-    
-    /*public void generatePendingCollectionPdf(List<MemberSummaryDTO> data, AppConfig config, String filePath) throws Exception {
-        // Set margins
-    	
-    	Locale gujaratiLocale = new Locale("gu", "IN");
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", gujaratiLocale);
-    	DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MMMM yyyy", gujaratiLocale);
-    	
-        Document document = new Document(PageSize.A4, 20, 20, 30, 30);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        document.open();
-
-        // --- FONT CONFIGURATION ---
-        URL fontResource = getClass().getResource(GUJARATI_FONT_PATH_LOHIT);
-        if (fontResource == null) {
-            throw new java.io.IOException("Gujarati font not found!");
-        }
-        BaseFont gujBase = BaseFont.createFont(fontResource.toString(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        
-        // Define font styles
-        Font gujTitleFont = new Font(gujBase, 16, Font.BOLD, new Color(44, 62, 80));
-        Font gujHeadFont = new Font(gujBase, 10, Font.BOLD, Color.WHITE);
-        Font gujDataFont = new Font(gujBase, 10, Font.NORMAL);
-        Font gujBoldDataFont = new Font(gujBase, 10, Font.BOLD);
-        
-        // Standard English fonts for numbers/dates
-        Font smallEngFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
-        Color accentOrange = new Color(230, 126, 34);
-        Color successGreen = new Color(39, 174, 96);
-
-        // 1. Header (Gujarati Title)
-        Paragraph title = new Paragraph("સહકાર સોસાયટી - બાકી વસુલાત રિપોર્ટ", gujTitleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
-        
-        // Meta Data (English numbers, but labels can be Gujarati if preferred)
-        Paragraph meta = new Paragraph("તારીખ: " + formatter.format(LocalDate.now()) + " | કુલ બાકી સભ્યો: " + data.size(), gujDataFont);
-        meta.setAlignment(Element.ALIGN_CENTER);
-        document.add(meta);
-        document.add(new Paragraph(" "));
-
-        // 2. Table Definition (5 Columns)
-        // Widths: No(8%), Name(40%), Fees(10%), EMI(10%), Sign/Witness(32%)
-        float[] columnWidths = {0.8f, 3.5f, 0.5f, 0.5f, 4.7f};
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-
-        // 3. Table Headers (Gujarati Labels)
-        String[] headers = {"નંબર", "સભ્યનું નામ", "ફી", "હપ્તો", "સાક્ષી"};
-        for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, gujHeadFont));
-            cell.setBackgroundColor(new Color(44, 62, 80));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPadding(6);
-            cell.setPaddingBottom(8); // Extra padding for Gujarati glyphs
-            table.addCell(cell);
-        }
-
-        // 4. Data Rows
-        for (MemberSummaryDTO member : data) {
-            // Member Number
-            table.addCell(createStyledCellGuj(String.valueOf(member.getMemberNo()), gujDataFont, Element.ALIGN_CENTER));
-            
-            // Gujarati Member Name
-            PdfPCell nameCell = new PdfPCell(new Phrase(member.getFullGujName(), gujDataFont));
-            nameCell.setPaddingLeft(5);
-            nameCell.setPaddingBottom(7); // Prevent bottom cut-off
-            nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(nameCell);
-            
-            // Fees (Using Success Green)
-            Font feesFont = new Font(gujBase, 10, Font.BOLD, successGreen);
-            table.addCell(createStyledCellGuj(String.valueOf(config.getMonthlyFees()), feesFont, Element.ALIGN_RIGHT));
-            
-            // EMI (Using Accent Orange)
-            int emi = member.getEmiAmount() != null ? member.getEmiAmount() : 0;
-            Font emiFont = new Font(gujBase, 10, Font.BOLD, accentOrange);
-            table.addCell(createStyledCellGuj(String.valueOf(emi), emiFont, Element.ALIGN_RIGHT));
-            
-            // Blank Witness/Sign Column
-            PdfPCell signCell = new PdfPCell(new Phrase(""));
-            signCell.setMinimumHeight(22f); // Increased height for easier handwriting
-            table.addCell(signCell);
-        }
-
-        document.add(table);
-        
-        Paragraph note = new Paragraph("નોંધ :- જો કોઈ પણ મેમ્બર ના નામ ઉપર કેન્સલ અથવા બીજા કોઈ પ્રકાર ની છેડછાડ જોવા મળી તો તે મેમ્બર ને ૩ એક્સટ્રા રિમાર્કસ લગાડવા માં આવશે તેની દરેક મેમ્બરે નોંધ લેવી.", gujDataFont);
-        note.setAlignment(Element.ALIGN_CENTER);
-        document.add(note);
-        
-        Paragraph signature = new Paragraph("\n\n\n_____________\nઅધિકૃત હસ્તાક્ષરકર્તા (ચેરમેન)", gujDataFont);
-        signature.setAlignment(Element.ALIGN_RIGHT);
-        document.add(signature);
-        
-        document.close();
-    }*/
-
-    
-    public void generateSelectedLoansPdf(List<Member> data, FinancialMonth month, String filePath) throws Exception {
-    	
-    	Locale gujaratiLocale = new Locale("gu", "IN");
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", gujaratiLocale);
-    	DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MMMM yyyy", gujaratiLocale);
-    	
-        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        document.open();
-
-        // 1. Load Font
-        URL fontResource = getClass().getResource(GUJARATI_FONT_PATH_LOHIT);
-        if (fontResource == null) {
-            throw new java.io.IOException("Font file not found at: " + GUJARATI_FONT_PATH_LOHIT);
-        }
-        
-        BaseFont gujaratiBase = BaseFont.createFont(fontResource.toString(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font gujaratiFont = new Font(gujaratiBase, 11, Font.NORMAL);
-        Font gujaratiFontBold = new Font(gujaratiBase, 12, Font.BOLD);
-        Font titleFont = new Font(gujaratiBase, 16, Font.BOLD, new Color(44, 62, 80));
-
-        // 2. Date Section - FIX: Added gujaratiFont
-        Paragraph date = new Paragraph("તારીખ : " + formatter.format(LocalDate.now()), gujaratiFont);
-        date.setAlignment(Element.ALIGN_RIGHT);
-        document.add(date);
-        
-        //document.add(new Paragraph(" ")); 
-
-        // 3. Header Title - FIX: Added titleFont (Gujarati)
-        Paragraph title = new Paragraph("સહકાર સોસાયટી બાદરગઢ", titleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
-        
-        //document.add(new Paragraph(" ")); 
-
-        // 4. Subtitle - FIX: Added gujaratiFontBold
-        Paragraph subTitle = new Paragraph("લોન પાસ થયેલ સભ્યો ની યાદી : " + formatter2.format((month.getStartDate())) , gujaratiFontBold);
-        subTitle.setAlignment(Element.ALIGN_CENTER);
-        document.add(subTitle);
-        
-        document.add(new Paragraph(" ")); 
-
-        // 5. Table setup
-        float[] columnWidths = {2.0f, 8.0f}; 
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
+        // Ensure borders show even when table splits
+        table.setKeepTogether(false); 
 
         // Headers
-        String[] headers = {"મેમ્બર નંબર", "સભ્ય નું નામ"};
-        for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, gujaratiFontBold));
-            cell.setBackgroundColor(new Color(230, 230, 230));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setPadding(8);
-            table.addCell(cell);
-        }
+        table.addHeaderCell(new Cell().add(new Paragraph("M.No").setFont(engFontBold).setFontSize(8))
+                .setBackgroundColor(new DeviceRgb(44, 62, 80)).setFontColor(ColorConstants.WHITE));
+        table.addHeaderCell(new Cell().add(new Paragraph("Member Name / Branch").setFont(engFontBold).setFontSize(8))
+                .setBackgroundColor(new DeviceRgb(44, 62, 80)).setFontColor(ColorConstants.WHITE));
 
-        // Data Rows
-        for (Member m : data) {
-            // Center cell for number needs to support Gujarati font if symbols are used
-            table.addCell(createCenterCell(String.valueOf(m.getMemberNo()), gujaratiFont));
+        for (MemberSummaryDTO m : data) {
+            DeviceRgb rowColor = getSurnameColor(m.getLastName());
+
+            // M.No Cell with explicit border
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(m.getMemberNo())).setFontSize(8))
+                    .setBackgroundColor(rowColor)
+                    .setBorder(new SolidBorder(ColorConstants.BLACK, 0.5f))
+                    .setTextAlignment(TextAlignment.CENTER));
+
+            // Name + Branch Cell with explicit border
+            Paragraph namePara = new Paragraph(m.getFullGujName()).setFont(gujFont).setFontSize(9).setBold().setFixedLeading(10f);
             
-            PdfPCell nameCell = new PdfPCell(new Phrase(m.getGujFullname(), gujaratiFont));
-            nameCell.setPaddingLeft(10);
-            nameCell.setPaddingTop(6);
-            nameCell.setPaddingBottom(10); // Increased padding for better rendering of Gujarati matras
-            nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(nameCell);
+            table.addCell(new Cell().add(namePara)
+                    .setBackgroundColor(rowColor)
+                    .setBorder(new SolidBorder(ColorConstants.BLACK, 0.5f))
+                    .setPaddingLeft(5).setPaddingBottom(2));
         }
 
         document.add(table);
-
-        //document.add(new Paragraph(" "));
-        
-        // 6. Footer & Signature - FIX: Added gujaratiFont
-        Paragraph footer = new Paragraph("કુલ પસંદગી: " + data.size() + " સભ્યો", gujaratiFontBold);
-        document.add(footer);
-
-        // Signature - FIX: Added gujaratiFont
-        Paragraph signature = new Paragraph("\n\n\n__________________________\nઅધિકૃત હસ્તાક્ષરકર્તા (ચેરમેન)", gujaratiFont);
-        signature.setAlignment(Element.ALIGN_RIGHT);
-        document.add(signature);
-
         document.close();
     }
+
+    private Cell createHeader(String text) {
+        return new Cell().add(new Paragraph(text).setFont(engFontBold).setFontSize(8))
+                .setBackgroundColor(new DeviceRgb(44, 62, 80)).setFontColor(ColorConstants.WHITE);
+    }
     
-    /*
-    public void generateSelectedLoansPdf(List<Member> data, String monthInfo, String filePath) throws Exception {
-        // A4 Portrait with 30pt margins
-        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        document.open();
-
-        Paragraph date = new Paragraph("Date : " + DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(LocalDate.now()), FONT_DATA);
-        date.setAlignment(Element.ALIGN_RIGHT);
-        document.add(date);
-        
-        document.add(new Paragraph(" ")); // Spacer
-        
-        // 1. Header Title
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, new Color(44, 62, 80));
-        Paragraph title = new Paragraph("SAHKAR SOCIETY BADARGADH", titleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
-        
-        document.add(new Paragraph(" ")); // Spacer
-
-        // 2. Subtitle
-        Font subTitleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.DARK_GRAY);
-        Paragraph subTitle = new Paragraph("OFFICIAL SELECTED MEMBER LIST - " + monthInfo.toUpperCase(), subTitleFont);
-        subTitle.setAlignment(Element.ALIGN_CENTER);
-        document.add(subTitle);
-        
-        document.add(new Paragraph(" ")); // Spacer
-
-        // 3. Table Definition (2 Columns: Mem No and Name)
-        // Widths: 20% for No, 80% for Name
-        float[] columnWidths = {2.0f, 8.0f}; 
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-
-        // 4. Headers
-        String[] headers = {"Member No", "Member Full Name"};
-        for (String h : headers) {
-            PdfPCell cell = new PdfPCell(new Phrase(h, FONT_HEADER));
-            cell.setBackgroundColor(new Color(230, 230, 230));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setPadding(8);
-            table.addCell(cell);
+    private DeviceRgb getSurnameColor(String lastName) {
+        if (lastName == null || lastName.isEmpty()) {
+            return (DeviceRgb) ColorConstants.WHITE;
         }
 
-        // 5. Data Rows
-        for (Member m : data) {
-            // Member Number using your existing helper
-            table.addCell(createCenterCell(String.valueOf(m.getMemberNo()), FONT_DATA));
+        String upperLastName = lastName.toUpperCase().trim();
+
+        // Iterate through the map keys to find a match
+        return SURNAME_COLORS.entrySet().stream()
+                .filter(entry -> upperLastName.contains(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse((DeviceRgb) ColorConstants.WHITE);
+    }
+
+    public void generatePendingCollectionPdf(List<PendingMonthlyCollectionDTO> data, AppConfig config, String filePath) throws Exception {
+        initFonts();
+        PdfWriter writer = new PdfWriter(filePath);
+        PdfDocument pdf = new PdfDocument(writer);
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler());
+        Document document = new Document(pdf, PageSize.A4);
+        document.setMargins(30, 20, 30, 20);
+
+        document.add(new Paragraph("SAHKAR SOCIETY - PENDING PAYMENT LIST")
+                .setFont(engFontBold).setFontSize(16).setFontColor(DARK_BLUE).setTextAlignment(TextAlignment.CENTER));
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+        document.add(new Paragraph("Date: " + dtf.format(LocalDate.now()) + " | Total Pending Members: " + data.size())
+                .setFont(engFontNormal).setFontSize(10).setTextAlignment(TextAlignment.CENTER).setMarginBottom(10));
+
+        Table table = new Table(UnitValue.createPercentArray(new float[]{0.8f, 3.5f, 0.7f, 0.7f, 4.3f})).useAllAvailableWidth();
+
+        String[] headers = {"M.No", "Member Name", "Fees", "EMI", "Witness Name"};
+        for (String h : headers) {
+            table.addHeaderCell(new Cell().add(new Paragraph(h).setFont(engFontBold).setFontColor(ColorConstants.WHITE).setFontSize(10))
+                    .setBackgroundColor(DARK_BLUE).setTextAlignment(TextAlignment.CENTER).setPadding(6));
+        }
+
+        for (PendingMonthlyCollectionDTO member : data) {
+            table.addCell(createCell(String.valueOf(member.getMemberNo()), engFontNormal, TextAlignment.CENTER));
             
-            // Member Name (Left Aligned with padding)
-            PdfPCell nameCell = new PdfPCell(new Phrase(m.getFullname().toUpperCase(), FONT_DATA));
-            nameCell.setPaddingLeft(10);
-            nameCell.setPaddingTop(6);
-            nameCell.setPaddingBottom(6);
-            nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(nameCell);
+            String fullName = (member.getFirstName() + " " + member.getMiddleName() + " " + member.getLastName()).toUpperCase();
+            table.addCell(new Cell().add(new Paragraph(fullName).setFont(engFontNormal).setFontSize(10)).setPaddingLeft(5));
+            
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(config.getMonthlyFees())).setFont(engFontBold).setFontColor(SUCCESS_GREEN))
+                    .setTextAlignment(TextAlignment.RIGHT));
+
+            Double emi = member.getEmiAmountDue() != null ? member.getEmiAmountDue() : 0;
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(emi.intValue())).setFont(engFontBold).setFontColor(ACCENT_ORANGE))
+                    .setTextAlignment(TextAlignment.RIGHT));
+
+            table.addCell(new Cell().setHeight(20f));
         }
 
         document.add(table);
-
-        // 6. Signatory Section
-        document.add(new Paragraph(" "));
-        document.add(new Paragraph(" "));
-        Paragraph footer = new Paragraph("Total Selection: " + data.size() + " Members", FONT_DATA);
-        document.add(footer);
-
-        Paragraph signature = new Paragraph("\n\n\n__________________________\nAuthorized Signatory", FONT_DATA);
-        signature.setAlignment(Element.ALIGN_RIGHT);
-        document.add(signature);
-
+        document.add(new Paragraph("\n\n\n__________________________\nAuthorized Signatory (Chairman)")
+                .setFont(engFontNormal).setTextAlignment(TextAlignment.RIGHT));
         document.close();
     }
-    */
-   
-    public boolean generateGenericPdf(String title, String subTitle, List<String> headers, float[] columnWidths,
-			List<List<String>> dataRows, String filePath) throws Exception {
 
-		// Auto-switch to Landscape if there are more than 6 columns
-		Rectangle pageSize = (headers.size() > 6) ? PageSize.A4.rotate() : PageSize.A4;
-		Document document = new Document(pageSize, 25, 25, 30, 30);
+    public void generateSelectedLoansPdf(List<Member> data, FinancialMonth month, String filePath) throws Exception {
+        initFonts();
+        PdfWriter writer = new PdfWriter(filePath);
+        PdfDocument pdf = new PdfDocument(writer);
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler());
+        Document document = new Document(pdf, PageSize.A4);
 
-		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        writer.setPageEvent(new FooterEvent());
-        
-		document.open();
+        DateTimeFormatter dtfGuj = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("gu", "IN"));
 
-		// 1. Header & Subtitle
-		Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLACK);
-		Paragraph pTitle = new Paragraph(title.toUpperCase(), titleFont);
-		pTitle.setAlignment(Element.ALIGN_CENTER);
-		document.add(pTitle);
+        document.add(new Paragraph("તારીખ : " + dtfGuj.format(LocalDate.now()))
+                .setFont(gujFont).setTextAlignment(TextAlignment.RIGHT));
 
-		Font subFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.DARK_GRAY);
-		Paragraph pSub = new Paragraph(subTitle, subFont);
-		pSub.setAlignment(Element.ALIGN_CENTER);
-		document.add(pSub);
-		document.add(new Paragraph(" ")); // Spacer
+        document.add(new Paragraph("સહકાર સોસાયટી બાદરગઢ")
+                .setFont(gujFont).setFontSize(16).setFontColor(DARK_BLUE).setBold().setTextAlignment(TextAlignment.CENTER));
 
-		// 2. Dynamic Table Setup
-		PdfPTable table = new PdfPTable(headers.size());
-		table.setWidthPercentage(100);
+        document.add(new Paragraph("લોન પાસ થયેલ સભ્યો ની યાદી : " + dtfGuj.format(month.getStartDate()))
+                .setFont(gujFont).setFontSize(12).setBold().setTextAlignment(TextAlignment.CENTER).setMarginBottom(15));
 
-		// If columnWidths are provided, apply them
-		if (columnWidths != null && columnWidths.length == headers.size()) {
-			table.setWidths(columnWidths);
-		}
+        Table table = new Table(UnitValue.createPercentArray(new float[]{2.0f, 8.0f})).useAllAvailableWidth();
 
-		// 3. Header Styling
-		Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Color.WHITE);
-		for (String header : headers) {
-			PdfPCell cell = new PdfPCell(new Phrase(header, headFont));
-			cell.setBackgroundColor(new Color(44, 62, 80)); // Dark Professional Blue
-			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			cell.setPadding(8);
-			table.addCell(cell);
-		}
+        table.addHeaderCell(new Cell().add(new Paragraph("મેમ્બર નંબર").setFont(gujFont).setBold())
+                .setBackgroundColor(new DeviceRgb(230, 230, 230)).setTextAlignment(TextAlignment.CENTER).setPadding(8));
+        table.addHeaderCell(new Cell().add(new Paragraph("સભ્ય નું નામ").setFont(gujFont).setBold())
+                .setBackgroundColor(new DeviceRgb(230, 230, 230)).setTextAlignment(TextAlignment.CENTER).setPadding(8));
 
-		// 4. Data Rows
-		Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 9);
-		for (List<String> row : dataRows) {
-			for (String cellData : row) {
-				PdfPCell cell = new PdfPCell(new Phrase(cellData != null ? cellData : "-", dataFont));
-				cell.setPadding(5);
-				// Auto-align: If it's a number, right align. Else left align.
-				if (isNumeric(cellData)) {
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				}
-				table.addCell(cell);
-			}
-		}
+        for (Member m : data) {
+            table.addCell(createCell(String.valueOf(m.getMemberNo()), gujFont, TextAlignment.CENTER));
+            table.addCell(new Cell().add(new Paragraph(m.getGujFullname()).setFont(gujFont).setFontSize(11))
+                    .setPaddingLeft(10).setPaddingBottom(8).setVerticalAlignment(VerticalAlignment.MIDDLE));
+        }
 
-		document.add(table);
-
-		// Footer
-		document.add(new Paragraph(
-				"\nGenerated on: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))));
-
-		document.close();
-
-		return true;
-	}
-    
-    // Helper method updated to accept Base iText Font types
-    private PdfPCell createStyledCellGuj(String text, Font font, int alignment) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setHorizontalAlignment(alignment);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setPadding(5);
-        cell.setPaddingBottom(7); 
-        return cell;
+        document.add(table);
+        document.add(new Paragraph("\nકુલ પસંદગી: " + data.size() + " સભ્યો").setFont(gujFont).setBold());
+        document.add(new Paragraph("\n\n\n__________________________\nઅધિકૃત હસ્તાક્ષરકર્તા (ચેરમેન)")
+                .setFont(gujFont).setTextAlignment(TextAlignment.RIGHT));
+        document.close();
     }
 
-    private PdfPCell createStyledCell(String text, Font font, int alignment) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setHorizontalAlignment(alignment);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setPadding(4);
-        return cell;
+    public boolean generateGenericPdf(String title, String subTitle, List<String> headers, float[] columnWidths, List<List<String>> dataRows, String filePath) throws Exception {
+        initFonts();
+        PdfWriter writer = new PdfWriter(filePath);
+        PdfDocument pdf = new PdfDocument(writer);
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler());
+        
+        PageSize size = (headers.size() > 6) ? PageSize.A4.rotate() : PageSize.A4;
+        Document document = new Document(pdf, size);
+
+        document.add(new Paragraph(title.toUpperCase()).setFont(engFontBold).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
+        document.add(new Paragraph(subTitle).setFont(engFontNormal).setFontSize(12).setFontColor(ColorConstants.DARK_GRAY).setTextAlignment(TextAlignment.CENTER).setMarginBottom(15));
+
+        Table table = new Table(UnitValue.createPercentArray(columnWidths)).useAllAvailableWidth();
+
+        for (String h : headers) {
+            table.addHeaderCell(new Cell().add(new Paragraph(h).setFont(engFontBold).setFontSize(10).setFontColor(ColorConstants.WHITE))
+                    .setBackgroundColor(DARK_BLUE).setTextAlignment(TextAlignment.CENTER).setPadding(8));
+        }
+
+        for (List<String> row : dataRows) {
+            for (String cellData : row) {
+                Cell cell = new Cell().add(new Paragraph(cellData != null ? cellData : "-").setFont(engFontNormal).setFontSize(9));
+                if (isNumeric(cellData)) cell.setTextAlignment(TextAlignment.RIGHT);
+                table.addCell(cell.setPadding(5));
+            }
+        }
+
+        document.add(table);
+        document.add(new Paragraph("\nGenerated on: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))).setFontSize(8));
+        document.close();
+        return true;
+    }
+
+    private Table createSubTable(List<MemberSummaryDTO> subData) {
+        // Widths: M.No (25%), Name (75%)
+        Table table = new Table(UnitValue.createPercentArray(new float[]{2.5f, 7.5f}))
+                .useAllAvailableWidth();
+
+        // Headers
+        table.addHeaderCell(new Cell().add(new Paragraph("M.No").setFont(engFontBold).setFontSize(9).setBold())
+                .setBackgroundColor(new DeviceRgb(240, 240, 240)).setTextAlignment(TextAlignment.CENTER).setPadding(2));
+        table.addHeaderCell(new Cell().add(new Paragraph("Member Full Name").setFont(engFontBold).setFontSize(9).setBold())
+                .setBackgroundColor(new DeviceRgb(240, 240, 240)).setTextAlignment(TextAlignment.CENTER).setPadding(2));
+
+        for (MemberSummaryDTO m : subData) {
+            // M.No - Using your compact style
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(m.getMemberNo())).setFont(engFontNormal).setFontSize(9).setBold())
+                    .setTextAlignment(TextAlignment.CENTER).setPadding(2));
+            
+            // Full Name - Using Gujarati font
+            table.addCell(new Cell().add(new Paragraph(m.getGujaratiName()).setFont(gujFont).setFontSize(9).setBold())
+                    .setPaddingLeft(5).setPaddingTop(1).setPaddingBottom(2)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
+        }
+        return table;
+    }
+    
+    // Helper Methods
+    private Cell createCell(String text, PdfFont font, TextAlignment align) {
+        return new Cell().add(new Paragraph(text).setFont(font).setFontSize(9))
+                .setTextAlignment(align).setVerticalAlignment(VerticalAlignment.MIDDLE).setPadding(4);
     }
 
     private String formatCurrency(Integer amount) {
         return (amount == null || amount == 0) ? "-" : String.valueOf(amount);
     }
 
-    private PdfPCell createCenterCell(String text, Font font) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        return cell;
-    }
-
-    private PdfPCell createRightCell(String text, Font font) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setPaddingRight(5);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        return cell;
+    private boolean isNumeric(String str) {
+        return str != null && str.matches("-?\\d+(\\.\\d+)?");
     }
     
-	//Helper to detect numbers for alignment
-	private boolean isNumeric(String str) {
-		if (str == null) return false;
-		return str.matches("-?\\d+(\\.\\d+)?");
-	}
-	
+    private Cell createCompactCell(String text, PdfFont font, TextAlignment align) {
+        return new Cell().add(new Paragraph(text != null ? text : "-")
+                .setFont(font)
+                .setFontSize(8)          // Smaller font
+                .setMultipliedLeading(1.0f)) // Tightens line spacing
+                .setTextAlignment(align)
+                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                .setPadding(2);          // Very tight padding
+    }
+    
+    private static class FooterHandler implements IEventHandler {
+        @Override
+        public void handleEvent(Event event) {
+            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
+            PdfDocument pdf = docEvent.getDocument();
+            PdfPage page = docEvent.getPage();
+            Rectangle pageSize = page.getPageSize();
+            
+            PdfCanvas pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
+            Canvas canvas = new Canvas(pdfCanvas, pageSize);
+
+            // CREATE A COMPACT FOOTER TABLE
+            Table footer = new Table(UnitValue.createPercentArray(new float[]{70, 30}))
+                    .useAllAvailableWidth();
+
+            // Position it INSIDE the 50pt margin we created.
+            // x: 20 (left margin), y: 20 (distance from very bottom), width: page width - margins
+            footer.setFixedPosition(20, 20, pageSize.getWidth() - 40);
+
+            String ts = "Generated: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            
+            footer.addCell(new Cell().add(new Paragraph(ts).setFontSize(8).setItalic())
+                    .setBorder(Border.NO_BORDER)
+                    .setBorderTop(new SolidBorder(ColorConstants.LIGHT_GRAY, 0.5f)));
+            
+            footer.addCell(new Cell().add(new Paragraph("Page " + pdf.getPageNumber(page)).setFontSize(8))
+                    .setBorder(Border.NO_BORDER)
+                    .setBorderTop(new SolidBorder(ColorConstants.LIGHT_GRAY, 0.5f))
+                    .setTextAlignment(TextAlignment.RIGHT));
+
+            canvas.add(footer);
+            canvas.close();
+        }
+    }
 }

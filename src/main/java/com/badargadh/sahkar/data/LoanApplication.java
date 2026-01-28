@@ -58,6 +58,8 @@ public class LoanApplication {
 
 	private LocalDateTime applicationDateTime;
 	
+	private LocalDateTime selectionDateTime;
+	
 	private Double prevLoanFullAmountDeduction;
 	
 	private Double feesDeduction;
@@ -218,6 +220,14 @@ public class LoanApplication {
 
 	public void setSurplusNoticeApp(boolean surplusNoticeApp) {
 		this.surplusNoticeApp = surplusNoticeApp;
+	}
+
+	public LocalDateTime getSelectionDateTime() {
+		return selectionDateTime;
+	}
+
+	public void setSelectionDateTime(LocalDateTime selectionDateTime) {
+		this.selectionDateTime = selectionDateTime;
 	}
 	
 	

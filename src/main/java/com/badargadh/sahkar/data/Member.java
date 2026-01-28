@@ -37,6 +37,9 @@ public class Member {
 	private String lastNameGuj;
 	
 	@Column(length = 500)
+	private String branchName;
+	
+	@Column(length = 500)
 	private String branchNameGuj;
 
 	@Enumerated(EnumType.STRING)
@@ -191,6 +194,14 @@ public class Member {
 
 	public void setCancellationRemarks(String cancellationRemarks) {
 		this.cancellationRemarks = cancellationRemarks;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 	
 	

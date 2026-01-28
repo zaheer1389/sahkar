@@ -2,6 +2,7 @@ package com.badargadh.sahkar.dto;
 
 public class EmiCounterDTO {
 
+	private int otherEmiCount;
 	private int feesCount;
 	private int emi100;
 	private int emi200;
@@ -46,6 +47,14 @@ public class EmiCounterDTO {
 
 	public void setFeesCount(int feesCount) {
 		this.feesCount = feesCount;
+	}
+
+	public int getOtherEmiCount() {
+		return otherEmiCount;
+	}
+
+	public void setOtherEmiCount(int otherEmiCount) {
+		this.otherEmiCount = otherEmiCount;
 	}
 
 	public double getTotal() {

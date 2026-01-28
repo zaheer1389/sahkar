@@ -15,6 +15,7 @@ import com.badargadh.sahkar.service.LoanDisbursementService;
 import com.badargadh.sahkar.service.LoanService;
 import com.badargadh.sahkar.service.MemberService;
 import com.badargadh.sahkar.service.ReceiptPrintingService;
+import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
@@ -134,6 +135,7 @@ public class LoanDisbursementController extends BaseController {
             }
         } catch (Exception e) {
         	e.printStackTrace();
+        	AppLogger.error("Loan_Disbursment_Error", e);
             NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.BOTTOM_CENTER);
         }
     }
