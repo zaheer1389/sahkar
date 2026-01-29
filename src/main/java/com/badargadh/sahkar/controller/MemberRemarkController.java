@@ -53,6 +53,7 @@ public class MemberRemarkController implements Initializable {
         List<PaymentRemark> remarks = remarkRepository.getRemarksByMember(member);
         remarkData.setAll(remarks);
         tblRemarks.setItems(remarkData);
+        tblRemarks.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Update the Active Penalty Counter
         long activeCount = remarks.stream().filter(r -> !r.isCleared()).count();

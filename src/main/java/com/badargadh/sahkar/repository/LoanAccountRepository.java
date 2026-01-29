@@ -36,6 +36,8 @@ public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> 
     
     List<LoanAccount> findByMemberMemberNo(int memberNo);
     
+    List<LoanAccount> findByMember(Member member);
+    
     @Query("SELECT COALESCE(SUM(l.grantedAmount), 0.0) FROM LoanAccount l " +
             "WHERE l.financialMonth.id = :monthId AND l.loanStatus != 'REJECTED'")
     Double sumOfLoanDisbursedAmount(@Param("monthId") Long monthId);

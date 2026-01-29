@@ -99,7 +99,7 @@
 					</HBox>
 			    </children>
 			</HBox>
-            <TableView fx:id="tblLoans" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tblLoans" VBox.vgrow="ALWAYS" styleClass="compact-table">
                 <columns>
                     <TableColumn fx:id="colMemberNo" prefWidth="80.0" text="Member No #" />
                     <TableColumn fx:id="colMember" prefWidth="200.0" text="Member Name" />

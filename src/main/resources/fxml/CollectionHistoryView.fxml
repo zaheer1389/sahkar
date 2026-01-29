@@ -20,7 +20,7 @@
         </children>
     </HBox>
 
-    <TableView fx:id="tblHistory" VBox.vgrow="ALWAYS">
+    <TableView fx:id="tblHistory" VBox.vgrow="ALWAYS" styleClass="compact-table">
         <columns>
             <TableColumn fx:id="colDate" text="Date" prefWidth="120" />
             <TableColumn fx:id="colMemberNo" text="Member No" prefWidth="120" />

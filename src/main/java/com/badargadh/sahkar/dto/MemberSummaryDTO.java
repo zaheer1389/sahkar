@@ -10,70 +10,67 @@ public class MemberSummaryDTO {
 	private String fullName; // Single field for name
 	private String village;
 	private MemberStatus status;
-	
+
 	private Integer totalFees;
-    private Integer pendingLoan;
-    private Integer emiAmount;
+	private Integer pendingLoan;
+	private Integer emiAmount;
 
 	private String firstName;
 	private String lastName;
 	private String middleName;
 	private String branchName;
-	
+
 	private Integer joiningFees;
-	
+
 	private LocalDateTime cancelledDate;
-	
+
 	private LocalDateTime transactionDate;
-	
+
 	private String gujaratiName;
 	private String firstNameGuj;
 	private String lastNameGuj;
 	private String middleNameGuj;
 	private String branchNameGuj;
-	
-	private String rowColor = "#FFFFFF"; // Default White
-	
-	public MemberSummaryDTO(
-            Integer memberNo, 
-            String firstName, 
-            String middleName, 
-            String lastName, 
-            String branchName,   // Argument 5
-            String village,      // Argument 6
-            MemberStatus status, // Argument 7
-            Double totalFees,    // Argument 8 (Subquery result)
-            Double pendingLoan,  // Argument 9 (Subquery result)
-            Double emiAmount,    // Argument 10 (Subquery result)
-            LocalDateTime transactionDate // Argument 11
-    ) {
-        this.memberNo = memberNo;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.branchName = branchName;
-        this.village = village;
-        this.status = status;
-        
-        // Handle Nulls and Conversions
-        this.totalFees = totalFees != null ? totalFees.intValue() : 0;
-        this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
-        this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
-        this.transactionDate = transactionDate;
 
-        // Logic for Full Name with Branch
-        String baseName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
-        if (branchName != null && !branchName.trim().isEmpty()) {
-            this.fullName = baseName + " (" + branchName.trim() + ")";
-        } else {
-            this.fullName = baseName;
-        }
-    }
-	
-	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String branchName, 
-            String village, MemberStatus status, Double totalFees, 
-            Double pendingLoan, Double emiAmount, Double joiningFees, LocalDateTime transactionDate) {
-		
+	private String rowColor = "#FFFFFF";
+	private String accentColor;
+
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String branchName, // Argument
+																														// 5
+			String village, // Argument 6
+			MemberStatus status, // Argument 7
+			Double totalFees, // Argument 8 (Subquery result)
+			Double pendingLoan, // Argument 9 (Subquery result)
+			Double emiAmount, // Argument 10 (Subquery result)
+			LocalDateTime transactionDate // Argument 11
+	) {
+		this.memberNo = memberNo;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.branchName = branchName;
+		this.village = village;
+		this.status = status;
+
+		// Handle Nulls and Conversions
+		this.totalFees = totalFees != null ? totalFees.intValue() : 0;
+		this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
+		this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
+		this.transactionDate = transactionDate;
+
+		// Logic for Full Name with Branch
+		String baseName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
+		if (branchName != null && !branchName.trim().isEmpty()) {
+			this.fullName = baseName + " (" + branchName.trim() + ")";
+		} else {
+			this.fullName = baseName;
+		}
+	}
+
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String branchName,
+			String village, MemberStatus status, Double totalFees, Double pendingLoan, Double emiAmount,
+			Double joiningFees, LocalDateTime transactionDate) {
+
 		this.transactionDate = transactionDate;
 		this.memberNo = memberNo;
 		this.firstName = firstName;
@@ -87,24 +84,23 @@ public class MemberSummaryDTO {
 
 		// Add branch name in parentheses if not null or empty
 		if (branchName != null && !branchName.trim().isEmpty()) {
-		    this.fullName = name + " (" + branchName.trim() + ")";
+			this.fullName = name + " (" + branchName.trim() + ")";
 		} else {
-		    this.fullName = name;
+			this.fullName = name;
 		}
-		
+
 		this.village = village;
 		this.status = status;
 		this.totalFees = totalFees != null ? totalFees.intValue() : 0;
 		this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
 		this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
 		this.joiningFees = joiningFees != null ? joiningFees.intValue() : 0;
-		
+
 	}
 
-	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, 
-            String village, MemberStatus status, Double totalFees, 
-            Double pendingLoan, Double emiAmount, Double joiningFees) {
-		
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String village,
+			MemberStatus status, Double totalFees, Double pendingLoan, Double emiAmount, Double joiningFees) {
+
 		this.memberNo = memberNo;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -116,13 +112,13 @@ public class MemberSummaryDTO {
 		this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
 		this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
 		this.joiningFees = joiningFees != null ? joiningFees.intValue() : 0;
-		
+
 	}
-	
-	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, 
-            String village, MemberStatus status, Double totalFees, 
-            Double pendingLoan, Double emiAmount, String gujName,String branchNameGuj) {
-		
+
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String village,
+			MemberStatus status, Double totalFees, Double pendingLoan, Double emiAmount, String gujName,
+			String branchNameGuj) {
+
 		this.memberNo = memberNo;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -136,11 +132,10 @@ public class MemberSummaryDTO {
 		this.gujaratiName = gujName;
 		this.branchNameGuj = branchNameGuj;
 	}
-	
-	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, 
-            String village, MemberStatus status, Double totalFees, 
-            Double pendingLoan, Double emiAmount, LocalDateTime cancelledDate) {
-		
+
+	public MemberSummaryDTO(Integer memberNo, String firstName, String middleName, String lastName, String village,
+			MemberStatus status, Double totalFees, Double pendingLoan, Double emiAmount, LocalDateTime cancelledDate) {
+
 		this.memberNo = memberNo;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -152,34 +147,32 @@ public class MemberSummaryDTO {
 		this.pendingLoan = pendingLoan != null ? pendingLoan.intValue() : 0;
 		this.emiAmount = emiAmount != null ? emiAmount.intValue() : 0;
 		this.cancelledDate = cancelledDate;
-		
+
 	}
-	
-    public MemberSummaryDTO(Long memberNo, String firstName, String middleName, String lastName, 
-                            String gujaratiName, String branchNameGuj, String village, 
-                            MemberStatus status, Double totalFeesPaid, 
-                            Double pendingLoanAmount, Double emiAmount) {
-        this.memberNo = memberNo.intValue();
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.fullName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
-        this.gujaratiName = gujaratiName;
-        this.branchNameGuj = branchNameGuj;
-        this.village = village;
-        this.status = status;
-        this.totalFees = totalFeesPaid.intValue();
-        this.pendingLoan = pendingLoanAmount.intValue();
-        this.emiAmount = emiAmount.intValue();
-    }
-    
-    public MemberSummaryDTO(Integer memberNo, String firstNameGuj, String middleNameGuj, 
-            String lastNameGuj, String branchNameGuj, String lastName) {
+
+	public MemberSummaryDTO(Long memberNo, String firstName, String middleName, String lastName, String gujaratiName,
+			String branchNameGuj, String village, MemberStatus status, Double totalFeesPaid, Double pendingLoanAmount,
+			Double emiAmount) {
+		this.memberNo = memberNo.intValue();
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.fullName = (firstName + " " + (middleName != null ? middleName + " " : "") + lastName).trim();
+		this.gujaratiName = gujaratiName;
+		this.branchNameGuj = branchNameGuj;
+		this.village = village;
+		this.status = status;
+		this.totalFees = totalFeesPaid.intValue();
+		this.pendingLoan = pendingLoanAmount.intValue();
+		this.emiAmount = emiAmount.intValue();
+	}
+
+	public MemberSummaryDTO(Integer memberNo, String firstNameGuj, String middleNameGuj, String lastNameGuj,
+			String branchNameGuj, String lastName) {
 		this.memberNo = memberNo;
-		this.gujaratiName = (firstNameGuj != null ? firstNameGuj : "") + " " +
-	               (middleNameGuj != null ? middleNameGuj : "") + " " +
-	               (lastNameGuj != null ? lastNameGuj : "") + " " +
-	               (branchNameGuj != null && branchNameGuj.length() > 0 ? "( "+branchNameGuj +" )" : "");
+		this.gujaratiName = (firstNameGuj != null ? firstNameGuj : "") + " "
+				+ (middleNameGuj != null ? middleNameGuj : "") + " " + (lastNameGuj != null ? lastNameGuj : "") + " "
+				+ (branchNameGuj != null && branchNameGuj.length() > 0 ? "( " + branchNameGuj + " )" : "");
 		this.lastName = lastName;
 	}
 
@@ -270,7 +263,7 @@ public class MemberSummaryDTO {
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
-	
+
 	public String getBranchName() {
 		return branchName;
 	}
@@ -336,21 +329,37 @@ public class MemberSummaryDTO {
 	}
 
 	public String getFullGujName() {
-		return gujaratiName + (branchNameGuj != null && !branchNameGuj.isEmpty() ? "("+branchNameGuj+")" : "");
+		return gujaratiName + (branchNameGuj != null && !branchNameGuj.isEmpty() ? "(" + branchNameGuj + ")" : "");
 	}
-	
+
 	// Logic to match surname with legend colors
-    public void assignColor(Map<String, String> colorMap) {
-        if (this.lastName == null) return;
-        String upperLast = this.lastName.toUpperCase().trim();
-        
-        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
-            if (upperLast.contains(entry.getKey())) {
-                this.rowColor = entry.getValue();
-                break;
-            }
-        }
-    }
-    public String getRowColor() { return rowColor; }
-    public void setRowColor(String rowColor) { this.rowColor = rowColor; }
+	public void assignColor(Map<String, String> colorMap) {
+		if (this.lastName == null)
+			return;
+		String upperLast = this.lastName.toUpperCase().trim();
+
+		for (Map.Entry<String, String> entry : colorMap.entrySet()) {
+			if (upperLast.contains(entry.getKey())) {
+				this.rowColor = entry.getValue();
+				break;
+			}
+		}
+	}
+
+	public String getRowColor() {
+		return rowColor;
+	}
+
+	public void setRowColor(String rowColor) {
+		this.rowColor = rowColor;
+	}
+
+	public String getAccentColor() {
+		return accentColor;
+	}
+
+	public void setAccentColor(String accentColor) {
+		this.accentColor = accentColor;
+	}
+
 }

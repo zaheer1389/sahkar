@@ -241,7 +241,8 @@ public class MemberController extends BaseController implements Initializable, R
                 container.setAlignment(Pos.CENTER);
 
                 // 4. Action Handlers
-                btnView.setOnAction(event -> handleOpenRemarkPopup(getTableView().getItems().get(getIndex())));
+                //btnView.setOnAction(event -> handleOpenRemarkPopup(getTableView().getItems().get(getIndex())));
+                btnView.setOnAction(event -> openPopup(getTableView().getItems().get(getIndex())));
                 btnEdit.setOnAction(event -> fillForm(getTableView().getItems().get(getIndex())));
                 btnCancel.setOnAction(event -> handleCancelMember(getTableView().getItems().get(getIndex())));
                 
@@ -633,6 +634,27 @@ public class MemberController extends BaseController implements Initializable, R
                 DialogManager.showError("Export Error", "Could not generate PDF: " + e.getMessage());
                 AppLogger.error("Member_Export_PDF_Error", e);
             }
+        }
+    }
+    
+    // Inside your main Member List controller
+    private void openPopup(MemberSummaryDTO member) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MemberInsightsPopup.fxml"));
+            loader.setControllerFactory(springContext::getBean);
+            Parent root = loader.load();
+            
+            // Access the controller AFTER loading the FXML
+            MemberInsightsController controller = loader.getController();
+            controller.initData(member);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("મેમ્બર ડેશબોર્ડ - " + member.getFullGujName());
+            stage.initModality(Modality.APPLICATION_MODAL); // Blocks main window
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     

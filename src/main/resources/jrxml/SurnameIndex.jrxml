@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="SurnameIndex" pageWidth="500" pageHeight="842" columnWidth="500" 
+    leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+
+    <field name="surname" class="java.lang.String"/>
+    <field name="color" class="java.lang.String"/>
+
+    <columnHeader>
+        <band height="25" splitType="Stretch">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="0" width="180" height="25" forecolor="#FFFFFF" backcolor="#000000"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" isBold="true"/>
+                </textElement>
+                <text><![CDATA[SURNAME]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="180" y="0" width="160" height="25" forecolor="#FFFFFF" backcolor="#000000"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" isBold="true"/>
+                </textElement>
+                <text><![CDATA[COLOR]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="340" y="0" width="160" height="25" forecolor="#FFFFFF" backcolor="#000000"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PAGE NO]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+	    <band height="22" splitType="Stretch">
+	        <textField textAdjust="StretchHeight">
+	            <reportElement x="0" y="0" width="180" height="22"/>
+	            <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+	            <textElement textAlignment="Center" verticalAlignment="Middle">
+	                <font fontName="Noto Sans Gujarati" isBold="true"/>
+	            </textElement>
+	            <textFieldExpression><![CDATA[$F{surname}]]></textFieldExpression>
+	        </textField>
+	
+	        <textField>
+	            <reportElement mode="Opaque" x="180" y="0" width="160" height="22">
+	                <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{color}]]></propertyExpression>
+	            </reportElement>
+	            <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+	            <textFieldExpression><![CDATA[""]]></textFieldExpression>
+	        </textField>
+	
+	        <staticText>
+	            <reportElement x="340" y="0" width="160" height="22"/>
+	            <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+	            <text><![CDATA[]]></text>
+	        </staticText>
+	    </band>
+	</detail>
+</jasperReport>

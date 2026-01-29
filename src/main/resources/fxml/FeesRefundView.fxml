@@ -36,7 +36,7 @@
         <Label text="Eligible Members (Cooling Period Completed or Expired Status)" 
                style="-fx-text-fill: #7f8c8d; -fx-font-style: italic; -fx-padding: 0 0 10 0;"/>
         
-        <TableView fx:id="tblRefunds" VBox.vgrow="ALWAYS" prefHeight="500">
+        <TableView fx:id="tblRefunds" VBox.vgrow="ALWAYS" prefHeight="500" styleClass="compact-table">
             <columns>
                 <TableColumn fx:id="colMemberNo" text="Member No" prefWidth="100" />
                 <TableColumn fx:id="colName" text="Member Name" prefWidth="220" />

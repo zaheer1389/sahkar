@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -36,22 +38,23 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Service
 public class JasperReportService {
 
-	private static final Map<String, String> SURNAME_COLORS = new LinkedHashMap<>();
-
+	private static final Map<String, String[]> SURNAME_SCHEMES = new LinkedHashMap<>();
+	
 	static {
-	    SURNAME_COLORS.put("KHORAJIYA", "#8B0000"); // Dark Red
-	    SURNAME_COLORS.put("NONSOLA",   "#006400"); // Dark Green
-	    SURNAME_COLORS.put("VARALIYA",  "#00008B"); // Dark Blue
-	    SURNAME_COLORS.put("KADIVAL",   "#8B8B00"); // Dark Yellow/Olive
-	    SURNAME_COLORS.put("CHAUDHARI", "#800080"); // Purple
-	    SURNAME_COLORS.put("MALPARA",   "#008B8B"); // Dark Cyan
-	    SURNAME_COLORS.put("NODOLIYA",  "#A0522D"); // Sienna/Brown
-	    SURNAME_COLORS.put("BHORANIYA", "#2F4F4F"); // Dark Slate Grey
-	    SURNAME_COLORS.put("AGLODIYA",  "#556B2F"); // Dark Olive Green
-	    SURNAME_COLORS.put("MANASIYA",  "#4B0082"); // Indigo
-	    SURNAME_COLORS.put("MAREDIYA",  "#8B4513"); // Saddle Brown
-	    SURNAME_COLORS.put("SHERU",     "#191970"); // Midnight Blue
-	    SURNAME_COLORS.put("SUNASARA",  "#B8860B"); // Dark Goldenrod
+	    // Format: { Light Background (Name), Slightly Darker Accent (MemberNo) }
+	    SURNAME_SCHEMES.put("KHORAJIYA", new String[]{"#FFEBEE", "#FFCDD2"}); // Soft Pink/Red
+	    SURNAME_SCHEMES.put("NONSOLA",   new String[]{"#E8F5E9", "#C8E6C9"}); // Pale Green
+	    SURNAME_SCHEMES.put("VARALIYA",  new String[]{"#E3F2FD", "#BBDEFB"}); // Ice Blue
+	    SURNAME_SCHEMES.put("KADIVAL",   new String[]{"#FFFDE7", "#FFF9C4"}); // Cream/Yellow
+	    SURNAME_SCHEMES.put("CHAUDHARI", new String[]{"#F3E5F5", "#E1BEE7"}); // Light Lavender
+	    SURNAME_SCHEMES.put("MALPARA",   new String[]{"#E0F7FA", "#B2EBF2"}); // Light Cyan
+	    SURNAME_SCHEMES.put("NODOLIYA",  new String[]{"#EFEBE9", "#D7CCC8"}); // Light Taupe/Brown
+	    SURNAME_SCHEMES.put("BHORANIYA", new String[]{"#F1F8E9", "#DCEDC8"}); // Light Lime
+	    SURNAME_SCHEMES.put("AGLODIYA",  new String[]{"#F9FBE7", "#F0F4C3"}); // Pale Olive
+	    SURNAME_SCHEMES.put("MANASIYA",  new String[]{"#E8EAF6", "#C5CAE9"}); // Light Indigo
+	    SURNAME_SCHEMES.put("MAREDIYA",  new String[]{"#FFF3E0", "#FFE0B2"}); // Light Orange/Peach
+	    SURNAME_SCHEMES.put("SHERU",     new String[]{"#ECEFF1", "#CFD8DC"}); // Blue Grey
+	    SURNAME_SCHEMES.put("SUNASARA",  new String[]{"#FAFAFA", "#F5F5F5"}); // Soft Grey
 	}
 	
 	public void forceLoadGujaratiFonts() {
@@ -74,26 +77,40 @@ public class JasperReportService {
         // Pre-process: Find color based on 'contains' match
         for (MemberSummaryDTO dto : data) {
             String last = (dto.getLastName() != null) ? dto.getLastName().toUpperCase().trim() : "";
-            String matchedColor = "#FFFFFF"; // Default White
+            String [] matchedColor = {}; // Default White
             
-            for (Map.Entry<String, String> entry : SURNAME_COLORS.entrySet()) {
+            for (Map.Entry<String, String[]> entry : SURNAME_SCHEMES.entrySet()) {
                 if (last.contains(entry.getKey())) {
                     matchedColor = entry.getValue();
                     break;
                 }
             }
-            dto.setRowColor(matchedColor);
+            dto.setRowColor(matchedColor[0]);    // Light color for the Name column
+            dto.setAccentColor(matchedColor[1]); // Darker color for the M.No column
         }
         
         for(int i = 0 ; i < 137; i++) {
         	data.add(new MemberSummaryDTO(null, "", "", "", "", ""));
         }
+        
+        List<Map<String, String>> legendData = new ArrayList<>();
+        
+        SURNAME_SCHEMES.forEach((name, colors) -> {
+            Map<String, String> row = new HashMap<>();
+            row.put("surname", name);
+            row.put("color", colors[0]); // The light background
+            legendData.add(row);
+        });
+        
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("LegendDataSource", new JRBeanCollectionDataSource(legendData));
+        parameters.put("LegendSubreport", JasperCompileManager.compileReport(getClass().getResourceAsStream("/jrxml/SurnameIndex.jrxml")));
 
         InputStream stream = getClass().getResourceAsStream("/jrxml/MemberSummary.jrxml");
         JasperReport report = JasperCompileManager.compileReport(stream);
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(data);
         
-        JasperPrint print = JasperFillManager.fillReport(report, new HashMap<>(), ds);
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, ds);
         JasperExportManager.exportReportToPdfFile(print, filePath);
     }
     

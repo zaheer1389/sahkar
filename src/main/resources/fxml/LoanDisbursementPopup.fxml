@@ -73,11 +73,20 @@
                         <RadioButton fx:id="rbRelative" text="Authority" toggleGroup="$tgCollection" onAction="#toggleCollectionUI" />
                     </HBox>
                     
-                    <VBox fx:id="vboxRelative" spacing="5" visible="false" managed="false">
+                    <VBox fx:id="vboxRelative" spacing="5" visible="false" managed="false" style="-fx-padding: 2;">
                         <!--<TextField fx:id="txtReceiverNo" promptText="Relative Member No." onKeyReleased="#handleReceiverFetch" />
                         <Label fx:id="lblReceiverName" text="Name: -" style="-fx-font-size: 11; -fx-text-fill: #e67e22;" />-->
-                        <TextField fx:id="txtRemarks" promptText="Relation (e.g. Wife, Son)" />
+                        <HBox spacing="10" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+						    <Label text="Authority Name" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #475569;" />
+						    <TextField fx:id="txtAuthorityName" promptText="Authority Name" HBox.hgrow="ALWAYS" 
+						               style="-fx-background-radius: 5; -fx-border-color: #cbd5e1; -fx-border-radius: 5; -fx-padding: 8;" />
+						</HBox>
                     </VBox>
+                    
+                    <Separator orientation="HORIZONTAL" style="-fx-opacity: 0.5;" />
+                    
+                    <TextArea prefRowCount="3" fx:id="txtRemarks" promptText="Any Remarks" HBox.hgrow="ALWAYS" 
+						     style="-fx-background-radius: 5; -fx-border-color: #cbd5e1; -fx-border-radius: 5;" />
                 </VBox>
             </VBox>
 

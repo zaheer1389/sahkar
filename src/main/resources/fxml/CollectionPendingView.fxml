@@ -11,7 +11,7 @@
         <Button onAction="#handleExportPdf" text="Export PDF" 
         style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
     </HBox>
-    <TableView fx:id="tblPending" VBox.vgrow="ALWAYS">
+    <TableView fx:id="tblPending" VBox.vgrow="ALWAYS" styleClass="compact-table">
         <columns>
             <TableColumn fx:id="colMemberNo" text="Member #" prefWidth="100" />
             <TableColumn fx:id="colName" text="Member Name" prefWidth="300" />

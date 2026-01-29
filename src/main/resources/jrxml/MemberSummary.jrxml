@@ -6,120 +6,46 @@
     pageWidth="595" pageHeight="842" columnWidth="270" 
     leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="30">
     
+    <property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
+
+	<parameter name="LegendDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="LegendSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+
     <field name="memberNo" class="java.lang.Integer"/>
     <field name="gujaratiName" class="java.lang.String"/>
-    <field name="rowColor" class="java.lang.String"/>
-
+    <field name="rowColor" class="java.lang.String"/> 
+    <field name="accentColor" class="java.lang.String"/> 
     <title>
-        <band height="460">
-            <staticText>
-                <reportElement x="0" y="0" width="555" height="30"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="16" isBold="true"/>
-                </textElement>
-                <text><![CDATA[SAHKAR SOCIETY BADARGADH]]></text>
-            </staticText>
-            
-            <staticText>
-                <reportElement x="0" y="30" width="555" height="20"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="12" isBold="false" isUnderline="true"/>
-                </textElement>
-                <text><![CDATA[Color Legend & Reference Table]]></text>
-            </staticText>
-
-            <staticText>
-                <reportElement mode="Opaque" x="77" y="60" width="150" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
-                <box><pen lineWidth="0.75" lineColor="#000000"/></box>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
-                <text><![CDATA[SURNAME]]></text>
-            </staticText>
-            <staticText>
-                <reportElement mode="Opaque" x="227" y="60" width="100" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
-                <box><pen lineWidth="0.75" lineColor="#000000"/></box>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
-                <text><![CDATA[COLOR LEGEND]]></text>
-            </staticText>
-            <staticText>
-                <reportElement mode="Opaque" x="327" y="60" width="100" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
-                <box><pen lineWidth="0.75" lineColor="#000000"/></box>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
-                <text><![CDATA[PAGE NOS]]></text>
-            </staticText>
-
-            <staticText><reportElement x="77" y="85" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[KHORAJIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="85" width="100" height="20" backcolor="#8B0000"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="85" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="105" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[NONSOLA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="105" width="100" height="20" backcolor="#006400"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="105" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="125" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[VARALIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="125" width="100" height="20" backcolor="#00008B"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="125" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="145" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[KADIVAL]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="145" width="100" height="20" backcolor="#8B8B00"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="145" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="165" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[CHAUDHARI]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="165" width="100" height="20" backcolor="#800080"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="165" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="185" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[MALPARA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="185" width="100" height="20" backcolor="#008B8B"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="185" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="205" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[NODOLIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="205" width="100" height="20" backcolor="#A0522D"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="205" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="225" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[BHORANIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="225" width="100" height="20" backcolor="#2F4F4F"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="225" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="245" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[AGLODIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="245" width="100" height="20" backcolor="#556B2F"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="245" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="265" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[MANASIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="265" width="100" height="20" backcolor="#4B0082"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="265" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="285" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[MAREDIYA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="285" width="100" height="20" backcolor="#8B4513"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="285" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="305" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[SHERU]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="305" width="100" height="20" backcolor="#191970"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="305" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <staticText><reportElement x="77" y="325" width="150" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[SUNASARA]]></text></staticText>
-            <staticText><reportElement mode="Opaque" x="227" y="325" width="100" height="20" backcolor="#B8860B"/><box><pen lineWidth="0.5"/></box><textElement/><text><![CDATA[]]></text></staticText>
-            <staticText><reportElement x="327" y="325" width="100" height="20"/><box><pen lineWidth="0.5"/></box><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[]]></text></staticText>
-
-            <break><reportElement x="0" y="450" width="100" height="1"/></break>
-        </band>
-    </title>
+	    <band height="400">
+	        <subreport>
+	            <reportElement x="27" y="60" width="500" height="200"/>
+	            <dataSourceExpression><![CDATA[$P{LegendDataSource}]]></dataSourceExpression>
+	            <subreportExpression><![CDATA[$P{LegendSubreport}]]></subreportExpression>
+	        </subreport>
+	        
+	        <break>
+	            <reportElement x="0" y="390" width="100" height="1"/>
+	        </break>
+	    </band>
+	</title>
 
     <columnHeader>
         <band height="20">
             <staticText>
-                <reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#FFFFFF" backcolor="#2C3E50"/>
                 <box><pen lineWidth="0.5" lineColor="#000000"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[M.No]]></text>
+                <text><![CDATA[સભ્ય નં]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Opaque" x="40" y="0" width="230" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
+                <reportElement mode="Opaque" x="40" y="0" width="230" height="20" forecolor="#FFFFFF" backcolor="#2C3E50"/>
                 <box><pen lineWidth="0.5" lineColor="#000000"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[Member Name]]></text>
+                <text><![CDATA[સભ્યનું નામ (Member Name)]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -127,24 +53,23 @@
     <detail>
         <band height="18" splitType="Stretch">
             <textField>
-                <reportElement mode="Opaque" x="0" y="0" width="40" height="18">
-                    <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{rowColor}]]></propertyExpression>
-                    <propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA["#FFFFFF"]]></propertyExpression>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="18" forecolor="#000000">
+                    <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{accentColor}]]></propertyExpression>
                 </reportElement>
-                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="9" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{memberNo} != null ? $F{memberNo} : ""]]></textFieldExpression>
             </textField>
+            
             <textField>
-                <reportElement mode="Opaque" x="40" y="0" width="230" height="18">
+                <reportElement mode="Opaque" x="40" y="0" width="230" height="18" forecolor="#000000">
                     <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{rowColor}]]></propertyExpression>
-                    <propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA["#FFFFFF"]]></propertyExpression>
                 </reportElement>
-                <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+                <box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                    <font fontName="Noto Sans Gujarati" size="9" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                     <paragraph leftIndent="5"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{gujaratiName}]]></textFieldExpression>
@@ -154,23 +79,19 @@
 
     <pageFooter>
         <band height="30">
-            <line>
-                <reportElement x="0" y="5" width="555" height="1"/>
-                <graphicElement><pen lineWidth="1.0" lineColor="#000000"/></graphicElement>
-            </line>
             <textField pattern="dd-MM-yyyy HH:mm">
-                <reportElement x="0" y="7" width="150" height="20"/>
+                <reportElement x="0" y="7" width="150" height="20" forecolor="#95A5A6"/>
                 <textElement verticalAlignment="Middle">
-                    <font size="8" isBold="true" isItalic="true"/>
+                    <font size="8" isBold="false" isItalic="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="355" y="7" width="200" height="20"/>
+                <reportElement x="355" y="7" width="200" height="20" forecolor="#95A5A6"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font size="8" isBold="true" isItalic="true"/>
+                    <font size="8" isBold="false" isItalic="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+                <textFieldExpression><![CDATA["પાનું " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>
     </pageFooter>

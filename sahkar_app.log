@@ -3262,3 +3262,116 @@ isPdfEmbedded : true
 [2026-01-28 23:32:26] INFO: Starting backup for database: null
 [2026-01-28 23:32:26] ERROR: Backup service critical failure | Exception: null
 [2026-01-28 23:32:26] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-28 23:47:39] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-28 23:53:06] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-28 23:53:06] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-28 23:53:06] INFO: Starting backup for database: null
+[2026-01-28 23:53:06] INFO: Created local backup directory: D:\projects\sahkarROSCA\backups\
+[2026-01-28 23:53:06] ERROR: Backup service critical failure | Exception: null
+[2026-01-28 23:53:06] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 10:23:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 10:24:15] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 10:24:15] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 10:24:15] INFO: Starting backup for database: null
+[2026-01-29 10:24:15] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 10:24:15] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 10:27:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 10:38:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 11:19:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 11:20:05] ERROR: Member_Summary_Report_Generation_Error | Exception: Report design not valid : 
+	 1. The columns and the margins do not fit the page width.
+[2026-01-29 11:20:05] DEBUG: Stacktrace: net.sf.jasperreports.engine.design.JRAbstractCompiler.verifyDesign(JRAbstractCompiler.java:316)
+[2026-01-29 11:22:43] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 11:26:35] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 11:26:35] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 11:26:35] INFO: Starting backup for database: null
+[2026-01-29 11:26:35] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 11:26:35] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 11:34:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 11:37:42] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:07:34] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-29T12:07:17.838182200
+[2026-01-29 12:07:34] ERROR: Loan_Application_Error | Exception: Balance emi is more than allowed limit i.e. (total balance emi 31 is more than allowed 10 emi for over loan application)
+[2026-01-29 12:07:34] DEBUG: Stacktrace: com.badargadh.sahkar.service.LoanService.validateEligibility(LoanService.java:153)
+[2026-01-29 12:07:43] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-29T12:07:17.838182200
+[2026-01-29 12:10:20] INFO: No Group ID found for this payment.
+[2026-01-29 12:10:22] INFO: No Group ID found for this payment.
+[2026-01-29 12:38:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:39:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:43:57] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:47:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:52:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 12:55:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 14:01:41] ERROR: Loan_Application_Error | Exception: Disbursement Blocked: Pending FEES/EMI for FEBRUARY must be cleared first.
+[2026-01-29 14:01:41] DEBUG: Stacktrace: com.badargadh.sahkar.service.LoanService.validateEligibility(LoanService.java:100)
+[2026-01-29 14:01:41] ERROR: Loan_Application_Error | Exception: Disbursement Blocked: Pending FEES/EMI for FEBRUARY must be cleared first.
+[2026-01-29 14:01:41] DEBUG: Stacktrace: com.badargadh.sahkar.service.LoanService.validateEligibility(LoanService.java:100)
+[2026-01-29 14:01:50] INFO: Collection Module: Received SAVE Event
+[2026-01-29 14:02:10] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-29T14:02:06.361516700
+[2026-01-29 14:02:11] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-29T14:02:06.361516700
+[2026-01-29 14:02:12] INFO: Loan Application Module: Received SAVE Event
+[2026-01-29 14:02:13] INFO: Validating loan date. Current Max: 2026-01-10T19:00:35.230049 | New App: 2026-01-29T14:02:06.361516700
+[2026-01-29 14:05:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 14:08:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 14:14:51] ERROR: Loan_Application_Error | Exception: 
+/D:/projects/sahkarROSCA/target/classes/fxml/LoanDisbursementPopup.fxml:85
+
+[2026-01-29 14:14:51] DEBUG: Stacktrace: javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+[2026-01-29 14:15:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 14:57:34] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 14:58:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:23:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:29:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:30:24] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:37:23] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 15:37:23] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 15:37:23] INFO: Starting backup for database: null
+[2026-01-29 15:37:23] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 15:37:23] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 15:37:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:41:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:43:50] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 15:43:50] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 15:43:50] INFO: Starting backup for database: null
+[2026-01-29 15:43:50] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 15:43:50] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 15:46:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:47:14] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 15:48:43] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 17:37:54] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 17:39:29] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 17:39:29] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 17:39:29] INFO: Starting backup for database: null
+[2026-01-29 17:39:29] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 17:39:29] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 17:42:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 17:47:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 17:48:19] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 17:48:19] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 17:48:19] INFO: Starting backup for database: null
+[2026-01-29 17:48:19] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 17:48:19] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 17:48:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 18:03:12] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 18:04:19] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 18:04:19] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 18:04:19] INFO: Starting backup for database: null
+[2026-01-29 18:04:19] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 18:04:19] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 18:04:26] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 18:29:22] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 18:29:22] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 18:29:22] INFO: Starting backup for database: null
+[2026-01-29 18:29:22] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 18:29:22] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 21:11:41] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:15:29] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:16:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:21:44] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:24:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:27:11] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-29 21:28:33] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-29 21:28:33] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-29 21:28:33] INFO: Starting backup for database: null
+[2026-01-29 21:28:33] ERROR: Backup service critical failure | Exception: null
+[2026-01-29 21:28:33] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-29 21:28:35] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.

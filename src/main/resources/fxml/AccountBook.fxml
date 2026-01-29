@@ -31,7 +31,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <TableView fx:id="tblLoanBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                              <TableView styleClass="compact-table" fx:id="tblLoanBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                 <columns>
                                   <TableColumn fx:id="colLoanMNo" prefWidth="60.0" text="M.No" />
                                   <TableColumn fx:id="colLoanName" prefWidth="200.0" text="Member Name" />
@@ -47,7 +47,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <TableView fx:id="tblFeeBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                              <TableView styleClass="compact-table" fx:id="tblFeeBook" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                 <columns>
                                   <TableColumn fx:id="colFeeMNo" prefWidth="60.0" text="M.No" />
                                   <TableColumn fx:id="colFeeName" prefWidth="200.0" text="Member Name" />

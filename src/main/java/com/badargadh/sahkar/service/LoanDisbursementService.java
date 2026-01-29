@@ -132,6 +132,7 @@ public class LoanDisbursementService {
         app.setStatus(LoanApplicationStatus.DISBURSED);
         app.setCollectionType(type);
         app.setReceivedBy(receiver);
+        app.setAuthorityName(receiverNo);
         app.setCollectionRemarks(remarks);
         app.setDisbursementDateTime(LocalDateTime.now());
         app.setWitnesses(loanWitnesses);

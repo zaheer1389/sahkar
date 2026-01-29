@@ -97,7 +97,7 @@
                         <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #3498db; -fx-border-width: 2;" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label text="🎯 SELECTED MEMBERS" style="-fx-font-weight: bold; -fx-text-fill: #2980b9; -fx-font-size: 16;" />
-                                <TableView fx:id="tblDrawResults" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="tblDrawResults" VBox.vgrow="ALWAYS" styleClass="compact-table">
                                     <columns>	                                    
                                     	<TableColumn fx:id="colDrawRank" text="Rank" minWidth="150" />
                                         <TableColumn fx:id="colDrawMemNo" text="M.No" maxWidth="100" minWidth="80" />

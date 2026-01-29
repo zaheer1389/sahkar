@@ -470,3 +470,182 @@
 .table-view .column-header-background {
     -fx-background-color: #f8f9fa;
 }
+
+/* Main Container Background */
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* Category Card Styling */
+.category-card {
+    -fx-background-color: white;
+    -fx-padding: 25;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5);
+}
+
+/* Base Button Styling */
+.button {
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-padding: 12 20;
+    -fx-font-weight: bold;
+    -fx-transition-duration: 0.2s;
+}
+
+/* Hover Animation */
+.button:hover {
+    -fx-translate-y: -2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 4);
+}
+
+/* Theme Colors */
+.btn-azure { 
+    -fx-background-color: linear-gradient(to bottom right, #0ea5e9, #0284c7); 
+    -fx-text-fill: white; 
+}
+.btn-amethyst { 
+    -fx-background-color: linear-gradient(to bottom right, #8b5cf6, #6d28d9); 
+    -fx-text-fill: white; 
+}
+.btn-emerald { 
+    -fx-background-color: linear-gradient(to bottom right, #10b981, #059669); 
+    -fx-text-fill: white; 
+}
+.btn-slate { 
+    -fx-background-color: linear-gradient(to bottom right, #475569, #1e293b); 
+    -fx-text-fill: white; 
+}
+
+/* ComboBox Styling */
+.combo-box {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Increase Row Height and Font Size */
+.modern-table .table-row-cell {
+    -fx-cell-size: 45px; /* Big Rows */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+/* Header Styling (Bold & Dark) */
+.modern-table .column-header {
+    -fx-background-color: #f8fafc;
+    -fx-size: 40px;
+    -fx-border-color: transparent transparent #cbd5e1 transparent;
+}
+
+.modern-table .column-header .label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #475569;
+}
+
+/* Cell Alignment and Padding */
+.modern-table .table-cell {
+    -fx-padding: 0 15 0 15;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Specific styling for the Amount column (assuming you set alignment in Java) */
+.col-amount {
+    -fx-font-family: "Monospaced"; /* Good for numbers */
+}
+
+/* Highlight row on hover */
+.modern-table .table-row-cell:hover {
+    -fx-background-color: #f0f9ff;
+}
+
+/* =========================================
+   MODERN COMPACT TABLE - DEEP TEAL THEME
+   ========================================= */
+
+/* --- Main Table Container --- */
+.compact-table {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+/* --- Professional Header (#005461) --- */
+.compact-table .column-header-background {
+    -fx-background-color: #005461; /* Deep Teal Primary */
+    -fx-background-radius: 0 0 0 0;
+}
+
+.compact-table .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 32px; /* Slim Header Height */
+    -fx-border-color: transparent #004450 transparent transparent; /* Vertical Separator */
+    -fx-border-width: 0 1 0 0;
+}
+
+.compact-table .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900; /* Extra Bold Header */
+    -fx-alignment: CENTER;
+}
+
+/* --- Compact Rows --- */
+.compact-table .table-row-cell {
+    -fx-cell-size: 30px; /* Slim Row Height */
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f5f9 transparent; /* Row Divider */
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Alternating Row Color (Accent) */
+.compact-table .table-row-cell:odd {
+    -fx-background-color: #f8fafc; 
+}
+
+/* Hover State */
+.compact-table .table-row-cell:hover {
+    -fx-background-color: #e0f2f1; /* Light Teal Tint */
+}
+
+/* --- Selection Logic (Fixes White-on-White Issue) --- */
+.compact-table .table-row-cell:selected {
+    -fx-background-color: #005461; /* Fill row with Deep Teal */
+}
+
+.compact-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: white !important; /* Force text to white on selection */
+    -fx-font-weight: 900; /* Make text pop on selection */
+}
+
+/* --- Data Cell Content (Bold & Crisp) --- */
+.compact-table .table-cell {
+    -fx-padding: 0 10 0 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700; /* Bold content so it's not "thin" */
+    -fx-text-fill: #1e293b; /* Dark Slate for high contrast */
+    -fx-alignment: CENTER; /* Default center for narrow columns */
+}
+
+/* Remove horizontal/vertical grid lines if preferred for modern look */
+.compact-table .table-row-cell {
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+/* Hide the empty "extra" column at the end */
+.compact-table .filler {
+    -fx-background-color: transparent;
+}
+
+/* Clean corner for the scrollbar corner */
+.compact-table .corner {
+    -fx-background-color: #005461;
+}
+
+

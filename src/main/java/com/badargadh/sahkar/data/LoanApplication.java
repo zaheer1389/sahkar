@@ -75,6 +75,8 @@ public class LoanApplication {
 	@JoinColumn(name = "received_by_id")
 	private Member receivedBy; // The person who took the cash
 
+	@Column(name = "authority_name", length = 1000)
+	private String authorityName;
 	private String collectionRemarks;
 	private LocalDateTime disbursementDateTime;
 
@@ -228,6 +230,14 @@ public class LoanApplication {
 
 	public void setSelectionDateTime(LocalDateTime selectionDateTime) {
 		this.selectionDateTime = selectionDateTime;
+	}
+
+	public String getAuthorityName() {
+		return authorityName;
+	}
+
+	public void setAuthorityName(String authorityName) {
+		this.authorityName = authorityName;
 	}
 	
 	

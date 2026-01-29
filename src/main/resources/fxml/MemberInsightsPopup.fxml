@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox prefHeight="550.0" prefWidth="750.0" spacing="15.0" style="-fx-background-color: white;" 
+      stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.badargadh.sahkar.controller.MemberInsightsController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #f8fafc; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0;">
+         <children>
+            <Label fx:id="lblMemberHeader" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Member Name" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleClose" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;" text="Close (બંધ કરો)" />
+         </children>
+      </HBox>
+
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+          <Tab fx:id="tabLoanHistory" text="📊 Loan History (લોન ઇતિહાસ)" />
+          <Tab fx:id="tabRemarks" text="📝 Remarks History (રીમાર્કસ)" />
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

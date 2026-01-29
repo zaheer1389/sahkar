@@ -26,6 +26,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -36,7 +37,9 @@ public class LoanDisbursementController extends BaseController {
 	@FXML private Label lblHeaderMemberNo, lblFeesDeductionAmt;
 	@FXML private Label lblPrevLoanDeduction, lblNetPayable;
     @FXML private Label lblHeaderMemberName, lblHeaderAmount, lblWitness1Name, lblWitness2Name, lblReceiverName;
-    @FXML private TextField txtWitness1, txtWitness2, txtRemarks;
+    @FXML private TextField txtWitness1, txtWitness2, txtAuthorityName;
+    @FXML private TextArea txtRemarks;
+    
     //@FXML private TextField txtReceiverNo;
     @FXML private RadioButton rbSelf, rbRelative;
     @FXML private VBox vboxRelative;
@@ -104,15 +107,15 @@ public class LoanDisbursementController extends BaseController {
     @FXML
     private void handleDisburse() {
         try {
-        	
-            if(isValidWitnessDetails()) {
+        	CollectionType type = rbSelf.isSelected() ? CollectionType.SELF : CollectionType.AUTHORITY;
+            if(isValidWitnessDetails(type)) {
             	if(showSecurityGate("Please confirm your identity using password to disbursed loan amount.")) {
-                	CollectionType type = rbSelf.isSelected() ? CollectionType.SELF : CollectionType.AUTHORITY;
+                	
                     //String receiverNo = rbSelf.isSelected() ? selectedApp.getMember().getMemberNo()+"" : txtReceiverNo.getText();
                     String remarks = txtRemarks.getText();
 
                     LoanAccount loanAccount = disbursementService.processDisbursement(selectedApp, 
-                        Arrays.asList(txtWitness1.getText(), txtWitness2.getText()), type, "", remarks);
+                        Arrays.asList(txtWitness1.getText(), txtWitness2.getText()), type, txtAuthorityName.getText(), remarks);
 
                     printingService.printLoanDisbursementReceipt(selectedApp, loanAccount, false);
 
@@ -152,7 +155,7 @@ public class LoanDisbursementController extends BaseController {
         });
     }
     
-    public boolean isValidWitnessDetails() {
+    public boolean isValidWitnessDetails(CollectionType type) {
         // Get the current applicant's member number to compare
         String applicantNo = selectedApp.getMember().getMemberNo()+"";
 
@@ -198,6 +201,14 @@ public class LoanDisbursementController extends BaseController {
             NotificationManager.show("Witness 1 and Witness 2 must be different members", NotificationType.ERROR, Pos.CENTER);
             txtWitness2.requestFocus();
             return false;
+        }
+        
+        if(type == CollectionType.AUTHORITY) {
+        	if(txtAuthorityName.getText() == null || txtAuthorityName.getText().isEmpty()) {
+        		NotificationManager.show("Please provide authority person name", NotificationType.ERROR, Pos.CENTER);
+        		txtAuthorityName.requestFocus();
+                return false;
+        	}
         }
 
         return true;
