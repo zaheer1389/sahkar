@@ -141,7 +141,7 @@ public class MemberController extends BaseController implements Initializable, R
     }
     
     private void setGUI() {
-    	tblMembers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    	tblMembers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
     	
     	cmbVillage.setItems(FXCollections.observableArrayList("Badargadh", "Navisna"));
     	cmbVillage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {

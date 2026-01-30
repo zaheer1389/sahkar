@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.management.Notification;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,15 +37,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
@@ -90,9 +84,14 @@ public class CollectionHistoryController {
         colLocation.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCollectionLocation() != null ? d.getValue().getCollectionLocation().name() : ""));
         colAction.setCellFactory(column -> {
             return new TableCell<>() {
-                private final Button btnView = new Button("View");
+                private final FontAwesomeIconView iconView = new FontAwesomeIconView(FontAwesomeIcon.EYE);
+                private final Button btnView = new Button("", iconView);
                 {
-                	btnView.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
+                    String iconOnlyStyle = "-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 0;";
+                    btnView.setStyle(iconOnlyStyle);
+                    btnView.setTooltip(new Tooltip("View Details"));
+                    iconView.setFill(javafx.scene.paint.Color.web("#3498db")); // Primary Blue
+                    iconView.setGlyphSize(18);
                 	btnView.setOnAction(event -> {
                 	    MonthlyPaymentCollectionDTO dto = getTableView().getItems().get(getIndex());
                 	    Long groupId = dto.getPaymentGroupId(); 

@@ -35,12 +35,13 @@
                     <ComboBox fx:id="cmbRole" maxWidth="Infinity" prefHeight="35.0" />
                 </VBox>
 
-                <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="NEVER" />
 
                 <HBox spacing="10.0">
                     <children>
                         <Button onAction="#handleClear" prefHeight="40.0" prefWidth="100.0" text="Clear" />
-                        <Button fx:id="btnSave" onAction="#handleSave" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;" text="CREATE ACCOUNT" />
+                        <Button fx:id="btnSave" onAction="#handleSave" prefHeight="40.0" prefWidth="180.0"
+                                style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;" text="CREATE ACCOUNT" />
                     </children>
                 </HBox>
             </children>
@@ -49,13 +50,14 @@
         <VBox spacing="15.0" HBox.hgrow="ALWAYS">
             <children>
                 <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="System Access Control" />
-                <TableView fx:id="tblUsers" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tblUsers" VBox.vgrow="ALWAYS" styleClass="compact-table">
                     <columns>
                         <TableColumn fx:id="colMemberNo" text="Memb. No" prefWidth="100" />
                         <TableColumn fx:id="colMemberName" text="Member Name" prefWidth="220" />
                         <TableColumn fx:id="colUsername" text="Username" prefWidth="150" />
                         <TableColumn fx:id="colRole" text="Role" prefWidth="120" />
-                        <TableColumn fx:id="colActions" text="Actions" prefWidth="100" />
+                        <TableColumn fx:id="colStatus" text="Actions" prefWidth="100" />
+                        <TableColumn fx:id="colAction" text="Actions" prefWidth="100" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

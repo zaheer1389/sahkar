@@ -174,7 +174,7 @@ public class LoanController extends BaseController implements Initializable {
     
     private void setupTable() {
     	
-    	tblLoans.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    	tblLoans.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
     	
     	colMemberNo.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMember().getMemberNo()+""));
         colMember.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMember().getFullname()));

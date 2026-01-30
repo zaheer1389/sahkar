@@ -33,6 +33,8 @@ public class AppUser {
     @JoinColumn(name = "MemberId")
     private Member member; // The Member record this user belongs to
 
+    private Boolean active;
+
     public AppUser() {}
 
     // Getters and Setters
@@ -44,4 +46,12 @@ public class AppUser {
     public void setRole(Role r) { this.role = r; }
     public Member getMember() { return member; }
     public void setMember(Member m) { this.member = m; }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

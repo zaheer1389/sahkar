@@ -39,21 +39,21 @@
                                     <Label text="Monthly Fees" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtMonthlyFees" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditMonthly" onAction="#toggleMonthlyEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
+                                        <Button fx:id="btnEditMonthly" onAction="#toggleMonthlyEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                                 <VBox spacing="5.0">
                                     <Label text="New Member Fees" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtNewMemberFees" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditNewMember" onAction="#toggleNewMemberEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
+                                        <Button fx:id="btnEditNewMember" onAction="#toggleNewMemberEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                                 <VBox spacing="5.0">
                                     <Label text="Fees Refund Cooling Period (Months)" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtRefundCooling" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditRefundCooling" onAction="#toggleRefundCoolingEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
+                                        <Button fx:id="btnEditRefundCooling" onAction="#toggleRefundCoolingEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                             </children>
@@ -66,7 +66,7 @@
                                     <Label text="Minimum Membership Period (Months)" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <Spinner fx:id="spnCoolingPeriod" disable="true" editable="true" maxWidth="Infinity" prefHeight="35.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditCooling" onAction="#toggleCoolingEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
+                                        <Button fx:id="btnEditCooling" onAction="#toggleCoolingEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                             </children>
@@ -101,7 +101,7 @@
                                     <Label text="Loan Amount" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtLoanAmount" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditLoan" onAction="#toggleLoanEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="✎" />
+                                        <Button fx:id="btnEditLoan" onAction="#toggleLoanEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                             </children>
@@ -113,7 +113,7 @@
                                     <children>
                                         <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #c0392b;" text="🚨 Remark Rules" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnEditRemarkSettings" onAction="#handleToggleRemarkEdit" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎" />
+                                        <Button fx:id="btnEditRemarkSettings" onAction="#handleToggleRemarkEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎" />
                                     </children>
                                 </HBox>
                                 <VBox fx:id="vboxRemarkFields" disable="true" spacing="15.0">
@@ -153,7 +153,7 @@
                                         <HBox spacing="10.0">
                                             <children>
                                                 <ComboBox fx:id="cbPrinters" prefHeight="35.0" promptText="Detecting Printers..." HBox.hgrow="ALWAYS" maxWidth="Infinity" />
-                                                <Button onAction="#handleRefreshPrinters" prefHeight="35.0" prefWidth="40.0" style="-fx-cursor: hand;" text="🔄" />
+                                                <Button onAction="#handleRefreshPrinters" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="🔄" />
                                             </children>
                                         </HBox>
                                         <Separator prefWidth="200.0">

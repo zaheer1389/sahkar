@@ -80,9 +80,15 @@ public class LoginController implements Initializable {
         try {
         	// Now perform your login logic with the 'password' variable
             AppUser appUser = userService.authenticate(username, password);
+            System.out.println(appUser);
             if (appUser != null) {
-            	UserSession.setLoggedInMember(appUser);
-            	startDashboardLoadingTask();
+            	if(appUser.getActive()) {
+                    UserSession.setLoggedInMember(appUser);
+                    startDashboardLoadingTask();
+                }
+                else {
+                    lblMessage.setText("User account is disabled. Please contact admin to activate it.");
+                }
             } else {
                 lblMessage.setText("Invalid username or password");
             }

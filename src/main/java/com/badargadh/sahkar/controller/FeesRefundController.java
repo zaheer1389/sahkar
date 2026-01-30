@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -104,13 +106,17 @@ public class FeesRefundController extends BaseController {
 
     private void setupActionColumn() {
         Callback<TableColumn<MemberFeesRefundDTO, Void>, TableCell<MemberFeesRefundDTO, Void>> cellFactory = param -> new TableCell<>() {
-            private final Button btn = new Button("✅ Issue Refund");
+            private final FontAwesomeIconView iconView = new FontAwesomeIconView(FontAwesomeIcon.CHECK_SQUARE);
+            private final Button btn = new Button("", iconView);
             {
-                btn.setStyle("-fx-background-color: green; -fx-text-fill: white; -fx-font-weight: bold;");
+                String iconOnlyStyle = "-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 0;";
+                btn.setStyle(iconOnlyStyle);
                 btn.setOnAction(event -> {
-                	MemberFeesRefundDTO member = getTableView().getItems().get(getIndex());
+                    MemberFeesRefundDTO member = getTableView().getItems().get(getIndex());
                     promptForRefund(member);
                 });
+                iconView.setFill(javafx.scene.paint.Color.web("#3498db")); // Primary Blue
+                iconView.setGlyphSize(18);
             }
 
             @Override
@@ -127,7 +133,7 @@ public class FeesRefundController extends BaseController {
                     // 3. Check eligibility logic
                     if (isEligibleForRefund(memberDto.getMember())) {
                         setGraphic(btn);
-                        btn.setTooltip(new Tooltip("Process Refund"));
+                        btn.setTooltip(new Tooltip("Click to Process Refund"));
                     } else {
                         // 4. IMPORTANT: Clear the button for ineligible members
                         setGraphic(null); 
