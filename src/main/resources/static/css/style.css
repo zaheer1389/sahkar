@@ -661,3 +661,48 @@
 }
 
 
+/* Deep Teal Theme Colors */
+.root {
+    -fx-primary: #005461;
+}
+
+.gujarati-text-area {
+    -fx-background-color: #f1f3f4;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: transparent;
+    -fx-font-family: "Segoe UI", "Noto Sans Gujarati";
+    -fx-padding: 8;
+}
+
+.gujarati-text-area:focused {
+    -fx-background-color: white;
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2;
+}
+
+/* Material Suggestion Menu */
+.context-menu {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8;
+}
+
+.menu-item {
+    -fx-padding: 5 15 5 15;
+}
+
+.menu-item .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-weight: bold;
+}
+
+.menu-item:focused {
+    -fx-background-color: -fx-primary;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+}

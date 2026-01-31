@@ -8,6 +8,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 
+import com.badargadh.sahkar.enums.ExpenseCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -220,7 +221,7 @@ public class FinancialMonthService {
             double newMemberFee = feeRepo.getSumByType(monthId, FeeType.JOINING_FEE);
             double monthlyFee = feeRepo.getSumByType(monthId, FeeType.MONTHLY_FEE);
             double loanDeductionFee = feeRepo.getSumByType(monthId, FeeType.LOAN_DEDUCTION);
-            double expensesCredit = expenseRepo.sumAmountByType(monthId, ExpenseType.CREDIT);
+            double expensesCredit = expenseRepo.sumAmountByType(monthId, ExpenseType.CREDIT, ExpenseCategory.PAYMENT_CREDIT_FROM_JAMMAT_BADARGADH);
             
             // EMI Total
             double emiTotal = emiRepo.sumOfTotalEmiPaymentsByFinancialMonth(monthId);
@@ -232,7 +233,7 @@ public class FinancialMonthService {
             double loanGrantedAmount = loanRepo.sumOfLoanDisbursedAmount(monthId);
             double feeRefunds = refundRepo.sumRefundsByMonth(monthId);
             
-            double expenseDebit = expenseRepo.sumAmountByType(monthId, ExpenseType.DEBIT);
+            double expenseDebit = expenseRepo.sumAmountByType(monthId, ExpenseType.DEBIT, ExpenseCategory.PAYMENT_DEBIT_TO_JAMMAT_BADARGADH);
             
             double income = newMemberFee + monthlyFee + loanDeductionFee + expensesCredit + emiTotal + fullPayments;
             double expenses = loanGrantedAmount + feeRefunds + expenseDebit;

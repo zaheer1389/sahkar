@@ -3471,3 +3471,103 @@ isPdfEmbedded : true
 [2026-01-30 15:21:38] INFO: Starting backup for database: null
 [2026-01-30 15:21:38] ERROR: Backup service critical failure | Exception: null
 [2026-01-30 15:21:38] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-30 17:49:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 17:52:41] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-30 17:52:41] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-30 17:52:41] INFO: Starting backup for database: null
+[2026-01-30 17:52:41] ERROR: Backup service critical failure | Exception: null
+[2026-01-30 17:52:41] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-30 17:52:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 17:56:06] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 17:58:18] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:00:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:02:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:06:13] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:10:52] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:12:06] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:12:29] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-30 18:12:29] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:72)
+[2026-01-30 18:17:36] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:20:08] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:21:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:23:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:23:35] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-30 18:23:35] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-30 18:23:35] INFO: Starting backup for database: null
+[2026-01-30 18:23:35] ERROR: Backup service critical failure | Exception: null
+[2026-01-30 18:23:35] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-30 18:23:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-30 18:27:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:21:55] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:22:20] ERROR: Login Failed! | Exception: Invalid Username or Password!
+[2026-01-31 08:22:20] DEBUG: Stacktrace: com.badargadh.sahkar.service.UserService.authenticate(UserService.java:72)
+[2026-01-31 08:25:19] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 08:25:19] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 08:25:19] INFO: Starting backup for database: null
+[2026-01-31 08:25:19] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 08:25:19] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 08:27:50] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:31:27] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:42:37] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:46:30] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:48:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 08:50:32] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 08:50:32] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 08:50:32] INFO: Starting backup for database: null
+[2026-01-31 08:50:32] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 08:50:32] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 10:28:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:29:56] ERROR: Report Generation Task Error | Exception: No argument for named parameter ':category'
+[2026-01-31 10:29:56] DEBUG: Stacktrace: org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:298)
+[2026-01-31 10:30:58] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:44:23] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:46:59] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:51:25] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:56:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 10:58:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:00:33] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:04:46] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:11:34] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:13:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:19:51] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:21:16] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 11:21:16] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 11:21:16] INFO: Starting backup for database: null
+[2026-01-31 11:21:16] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 11:21:16] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 11:24:10] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:25:40] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:27:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:32:34] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:40:27] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 11:40:27] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 11:40:27] INFO: Starting backup for database: null
+[2026-01-31 11:40:27] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 11:40:27] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 11:40:31] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:41:57] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 11:41:57] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 11:41:57] INFO: Starting backup for database: null
+[2026-01-31 11:41:57] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 11:41:57] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 11:42:01] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:47:06] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 11:47:06] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 11:47:06] INFO: Starting backup for database: null
+[2026-01-31 11:47:06] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 11:47:06] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 11:47:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:50:32] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:52:03] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 11:52:15] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 12:00:06] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 12:00:06] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 12:00:06] INFO: Starting backup for database: null
+[2026-01-31 12:00:06] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 12:00:06] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)
+[2026-01-31 12:00:09] INFO: Manual/IDE Mode detected: Skipping automated password synchronization.
+[2026-01-31 12:02:25] ERROR: Could not load properties. Using fallbacks. | Exception: D:\projects\sahkarROSCA\application.properties (The system cannot find the file specified)
+[2026-01-31 12:02:25] DEBUG: Stacktrace: java.base/java.io.FileInputStream.open0(Native Method)
+[2026-01-31 12:02:25] INFO: Starting backup for database: null
+[2026-01-31 12:02:25] ERROR: Backup service critical failure | Exception: null
+[2026-01-31 12:02:25] DEBUG: Stacktrace: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1092)

@@ -1,5 +1,8 @@
 package com.badargadh.sahkar.controller;
 
+import com.badargadh.sahkar.component.GujaratiTextArea;
+import javafx.application.Platform;
+import javafx.fxml.Initializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +21,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 @Component
-public class MonthlyStatementController {
+public class MonthlyStatementController implements Initializable {
 	
 	@FXML private TextArea txtClosingRemarks;
     @FXML private Button btnEditSave;
@@ -33,54 +39,64 @@ public class MonthlyStatementController {
     @FXML private Label valFullPayment, valMiscCredit, valLoanGranted, valFeeRefund, valExpenseDebit;
     @FXML private Label valTotalIncome;
     @FXML private Label valTotalOutgoing;
-    
+
     @Autowired private MonthlyStatementService statementService;
     @Autowired private FinancialMonthService financialMonthService;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
     public void refresh() {
         try {
-        	currentMonth = financialMonthService.getActiveMonth()
-        			.orElseThrow(() -> new IllegalStateException("No active month found."));
-        	
-        	MonthlyStatementDTO dto = statementService.getActiveMonthStatement(currentMonth);
-            
-        	lblOpeningBalance.setText(formatCurrency(dto.getOpeningBal()));
-            lblClosingBalance.setText(formatCurrency(dto.getClosingBalance()));
+            // 1. DATABASE WORK (Runs on the background Task thread)
+            // This is what takes time, so we keep it OUTSIDE Platform.runLater
+            FinancialMonth month = financialMonthService.getActiveMonth()
+                    .orElseThrow(() -> new IllegalStateException("No active month found."));
 
-            valNewMemberFee.setText(formatCurrency(dto.getNewMemberFee()));
-            valMonthlyFee.setText(formatCurrency(dto.getMonthlyFee()));
-            valLoanDeduction.setText(formatCurrency(dto.getLoanDeduction()));
-            valTotalEmi.setText(formatCurrency(dto.getTotalEmi()));
-            valFullPayment.setText(formatCurrency(dto.getFullPaymentAmount()));
-            valMiscCredit.setText(formatCurrency(dto.getExpenseCredit()));
+            MonthlyStatementDTO dto = statementService.getActiveMonthStatement(month);
 
-            valLoanGranted.setText(formatCurrency(dto.getTotalLoanGranted()));
-            valFeeRefund.setText(formatCurrency(dto.getTotalFeeRefund()));
-            valExpenseDebit.setText(formatCurrency(dto.getExpenseDebit()));
-            
-            txtClosingRemarks.setText(currentMonth.getClosingRemarks());
-            txtClosingRemarks.setEditable(false);
-            
-            valTotalIncome.setText(formatCurrency(dto.getTotalIncome()));
-            valTotalOutgoing.setText(formatCurrency(dto.getTotalOutgoing()));
-            
-            // Final Closing Balance
-            double closing = dto.getClosingBalance();
-            lblClosingBalance.setText(formatCurrency(closing));
-            
-            // Dynamic color for closing balance
-            if (closing < 0) {
-                lblClosingBalance.setStyle("-fx-text-fill: #c0392b; -fx-font-size: 34px; -fx-font-weight: bold;");
-            } else {
-                lblClosingBalance.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 34px; -fx-font-weight: bold;");
-            }
-        }
-        catch(Exception e) {
-        	NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
+            // 2. UI UPDATING (Only the setters run on the FX Thread)
+            Platform.runLater(() -> {
+                lblOpeningBalance.setText(formatCurrency(dto.getOpeningBal()));
+                lblClosingBalance.setText(formatCurrency(dto.getClosingBalance()));
+
+                valNewMemberFee.setText(formatCurrency(dto.getNewMemberFee()));
+                valMonthlyFee.setText(formatCurrency(dto.getMonthlyFee()));
+                valLoanDeduction.setText(formatCurrency(dto.getLoanDeduction()));
+                valTotalEmi.setText(formatCurrency(dto.getTotalEmi()));
+                valFullPayment.setText(formatCurrency(dto.getFullPaymentAmount()));
+                valMiscCredit.setText(formatCurrency(dto.getExpenseCredit()));
+
+                valLoanGranted.setText(formatCurrency(dto.getTotalLoanGranted()));
+                valFeeRefund.setText(formatCurrency(dto.getTotalFeeRefund()));
+                valExpenseDebit.setText(formatCurrency(dto.getExpenseDebit()));
+
+                txtClosingRemarks.setText(month.getClosingRemarks());
+                txtClosingRemarks.setEditable(false);
+
+                valTotalIncome.setText(formatCurrency(dto.getTotalIncome()));
+                valTotalOutgoing.setText(formatCurrency(dto.getTotalOutgoing()));
+
+                double closing = dto.getClosingBalance();
+                lblClosingBalance.setText(formatCurrency(closing));
+
+                // Dynamic color for closing balance
+                if (closing < 0) {
+                    lblClosingBalance.setStyle("-fx-text-fill: #dc2626; -fx-font-size: 34px; -fx-font-weight: bold;");
+                } else {
+                    lblClosingBalance.setStyle("-fx-text-fill: #059669; -fx-font-size: 34px; -fx-font-weight: bold;");
+                }
+            });
+        } catch (Exception e) {
+            // Errors also need to be handled via Platform.runLater if they show UI notifications
+            Platform.runLater(() -> {
+                NotificationManager.show(e.getMessage(), NotificationType.ERROR, Pos.CENTER);
+            });
             AppLogger.error("Monthly_Statement_Data_Load_Error", e);
         }
     }
-
     private String formatCurrency(Double amount) {
         return String.format("₹ %.0f/-", amount);
     }

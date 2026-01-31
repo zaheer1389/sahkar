@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -191,15 +192,17 @@ public class FeesRefundController extends BaseController {
     	if(financialMonth != null) {
     		List<MemberFeesRefundDTO> masterList = refundService.getEligibleMembers(financialMonth.getEndDate())
 	    		.stream()
-	    		.map(member -> getFeesRefundDTO(member))
-	    		.collect(Collectors.toList());
-	    	
-	    	masterData.addAll(masterList);
-	        tblRefunds.getItems().setAll(masterData);
-	        
-	        if(masterList.size() == 0) {
-	        	tblRefunds.setPlaceholder(new Label("No members currently eligible for refund."));
-	        }
+	    		.map(this::getFeesRefundDTO)
+	    		.toList();
+
+            Platform.runLater(() -> {
+                masterData.addAll(masterList);
+                tblRefunds.getItems().setAll(masterData);
+
+                if(masterList.isEmpty()) {
+                    tblRefunds.setPlaceholder(new Label("No members currently eligible for refund."));
+                }
+            });
     	}
     }
     

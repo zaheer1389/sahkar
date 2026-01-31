@@ -20,9 +20,9 @@
         <Tab text="Member Fees Refunds">
             <fx:include fx:id="feesRefundPage" source="FeesRefundView.fxml" />
         </Tab>
-        <Tab text="Monthly Expenses">
+        <!--<Tab text="Monthly Expenses">
             <fx:include fx:id="expensePage" source="MonthlyExpenseView.fxml" />
-        </Tab>
+        </Tab> -->
         <Tab text="Monthly Statement">
             <fx:include fx:id="statementPage" source="MonthStatementView.fxml" />
         </Tab>

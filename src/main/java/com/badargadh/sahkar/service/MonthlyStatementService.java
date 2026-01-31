@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import com.badargadh.sahkar.enums.ExpenseCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,7 @@ public class MonthlyStatementService {
         dto.setNewMemberFee(feeRepo.getSumByType(monthId, FeeType.JOINING_FEE));
         dto.setMonthlyFee(feeRepo.getSumByType(monthId, FeeType.MONTHLY_FEE));
         dto.setLoanDeduction(feeRepo.getSumByType(monthId, FeeType.LOAN_DEDUCTION));
-        dto.setExpenseCredit(expenseRepo.sumAmountByType(monthId, ExpenseType.CREDIT));
+        dto.setExpenseCredit(expenseRepo.sumAmountByType(monthId, ExpenseType.CREDIT, ExpenseCategory.PAYMENT_CREDIT_FROM_JAMMAT_BADARGADH));
         
         // EMI Total
         dto.setTotalEmi(emiRepo.sumOfTotalEmiPaymentsByFinancialMonth(monthId));
@@ -77,7 +78,7 @@ public class MonthlyStatementService {
         dto.setTotalLoanGranted(loanRepo.sumOfLoanDisbursedAmount(monthId));
         dto.setTotalFeeRefund(refundRepo.sumRefundsByMonth(monthId));
         
-        dto.setExpenseDebit(expenseRepo.sumAmountByType(monthId, ExpenseType.DEBIT));
+        dto.setExpenseDebit(expenseRepo.sumAmountByType(monthId, ExpenseType.DEBIT, ExpenseCategory.PAYMENT_DEBIT_TO_JAMMAT_BADARGADH));
         
         List<Member> cancelledMembers = memberRepository.findCancelledMemberBtweenDates(LocalDateTime.of(month.getStartDate(), LocalTime.of(0, 0))
         										, LocalDateTime.of(month.getEndDate(), LocalTime.of(23, 59)));

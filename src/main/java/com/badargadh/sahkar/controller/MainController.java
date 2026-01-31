@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,10 +44,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -58,8 +56,12 @@ import javafx.stage.Stage;
 public class MainController implements Initializable {
 	
 	private final String SETTINGS_PATH = System.getProperty("user.dir") + File.separator + "sahkar_settings.properties";
-	
-	@FXML private VBox vboxAdminMenu;
+    @FXML private  Button btnFinancialMonths;
+    @FXML private  Button btnDashboard;
+    @FXML private  StackPane rootPane;
+    @FXML private BorderPane mainBorderPane;
+    @FXML private  Button btnBackup;
+    @FXML private VBox vboxAdminMenu;
 	@FXML private StackPane contentArea;
     @FXML private TabPane mainTabPane;
     @FXML private Label lblAdminName;
@@ -262,24 +264,24 @@ public class MainController implements Initializable {
     	loadModule("", "/fxml/FinancialReportsView.fxml");
     }
     
-    @FXML
-    private void openLoanPlanning(ActionEvent event) {
+    @FXML private void openLoanPlanning(ActionEvent event) {
         loadModule("", "/fxml/LoanPlanningView.fxml");
     }
     
-    @FXML
-    public void openFinancialMonthModule() {
+    @FXML private void openFinancialMonthModule() {
     	loadModule("Financial Months", "/fxml/FinancialMonthView.fxml");
     }
     
-    @FXML
-    public void openSettingsModule() {
+    @FXML private void openSettingsModule() {
     	loadModule("Settings", "/fxml/SettingsView.fxml");
     }
     
-    @FXML
-    public void openUserManagementModule() {
+    @FXML private void openUserManagementModule() {
     	loadModule("Manage Users", "/fxml/ManageUsers.fxml");
+    }
+
+    @FXML private void openExpenseModule() {
+        loadModule("Manage Expenses", "/fxml/MonthlyExpenseView.fxml");
     }
     
     public void updateStatusHeader() {
@@ -414,6 +416,19 @@ public class MainController implements Initializable {
     public void hideBlocker() {
         Platform.runLater(() -> globalBlocker.setVisible(false));
     }
+
+    public void showLoader(String message) {
+        Platform.runLater(() -> {
+            lblGlobalStatus.setText(message);
+            globalBlocker.setVisible(true);
+            globalBlocker.toFront(); // CRITICAL: Brings the loader to the very top layer
+        });
+    }
+
+    public void hideLoader() {
+        Platform.runLater(() -> globalBlocker.setVisible(false));
+    }
+
     
     public StackPane getcontentArea() {
     	return contentArea;
@@ -458,4 +473,6 @@ public class MainController implements Initializable {
             AppLogger.error("FX Thread Violation or IO Error", e);
         }
     }
+
+
 }

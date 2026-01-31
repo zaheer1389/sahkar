@@ -108,7 +108,7 @@ public class AccountBookController implements Initializable {
         TableColumn<LoanBookDTO, Double> colLoanBalance = new TableColumn<>("Balance Amount");
         colLoanBalance.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getClosingBalance()));
         applyAmountStyling(colLoanBalance);
-        colLoanBalance.setStyle("-fx-font-weight: bold; -fx-background-color: #f4f4f4; -fx-alignment: CENTER-RIGHT;");
+        colLoanBalance.setStyle("-fx-font-weight: bold; -fx-alignment: CENTER-RIGHT;");
         tblLoanBook.getColumns().add(colLoanBalance);
         
         // Fee Grand Total Column

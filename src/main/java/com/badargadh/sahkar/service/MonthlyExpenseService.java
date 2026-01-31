@@ -25,6 +25,10 @@ public class MonthlyExpenseService {
                 .orElse(List.of());
     }
 
+    public List<MonthlyExpense> getExpenses() {
+        return expenseRepo.findAllByOrderByDateDesc();
+    }
+
     @Transactional
     public void saveExpense(MonthlyExpense expense) {
         // 1. Retrieve the currently OPEN month
@@ -46,7 +50,13 @@ public class MonthlyExpenseService {
     
     public Double getJammatOutstandingBalance() {
         List<MonthlyExpense> all = expenseRepo.findAll();
-        
+
+        // Opening balance
+        double totalOpeningBal = all.stream()
+                .filter(e -> e.getCategory() == ExpenseCategory.JAMMAT_OPENING_BALANCE)
+                .mapToDouble(MonthlyExpense::getAmount)
+                .sum();
+
         // Sum of all money lent out
         double totalDebit = all.stream()
             .filter(e -> e.getCategory() == ExpenseCategory.PAYMENT_DEBIT_TO_JAMMAT_BADARGADH)
@@ -59,6 +69,6 @@ public class MonthlyExpenseService {
             .mapToDouble(MonthlyExpense::getAmount)
             .sum();
 
-        return totalDebit - totalCredit;
+        return totalDebit - totalOpeningBal - totalCredit;
     }
 }

@@ -1,7 +1,13 @@
 package com.badargadh.sahkar.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
+import com.badargadh.sahkar.data.FinancialMonth;
+import com.badargadh.sahkar.repository.FinancialMonthRepository;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,17 +24,17 @@ import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 @Component
 public class MonthlyExpenseController extends BaseController {
 
-	@FXML private ComboBox<ExpenseCategory> cmbCategory;
+    @FXML private Label lblOfficeBalance;
+    @FXML private Label lblJamatBalance;
+    @FXML private TextField txtSearch;
+    @FXML private ComboBox<FinancialMonth> cmbMonths;
+    @FXML private ComboBox<ExpenseCategory> cmbCategoryFilter;
+    @FXML private ComboBox<ExpenseCategory> cmbCategory;
     @FXML private ComboBox<ExpenseType> cmbType;
     @FXML private TextField txtAmount;
     @FXML private TextArea txtRemarks;
@@ -39,14 +45,17 @@ public class MonthlyExpenseController extends BaseController {
     @FXML private TableColumn<MonthlyExpense, Double> colAmount;
 
     @Autowired private MonthlyExpenseService expenseService;
+    @Autowired private FinancialMonthRepository monthRepository;
 
     @FXML
     public void initialize() {
-        // 1. Setup Dropdowns
-        cmbCategory.setItems(FXCollections.observableArrayList(ExpenseCategory.values()));
+        List<ExpenseCategory> categories = Arrays.stream(ExpenseCategory.values())
+                .filter(c -> c != ExpenseCategory.JAMMAT_OPENING_BALANCE && c != ExpenseCategory.EXPENSE_OPENING_BALANCE)
+                .toList();
+        cmbCategory.setItems(FXCollections.observableArrayList(categories));
+
         cmbType.setItems(FXCollections.observableArrayList(ExpenseType.values()));
 
-        // 2. Logic: Auto-select Type based on Jammat Category selection
         cmbCategory.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == ExpenseCategory.PAYMENT_DEBIT_TO_JAMMAT_BADARGADH) {
                 cmbType.setValue(ExpenseType.DEBIT);
@@ -54,6 +63,11 @@ public class MonthlyExpenseController extends BaseController {
                 cmbType.setValue(ExpenseType.CREDIT);
             }
         });
+
+        cmbCategoryFilter.setItems(FXCollections.observableArrayList(categories));
+        cmbMonths.setItems(FXCollections.observableArrayList(monthRepository.findAllByOrderByIdAsc()));
+
+        lblJamatBalance.setText(expenseService.getJammatOutstandingBalance().toString());
 
         setupTableColumns();
         refreshTable();
@@ -125,7 +139,12 @@ public class MonthlyExpenseController extends BaseController {
     }
 
     public void refreshTable() {
-        tblExpenses.getItems().setAll(expenseService.getExpensesForActiveMonth());
+        List<MonthlyExpense> list = expenseService.getExpenses()
+                .stream()
+                .filter(e -> e.getCategory() != ExpenseCategory.JAMMAT_OPENING_BALANCE
+                        || e.getCategory() != ExpenseCategory.EXPENSE_OPENING_BALANCE)
+                .toList();
+        tblExpenses.getItems().setAll(list);
     }
 
     private void clearForm() {
@@ -133,5 +152,17 @@ public class MonthlyExpenseController extends BaseController {
         cmbCategory.setValue(null);;
         txtAmount.clear();
         txtRemarks.clear();
+    }
+
+    @FXML private void handleResetForm(ActionEvent actionEvent) {
+        clearForm();
+    }
+
+    @FXML private  void handleResetFilters(ActionEvent actionEvent) {
+        cmbCategoryFilter.setValue(null);
+        cmbMonths.setValue(null);
+        txtSearch.clear();
+
+        refreshTable();
     }
 }

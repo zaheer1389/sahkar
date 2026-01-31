@@ -1,6 +1,7 @@
 package com.badargadh.sahkar.repository;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,13 +16,17 @@ import com.badargadh.sahkar.enums.ExpenseType;
 
 @Repository
 public interface MonthlyExpenseRepository extends JpaRepository<MonthlyExpense, Long> {
-	
+
+    List<MonthlyExpense> findAllByOrderByIdDesc();
+
+    List<MonthlyExpense> findAllByOrderByDateDesc();
+
     // Fetch all entries for the active month log
     List<MonthlyExpense> findByFinancialMonthOrderByIdDesc(FinancialMonth month);
     
     @Query("SELECT COALESCE(SUM(e.amount), 0.0) FROM MonthlyExpense e " +
-            "WHERE e.financialMonth.id = :monthId AND e.type = :type and e.category != 'JAMMAT_OPENING_BALANCE' ")
-     Double sumAmountByType(@Param("monthId") Long monthId, @Param("type") ExpenseType type);
+            "WHERE e.financialMonth.id = :monthId AND e.type = :type and e.category = :category ")
+     Double sumAmountByType(@Param("monthId") Long monthId, @Param("type") ExpenseType type, @Param("category") ExpenseCategory category);
 
      @Query("SELECT COALESCE(SUM(e.amount), 0.0) FROM MonthlyExpense e " +
             "WHERE e.financialMonth.id = :monthId AND e.category = :category")
@@ -32,8 +37,8 @@ public interface MonthlyExpenseRepository extends JpaRepository<MonthlyExpense, 
       * from all months prior to the specified month ID.
       */
      @Query("SELECT COALESCE(SUM(e.amount), 0.0) FROM MonthlyExpense e " +
-            "WHERE e.financialMonth.startDate < :startDate AND e.type = com.badargadh.sahkar.enums.ExpenseType.CREDIT "
-            + "and e.category != 'JAMMAT_OPENING_BALANCE'")
+            "WHERE e.financialMonth.startDate < :startDate AND e.type = com.badargadh.sahkar.enums.ExpenseType.CREDIT " +
+            "and e.category = 'PAYMENT_CREDIT_FROM_JAMMAT_BADARGADH'")
      Double sumOfAllCreditsBeforeMonth(@Param("startDate") LocalDate startDate);
 
      /**
@@ -41,6 +46,7 @@ public interface MonthlyExpenseRepository extends JpaRepository<MonthlyExpense, 
       * from all months prior to the specified month ID.
       */
      @Query("SELECT COALESCE(SUM(e.amount), 0.0) FROM MonthlyExpense e " +
-            "WHERE e.financialMonth.startDate < :startDate AND e.type = com.badargadh.sahkar.enums.ExpenseType.DEBIT")
+            "WHERE e.financialMonth.startDate < :startDate AND e.type = com.badargadh.sahkar.enums.ExpenseType.DEBIT " +
+            "and e.category = 'PAYMENT_DEBIT_TO_JAMMAT_BADARGADH' ")
      Double sumOfAllDebitsBeforeMonth(@Param("startDate") LocalDate startDate);
 }

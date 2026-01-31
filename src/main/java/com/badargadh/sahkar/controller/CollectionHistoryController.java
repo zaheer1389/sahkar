@@ -7,6 +7,7 @@ import javax.management.Notification;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -133,10 +134,7 @@ public class CollectionHistoryController {
             // 1. Fetch data from DB
             List<MonthlyPaymentCollectionDTO> history = memberRepo.findReceivedPaymentsByMonthWithGroup(active.getId());
             
-            // 2. CORRECT: Update the MASTER list, NOT the TableView directly
-            masterHistoryData.setAll(history); 
-            
-            lblTotalPayments.setText(history.size()+"");
+
             
             EmiCounterDTO counterDTO = new EmiCounterDTO();
             
@@ -161,8 +159,15 @@ public class CollectionHistoryController {
             lbl300EmiCount.setText(counterDTO.getEmi300()+"");
             lbl400EmiCount.setText(counterDTO.getEmi400()+"");
             */
-            // 3. Update footer labels based on the new data
-            updateFooterTotals(masterHistoryData);
+
+            Platform.runLater(() -> {
+                // 2. CORRECT: Update the MASTER list, NOT the TableView directly
+                masterHistoryData.setAll(history);
+
+                lblTotalPayments.setText(history.size()+"");
+                // 3. Update footer labels based on the new data
+                updateFooterTotals(masterHistoryData);
+            });
         });
     }
     

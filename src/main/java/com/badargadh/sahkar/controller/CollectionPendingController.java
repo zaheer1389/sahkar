@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -137,11 +138,13 @@ public class CollectionPendingController {
                     .mapToDouble(m -> m.getEmiAmountDue() != null && m.getEmiAmountDue() < m.getLoanPendingAmount() ? m.getEmiAmountDue() : m.getLoanPendingAmount())
                     .sum();
 
-            lblTotalFees.setText(String.format("₹ %,.0f", totalFees));
-            lblTotalEmi.setText(String.format("₹ %,.0f", totalEmi));
-            lblGrandTotal.setText(String.format("₹ %,.0f", (totalEmi + totalFees)));
-            lblTotalPendingPayments.setText(pending.size()+"");
-            txtSearchPending.clear();
+            Platform.runLater(() -> {
+                lblTotalFees.setText(String.format("₹ %,.0f", totalFees));
+                lblTotalEmi.setText(String.format("₹ %,.0f", totalEmi));
+                lblGrandTotal.setText(String.format("₹ %,.0f", (totalEmi + totalFees)));
+                lblTotalPendingPayments.setText(pending.size()+"");
+                txtSearchPending.clear();
+            });
         });
     }
     

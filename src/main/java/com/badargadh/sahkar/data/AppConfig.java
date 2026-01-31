@@ -17,6 +17,8 @@ public class AppConfig {
 	private Integer newMemberCoolingPeriod = 30; // months
 	private Integer feesRefundCoolingPeriod = 3; // months
 	private Double openingBal;
+	private Double openingBalExpenses;
+	private Double openingBalJammat;
 	private boolean autoRemark;
 	
 	private int remarkDateOfMonth = 11; // Default 11th
@@ -111,6 +113,19 @@ public class AppConfig {
 		this.remarkTimeMinute = remarkTimeMinute;
 	}
 
-	
-	
+	public Double getOpeningBalExpenses() {
+		return openingBalExpenses;
+	}
+
+	public void setOpeningBalExpenses(Double openingBalExpenses) {
+		this.openingBalExpenses = openingBalExpenses;
+	}
+
+	public Double getOpeningBalJammat() {
+		return openingBalJammat;
+	}
+
+	public void setOpeningBalJammat(Double openingBalJammat) {
+		this.openingBalJammat = openingBalJammat;
+	}
 }
