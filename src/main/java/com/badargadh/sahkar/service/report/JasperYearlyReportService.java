@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.badargadh.sahkar.data.MonthlyStatementDTO;
 import com.badargadh.sahkar.dto.YearlyRowDTO;
+import com.badargadh.sahkar.util.GujaratiNumericUtils;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -26,25 +27,30 @@ public class JasperYearlyReportService {
     public void exportReport(Map<String, MonthlyStatementDTO> yearlyData, String yearRange, String outputPath) throws Exception {
         List<YearlyRowDTO> reportRows = new ArrayList<>();
 
+     // Define the month sequence to match your extractor
+        String[] months = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
+                           "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+
+        
         // 1. Opening Balance Row
-        reportRows.add(createRow("શરૂઆતની બાકી (Opening Balance)", yearlyData, MonthlyStatementDTO::getOpeningBal, true));
+        reportRows.add(createRow("શરૂઆતની બાકી (Opening Balance)", yearlyData, months, MonthlyStatementDTO::getOpeningBal, true));
 
         // 2. Inflow Section
         reportRows.add(createSectionHeader("આવક (CASH INFLOW)"));
-        reportRows.add(createRow("નવી મેમ્બર ફી", yearlyData, MonthlyStatementDTO::getNewMemberFee, false));
-        reportRows.add(createRow("માસિક ફી આવક", yearlyData, MonthlyStatementDTO::getMonthlyFee, false));
-        reportRows.add(createRow("હપ્તા વસૂલાત (EMI)", yearlyData, MonthlyStatementDTO::getTotalEmi, false));
-        reportRows.add(createRow("લોન કપાત", yearlyData, MonthlyStatementDTO::getLoanDeduction, false));
-        reportRows.add(createRow("કુલ આવક (TOTAL INFLOW)", yearlyData, MonthlyStatementDTO::getTotalIncome, true));
+        reportRows.add(createRow("નવી મેમ્બર ફી", yearlyData, months, MonthlyStatementDTO::getNewMemberFee, false));
+        reportRows.add(createRow("માસિક ફી આવક", yearlyData, months, MonthlyStatementDTO::getMonthlyFee, false));
+        reportRows.add(createRow("હપ્તા વસૂલાત (EMI)", yearlyData, months, MonthlyStatementDTO::getTotalEmi, false));
+        reportRows.add(createRow("લોન કપાત", yearlyData, months, MonthlyStatementDTO::getLoanDeduction, false));
+        reportRows.add(createRow("કુલ આવક (TOTAL INFLOW)", yearlyData, months, MonthlyStatementDTO::getTotalIncome, true));
 
         // 3. Outflow Section
         reportRows.add(createSectionHeader("જાવક (CASH OUTFLOW)"));
-        reportRows.add(createRow("આપેલ લોન", yearlyData, MonthlyStatementDTO::getTotalLoanGranted, false));
-        reportRows.add(createRow("ફી રિફંડ", yearlyData, MonthlyStatementDTO::getTotalFeeRefund, false));
-        reportRows.add(createRow("કુલ જાવક (TOTAL OUTFLOW)", yearlyData, MonthlyStatementDTO::getTotalOutgoing, true));
+        reportRows.add(createRow("આપેલ લોન", yearlyData, months, MonthlyStatementDTO::getTotalLoanGranted, false));
+        reportRows.add(createRow("ફી રિફંડ", yearlyData, months, MonthlyStatementDTO::getTotalFeeRefund, false));
+        reportRows.add(createRow("કુલ જાવક (TOTAL OUTFLOW)", yearlyData, months, MonthlyStatementDTO::getTotalOutgoing, true));
 
         // 4. Closing Balance
-        reportRows.add(createRow("આખરની બાકી (NET CLOSING)", yearlyData, MonthlyStatementDTO::getClosingBalance, true));
+        reportRows.add(createRow("આખરની બાકી (NET CLOSING)", yearlyData, months, MonthlyStatementDTO::getClosingBalance, true));
 
         // Jasper Parameters
         Map<String, Object> parameters = new HashMap<>();
@@ -68,41 +74,48 @@ public class JasperYearlyReportService {
         return row;
     }
 
-    private YearlyRowDTO createRow(String label, Map<String, MonthlyStatementDTO> data, 
+    private YearlyRowDTO createRow(String label, Map<String, MonthlyStatementDTO> data,  String[] months,
                                    Function<MonthlyStatementDTO, Double> extractor, boolean isTotal) {
-        YearlyRowDTO row = new YearlyRowDTO();
+    	YearlyRowDTO row = new YearlyRowDTO();
         row.setCategory(label);
         row.setIsTotalRow(isTotal);
-        
-        // Map months - Logic follows your original function
-        row.setJan(getValue(data.get(Month.JANUARY.name()), extractor));
-        row.setFeb(getValue(data.get(Month.FEBRUARY.name()), extractor));
-        row.setMar(getValue(data.get(Month.MARCH.name()), extractor));
-        row.setApr(getValue(data.get(Month.APRIL.name()), extractor));
-        row.setMay(getValue(data.get(Month.MAY.name()), extractor));
-        row.setJun(getValue(data.get(Month.JUNE.name()), extractor));
-        row.setJul(getValue(data.get(Month.JULY.name()), extractor));
-        row.setAug(getValue(data.get(Month.AUGUST.name()), extractor));
-        row.setSep(getValue(data.get(Month.SEPTEMBER.name()), extractor));
-        row.setOct(getValue(data.get(Month.OCTOBER.name()), extractor));
-        row.setNov(getValue(data.get(Month.NOVEMBER.name()), extractor));
-        row.setDec(getValue(data.get(Month.DECEMBER.name()), extractor));
 
-        // Calculate Horizontal Total
-        double sum = 0;
-        // Special logic for Opening/Closing (taking start/end instead of sum)
-        if (label.contains("Opening")) {
-             sum = row.getJan(); // Or first non-null
-        } else if (label.contains("Closing")) {
-             sum = row.getDec(); // Or last non-null
-        } else {
-             sum = row.getJan() + row.getFeb() + row.getMar() + row.getApr() + row.getMay() + row.getJun() +
-            		 row.getJul() + row.getAug() + row.getSep() + row.getOct() + row.getNov() + row.getDec() ;
+        Double[] vals = new Double[12];
+        double horizontalSum = 0;
+
+        for (int i = 0; i < months.length; i++) {
+            MonthlyStatementDTO dto = data.get(months[i]);
+            double v = (dto != null && extractor.apply(dto) != null) ? extractor.apply(dto) : 0.0;
+            vals[i] = v;
+            horizontalSum += v;
         }
-        row.setYearlyTotal(sum);
+
+        // Convert values to Gujarati Strings before setting them in the DTO
+        row.setJan(toGujarati(vals[0])); row.setFeb(toGujarati(vals[1])); 
+        row.setMar(toGujarati(vals[2])); row.setApr(toGujarati(vals[3]));
+        row.setMay(toGujarati(vals[4])); row.setJun(toGujarati(vals[5])); 
+        row.setJul(toGujarati(vals[6])); row.setAug(toGujarati(vals[7]));
+        row.setSep(toGujarati(vals[8])); row.setOct(toGujarati(vals[9])); 
+        row.setNov(toGujarati(vals[10])); row.setDec(toGujarati(vals[11]));
+
+        // Horizontal Total Logic
+        double total;
+        if (label.contains("Opening")) {
+            total = vals[0];
+        } else if (label.contains("Closing")) {
+            total = vals[11];
+        } else {
+            total = horizontalSum;
+        }
+        row.setYearlyTotal(toGujarati(total));
+
         return row;
     }
 
+    private String toGujarati(Object input) {
+        return GujaratiNumericUtils.toGujarati(input);
+    }
+    
     private Double getValue(MonthlyStatementDTO dto, Function<MonthlyStatementDTO, Double> ex) {
         return (dto != null && ex.apply(dto) != null) ? ex.apply(dto) : 0.0;
     }

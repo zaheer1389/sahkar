@@ -26,6 +26,7 @@ public class MemberOnboardingService {
     @Autowired private FeeService feeService;
     @Autowired private AppConfigService configService;
     @Autowired private MemberHistoryRepository historyRepository;
+    @Autowired private MonthlyExpenseService expenseService;
 
     public MemberOnboardingService() {
     	
@@ -73,6 +74,8 @@ public class MemberOnboardingService {
         
         // Add Initial Monthly Subscription Fee
         //feeService.recordMonthlyFee(savedMember, config.getMonthlyFees(), joiningDateTime, month, null);
+        
+        expenseService.addNewMemberFeeAsExpenseCredit(savedMember, month);
         
         return savedMember;
     }

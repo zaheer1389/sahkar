@@ -7,7 +7,7 @@
     <property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
 
     <field name="memberNo" class="java.lang.Integer"/>
-    <field name="fullNameGuj" class="java.lang.String"/>
+    <field name="fullName" class="java.lang.String"/>
     <field name="totalFees" class="java.lang.Double"/>
     <field name="pendingLoan" class="java.lang.Double"/>
     <field name="emiAmount" class="java.lang.Double"/>
@@ -19,7 +19,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[સભ્યની નાણાકીય માહિતીનો અહેવાલ]]></text>
+                <text><![CDATA[Member's Financial Report]]></text>
             </staticText>
         </band>
     </title>
@@ -32,7 +32,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                 	<font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[સભ્ય નં.]]></text>
+                <text><![CDATA[Member No]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="50" y="0" width="205" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
@@ -40,7 +40,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                 	<font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[સભ્યનું પૂરું નામ]]></text>
+                <text><![CDATA[Member Fullname]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="255" y="0" width="100" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
@@ -48,7 +48,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                 	<font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[કુલ ફી]]></text>
+                <text><![CDATA[Total Fee]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="355" y="0" width="100" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
@@ -56,7 +56,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                 	<font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[બાકી લોન]]></text>
+                <text><![CDATA[Balance Amount]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="455" y="0" width="100" height="25" forecolor="#FFFFFF" backcolor="#333333"/>
@@ -64,7 +64,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                 	<font fontName="Noto Sans Gujarati" size="10" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[હપ્તાની રકમ]]></text>
+                <text><![CDATA[EMI Amount]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -87,7 +87,7 @@
 	                <font fontName="Noto Sans Gujarati" size="10" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	                <paragraph leftIndent="5"/>
 	            </textElement>
-	            <textFieldExpression><![CDATA[$F{fullNameGuj}]]></textFieldExpression>
+	            <textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
 	        </textField>
 	
 	        <textField pattern="###0">

@@ -30,6 +30,8 @@ public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> 
     // Get all active loans to generate monthly EMI collection lists
     List<LoanAccount> findAllByLoanStatus(LoanStatus loanStatus);
     
+    List<LoanAccount> findAllByLoanStatusAndEndDateBetween(LoanStatus loanStatus,LocalDate startDate,LocalDate endDate);
+
     List<LoanAccount> findByFinancialMonth(FinancialMonth month);
     
     Optional<LoanAccount> findByLoanApplication(LoanApplication application);
@@ -39,8 +41,12 @@ public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> 
     List<LoanAccount> findByMember(Member member);
     
     @Query("SELECT COALESCE(SUM(l.grantedAmount), 0.0) FROM LoanAccount l " +
-            "WHERE l.financialMonth.id = :monthId AND l.loanStatus != 'REJECTED'")
+            "WHERE l.financialMonth.id = :monthId")
     Double sumOfLoanDisbursedAmount(@Param("monthId") Long monthId);
+    
+    @Query("SELECT count(*) FROM LoanAccount l " +
+            "WHERE l.financialMonth.id = :monthId")
+    Double countNoOfLoanGranted(@Param("monthId") Long monthId);
     
     @Query("SELECT COALESCE(SUM(l.grantedAmount), 0.0) FROM LoanAccount l WHERE l.financialMonth.startDate < :startDate")
     Double sumOfAllDisbursementsBeforeMonth(@Param("startDate") LocalDate startDate);
@@ -67,8 +73,13 @@ public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> 
     @Query("SELECT l.emiAmount, COUNT(l) FROM LoanAccount l WHERE l.loanStatus = 'ACTIVE' GROUP BY l.emiAmount")
     List<Object[]> getEmiWiseCounts();
 
-    @Query("SELECT FUNCTION('MONTHNAME', l.startDate), COUNT(l) FROM LoanAccount l WHERE l.startDate > :cutoff GROUP BY FUNCTION('MONTHNAME', l.startDate)")
-    List<Object[]> getLoansGrantedByMonth(@Param("cutoff") LocalDate cutoff);
+    @Query(value = "SELECT m.month_id, COUNT(l.id) " +
+            "FROM loan_accounts l " +
+            "JOIN financial_months m ON l.financial_month_id = m.id " +
+            "WHERE l.financial_month_id IS NOT NULL AND m.start_date > :cutoff " +
+            "GROUP BY m.month_id, m.start_date "+
+            "ORDER BY m.start_date ASC", nativeQuery = true)
+    List<Object[]> getLoanCountsByFinancialMonthNative(@Param("cutoff") LocalDate cutoff);
     
     @Query("SELECT SUM(l.pendingAmount) FROM LoanAccount l WHERE l.loanStatus = 'ACTIVE'")
     Double sumTotalPending();

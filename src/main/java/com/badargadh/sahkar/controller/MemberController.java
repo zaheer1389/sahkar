@@ -499,9 +499,18 @@ public class MemberController extends BaseController implements Initializable, R
     	member.setFirstName(txtFirstName.getText().toUpperCase());
     	member.setMiddleName(txtMiddleName.getText().toUpperCase());
     	member.setLastName(cmbLastName.getValue().toUpperCase());
+    	
     	if(cmbBranchName.getValue() != null) {
     		member.setBranchName(cmbBranchName.getValue().toUpperCase());
     	}
+    	
+    	member.setFirstNameGuj(txtGujFirstName.getText());
+    	member.setMiddleNameGuj(txtGujMiddleName.getText());
+    	member.setLastNameGuj(txtGujLastName.getText());
+    	if(cmbBranchName.getValue() != null) {
+    		member.setBranchNameGuj(txtGujUpName.getText());
+    	}
+    	
     	member.setVillage(cmbVillage.getValue());
     	member.setFinancialMonth(financialMonthService.getActiveMonth().get());
     	
@@ -624,7 +633,7 @@ public class MemberController extends BaseController implements Initializable, R
 
         if (targetFile != null) {
             try {
-            	jasperReportService.generateMemberReport(memberService.findActiveMembersForReport(), targetFile.getAbsolutePath());
+            	jasperReportService.generateMemberReportEng(memberService.findActiveMembersForReport(), targetFile.getAbsolutePath());
                 NotificationManager.show("Report generated: " + targetFile.getName(), NotificationType.SUCCESS, Pos.TOP_RIGHT);
                 
                 mainController.showReport(targetFile);

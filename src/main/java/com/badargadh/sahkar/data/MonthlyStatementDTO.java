@@ -16,6 +16,7 @@ public class MonthlyStatementDTO {
 	private Double expenseCredit = 0.0; // Jammat Recovery / Misc Credits
 
 	// --- Outgoing Section (Cash Outflow) ---
+	private Double totalLoanGrantedNo;
 	private Double totalLoanGranted = 0.0; // Principal disbursed
 	private Double totalFeeRefund = 0.0; // REFUND type fees
 	private Double expenseDebit = 0.0; // Monthly Expenses / Jammat Lending
@@ -33,8 +34,7 @@ public class MonthlyStatementDTO {
 	 * Calculates the total income for the month.
 	 */
 	public Double getTotalIncome() {
-		return  (openingBal != null ? openingBal : 0.0) 
-				+ (newMemberFee != null ? newMemberFee : 0.0) + (monthlyFee != null ? monthlyFee : 0.0)
+		return  (newMemberFee != null ? newMemberFee : 0.0) + (monthlyFee != null ? monthlyFee : 0.0)
 				+ (loanDeduction != null ? loanDeduction : 0.0) + (totalEmi != null ? totalEmi : 0.0)
 				+ (fullPaymentAmount != null ? fullPaymentAmount : 0.0) + (expenseCredit != null ? expenseCredit : 0.0);
 	}
@@ -48,7 +48,8 @@ public class MonthlyStatementDTO {
 	}
 	
 	public Double getClosingBalance() {
-		return getTotalIncome() - getTotalOutgoing();
+		return (openingBal != null ? openingBal : 0.0) 
+				+ getTotalIncome() - getTotalOutgoing();
 	}
 
 	/**
@@ -194,4 +195,13 @@ public class MonthlyStatementDTO {
 		this.prevMonthNewLoansEMIAmtData = prevMonthNewLoansEMIAmtData;
 	}
 
+	public Double getTotalLoanGrantedNo() {
+		return totalLoanGrantedNo;
+	}
+
+	public void setTotalLoanGrantedNo(Double totalLoanGrantedNo) {
+		this.totalLoanGrantedNo = totalLoanGrantedNo;
+	}
+
+	
 }

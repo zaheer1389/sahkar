@@ -9,9 +9,9 @@
 
     <parameter name="reportDate" class="java.lang.String"/>
     <parameter name="monthLabel" class="java.lang.String"/>
-    <parameter name="totalCount" class="java.lang.Integer"/>
+    <parameter name="totalCount" class="java.lang.String"/>
 
-    <field name="memberNo" class="java.lang.Integer"/>
+    <field name="memberNoGuj" class="java.lang.String"/>
     <field name="gujFullname" class="java.lang.String"/>
 
     <title>
@@ -35,7 +35,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="13" isBold="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA["લોન પાસ થયેલ સભ્યો ની યાદી : " + $P{monthLabel}]]></textFieldExpression>
+                <textFieldExpression><![CDATA["સભ્યો ની યાદી : " + $P{monthLabel}]]></textFieldExpression>
             </textField>
         </band>
     </title>
@@ -48,7 +48,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[મેમ્બર નંબર]]></text>
+                <text><![CDATA[સભ્ય નંબર]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="110" y="0" width="445" height="30" backcolor="#E6E6E6"/>
@@ -69,7 +69,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="11" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{memberNo}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{memberNoGuj}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="110" y="0" width="445" height="25"/>

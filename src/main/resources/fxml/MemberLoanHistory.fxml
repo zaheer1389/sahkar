@@ -36,9 +36,9 @@
 							<children>
 								<TableView fx:id="tblLoanHistory" VBox.vgrow="ALWAYS" styleClass="compact-table">
 								    <columns>
-								        <TableColumn fx:id="colDate" minWidth="80.0" prefWidth="80.0" maxWidth="80.0" text="તારીખ" />
+								        <TableColumn fx:id="colDate" minWidth="80.0" prefWidth="80.0" maxWidth="120.0" text="તારીખ" />
 								        <TableColumn fx:id="colAmount" minWidth="80.0" prefWidth="80.0" maxWidth="80.0" text="રકમ" />
-								        <TableColumn fx:id="colStatus" minWidth="80.0" prefWidth="80.0" maxWidth="80.0" text="સ્ટેટ્સ" />
+								        <TableColumn fx:id="colStatus" minWidth="80.0" prefWidth="80.0" maxWidth="130.0" text="સ્ટેટ્સ" />
 								        <TableColumn fx:id="colType" minWidth="80.0" prefWidth="80.0" maxWidth="80.0" text="લોન લેનાર" />
 								        
 								        <TableColumn fx:id="colWitnessName" prefWidth="150.0" text="જામીન નું નામ" />

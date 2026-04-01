@@ -13,6 +13,7 @@ public class AppConfig {
 
 	private Long monthlyFees = 20L;
 	private Long newMemberFees = 300L;
+	private Long newMemberStationaryFees = 120L;
 	private Long loanAmount = 10000L;
 	private Integer newMemberCoolingPeriod = 30; // months
 	private Integer feesRefundCoolingPeriod = 3; // months
@@ -20,10 +21,12 @@ public class AppConfig {
 	private Double openingBalExpenses;
 	private Double openingBalJammat;
 	private boolean autoRemark;
-	
+	private String storagePath;
+	private String scannerProfile;
 	private int remarkDateOfMonth = 11; // Default 11th
     private int remarkTimeHour = 17; // Default 5 PM
     private int remarkTimeMinute = 0; // Default :00
+    private Long jammatBhadu;
 	
 	public Long getId() {
 		return id;
@@ -128,4 +131,38 @@ public class AppConfig {
 	public void setOpeningBalJammat(Double openingBalJammat) {
 		this.openingBalJammat = openingBalJammat;
 	}
+
+	public String getStoragePath() {
+		return storagePath;
+	}
+
+	public void setStoragePath(String storagePath) {
+		this.storagePath = storagePath;
+	}
+
+	public String getScannerProfile() {
+		return scannerProfile;
+	}
+
+	public void setScannerProfile(String scannerProfile) {
+		this.scannerProfile = scannerProfile;
+	}
+
+	public Long getJammatBhadu() {
+		return jammatBhadu;
+	}
+
+	public void setJammatBhadu(Long jammatBhadu) {
+		this.jammatBhadu = jammatBhadu;
+	}
+
+	public Long getNewMemberStationaryFees() {
+		return newMemberStationaryFees;
+	}
+
+	public void setNewMemberStationaryFees(Long newMemberStationaryFees) {
+		this.newMemberStationaryFees = newMemberStationaryFees;
+	}
+	
+	
 }

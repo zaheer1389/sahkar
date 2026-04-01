@@ -19,13 +19,21 @@
                 <DateTimePicker fx:id="paymentDateTimePicker" />
             </VBox>
 
-            <VBox spacing="5.0">
-                <Label text="Member Number" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
-                <HBox spacing="10">
-                    <TextField fx:id="txtMemberNumber" HBox.hgrow="ALWAYS" prefHeight="35.0" promptText="Enter No. &amp; Press Enter" onAction="#handleFetchMember" />
-                    <Button onAction="#handleFetchMember" prefHeight="35.0" style="-fx-cursor: hand; -fx-background-color: #3498db; -fx-text-fill: white;" text="Fetch" />
-                </HBox>
-                <Label fx:id="lblMemberStatus" style="-fx-text-fill: red; -fx-font-size: 13;-fx-font-weight: bold;" text="" />             
+            <VBox spacing="10">
+            	<VBox spacing="5">
+	            	<Label text="Search member by name" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+	            	<HBox spacing="10">
+	                    <ComboBox fx:id="cmbMember" HBox.hgrow="ALWAYS" prefHeight="35.0" promptText="Search Member" onAction="#handleSearchMember" />
+	                </HBox>
+				</VBox>
+				<VBox spacing="5">
+	                <Label text="Member Number" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+	                <HBox spacing="10">
+	                    <TextField fx:id="txtMemberNumber" HBox.hgrow="ALWAYS" prefHeight="35.0" promptText="Enter No. &amp; Press Enter" onAction="#handleFetchMember" />
+	                    <Button onAction="#handleFetchMember" prefHeight="35.0" style="-fx-cursor: hand; -fx-background-color: #3498db; -fx-text-fill: white;" text="Fetch" />
+	                </HBox>
+	                <Label fx:id="lblMemberStatus" style="-fx-text-fill: red; -fx-font-size: 13;-fx-font-weight: bold;" text="" />
+                </VBox>             
             </VBox>
 
             <VBox fx:id="vboxStatus" spacing="8.0" visible="false" style="-fx-padding: 12; -fx-background-color: #fdfdfe; -fx-background-radius: 8; -fx-border-color: #e9ecef; -fx-border-style: dashed;">

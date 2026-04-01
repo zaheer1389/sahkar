@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="MemberSummary_Custom_Size" columnCount="2" columnSpacing="10" 
+    pageWidth="609" pageHeight="936" columnWidth="293" 
+    leftMargin="6" rightMargin="6" topMargin="6" bottomMargin="6">
+    
+    <property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
+
+    <parameter name="LegendDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+    <parameter name="LegendSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+
+    <field name="memberNo" class="java.lang.Integer"/>
+    <field name="gujaratiName" class="java.lang.String"/>
+    <field name="rowColor" class="java.lang.String"/> 
+    <field name="accentColor" class="java.lang.String"/> 
+
+    <title>
+        <band height="260">
+            <subreport>
+                <reportElement x="45" y="10" width="500" height="200"/>
+                <dataSourceExpression><![CDATA[$P{LegendDataSource}]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{LegendSubreport}]]></subreportExpression>
+            </subreport>
+            <break>
+                <reportElement x="0" y="250" width="100" height="1"/>
+            </break>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#005461"/>
+                <box><pen lineWidth="1.0" lineColor="#003D47"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[સભ્ય નં]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="60" y="0" width="233" height="30" forecolor="#FFFFFF" backcolor="#005461"/>
+                <box><pen lineWidth="1.0" lineColor="#003D47"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[સભ્યનું નામ]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25" splitType="Stretch">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="60" height="25" forecolor="#000000">
+                    <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{accentColor}]]></propertyExpression>
+                </reportElement>
+                <box><pen lineWidth="0.75" lineColor="#BDC3C7"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{memberNo} != null ? $F{memberNo} : ""]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement mode="Opaque" x="60" y="0" width="233" height="25" forecolor="#000000">
+                    <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{rowColor}]]></propertyExpression>
+                </reportElement>
+                <box><pen lineWidth="0.75" lineColor="#BDC3C7"/></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="13" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                    <paragraph leftIndent="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{gujaratiName}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="0"/>
+    </pageFooter>
+</jasperReport>

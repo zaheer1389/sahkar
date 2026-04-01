@@ -16,6 +16,7 @@ import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.data.MemberHistory;
 import com.badargadh.sahkar.data.PaymentRemark;
 import com.badargadh.sahkar.enums.CancellationReason;
+import com.badargadh.sahkar.enums.CollectionType;
 import com.badargadh.sahkar.enums.MemberStatus;
 import com.badargadh.sahkar.repository.FeesRefundRepository;
 import com.badargadh.sahkar.repository.MemberHistoryRepository;
@@ -60,6 +61,9 @@ public class RefundService {
         refund.setAmount(refundEligibleFees);
         refund.setFinancialMonth(activeMonth);
         refund.setRefundDateTime(LocalDateTime.of(activeMonth.getStartDate().plusDays(15), LocalTime.of(15, 30)));
+        
+        CollectionType collectionType = nomineeName.equals("SELF") ? CollectionType.SELF : CollectionType.AUTHORITY;
+        refund.setCollectionType(collectionType);
         
         String remarks = "Refund issued to: " + nomineeName;
         if (member.getCancellationReason() == CancellationReason.MEMBER_EXPIRED) {

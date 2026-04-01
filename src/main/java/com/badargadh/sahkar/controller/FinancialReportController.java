@@ -43,6 +43,7 @@ import com.badargadh.sahkar.service.report.YearlyReportService;
 import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.FileUtil;
+import com.badargadh.sahkar.util.GujaratiNumericUtils;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -192,7 +193,7 @@ public class FinancialReportController implements Initializable {
     		MonthlyStatementDTO dto = statementService.getActiveMonthStatement(month);
     		try {
     			//monthlyReportService.generateMonthlyStatementReport(dto, month.getMonthId(), targetFile.getAbsolutePath());
-    			jasperReportService.generateMonthlyStatementReport(dto, month.getMonthId(), targetFile.getAbsolutePath());
+    			jasperReportService.generateMonthlyStatementReport(dto, month, targetFile.getAbsolutePath());
     	        //NotificationManager.show("Report generated!!", NotificationType.INFO, Pos.CENTER);
     	    } catch (Exception e) {
     	        e.printStackTrace();
@@ -352,7 +353,11 @@ public class FinancialReportController implements Initializable {
             
             List<Member> selected = loanApplications.stream()
                     .filter(d -> d.getDrawRank().startsWith("SL"))
-                    .map(LoanApplication::getMember).collect(Collectors.toList());
+                    .map(LoanApplication::getMember)
+                    .map(m -> {
+                    	m.setMemberNoGuj(GujaratiNumericUtils.toGujarati(m.getMemberNo()));
+                    	return m;
+                    }).collect(Collectors.toList());
             
             if (selected.isEmpty()) {
             	Platform.runLater(() -> DialogManager.showInfo("Empty List!!", "Data not available to generate report"));
@@ -389,19 +394,19 @@ public class FinancialReportController implements Initializable {
             
             List<Member> selected = loanApplications.stream()
                     .filter(d -> d.getDrawRank().startsWith("SL"))
-                    .map(LoanApplication::getMember).collect(Collectors.toList());
+                    .map(app -> {
+                    	Member m = app.getMember();
+                    	m.setMemberNoGuj(GujaratiNumericUtils.toGujarati(m.getMemberNo()));
+                    	m.setLoanAmount(GujaratiNumericUtils.toGujarati(app.getAppliedAmount()*10));
+                    	return m;
+                    })
+                    .collect(Collectors.toList());
             
-            List<Map<String, Object>> refundRows = refundService.getMonthlyRefundReportList(month.getStartDate(), month.getEndDate())
-	            .stream().map(m -> {
-	                Map<String, Object> map = new HashMap<>();
-	                map.put("memberNo", m.getMemberNo());
-	                map.put("memberName", m.getGujFullname());
-	                map.put("feesRefundAmount", feeService.getMemberTotalFees(m));
-	                return map;
-	            }).collect(Collectors.toList());
+            List<Member> members = refundService.getMonthlyRefundReportList(month.getStartDate(), month.getEndDate());
+	            
             
     		try {
-    			jasperReportService.generateCombinedReport(selected, refundRows, month, targetFile.getAbsolutePath());
+    			jasperReportService.generateCombinedReport(selected, members, month, targetFile.getAbsolutePath());
     	    } catch (Exception e) {
     	        e.printStackTrace();
     	        AppLogger.error("Loan_Selection_And_Fees_Refund_Report", e);

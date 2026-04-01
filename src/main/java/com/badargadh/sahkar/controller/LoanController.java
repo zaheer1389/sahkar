@@ -27,12 +27,12 @@ import com.badargadh.sahkar.data.LoanWitness;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.enums.CollectionType;
 import com.badargadh.sahkar.enums.LoanApplicationStatus;
-import com.badargadh.sahkar.enums.LoanStatus;
 import com.badargadh.sahkar.event.ShortcutKeyEvent;
 import com.badargadh.sahkar.exception.BusinessException;
 import com.badargadh.sahkar.repository.LoanApplicationRepository;
 import com.badargadh.sahkar.repository.LoanWitnessRepository;
 import com.badargadh.sahkar.repository.PaymentRemarkRepository;
+import com.badargadh.sahkar.repository.specification.LoanApplicationSpecifications;
 import com.badargadh.sahkar.service.AppConfigService;
 import com.badargadh.sahkar.service.FinancialMonthService;
 import com.badargadh.sahkar.service.LoanDisbursementService;
@@ -45,12 +45,16 @@ import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -78,6 +82,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 @Component
 public class LoanController extends BaseController implements Initializable {
@@ -85,13 +90,14 @@ public class LoanController extends BaseController implements Initializable {
 	@FXML private DateTimePicker loanDateTimePicker;
 	@FXML private ComboBox<LoanApplicationStatus> cmbStatusFilter; // Use your LoanStatus Enum
 	@FXML private ComboBox<FinancialMonth> cmbMonths;
+	@FXML private ComboBox<CollectionType> cmbType;
     @FXML private TextField txtApplicationNo, txtSearch; // New Field
     @FXML private TextField txtMemberNumber;
     @FXML private TextField txtAmount;
-    @FXML private Label lblMemberName, lblEligibility, lblCoolingInfo, lblBalanceInfo;
+    @FXML private Label lblMemberName, lblEligibility, lblCoolingInfo, lblBalanceInfo, lblTotalCount;
     @FXML private VBox vboxStatus, vboxAppForm, vboxLoanForm;
     @FXML private TableView<LoanApplication> tblLoans;
-    @FXML private TableColumn<LoanApplication, String> colMemberNo, colMember, colAmount, colDate;
+    @FXML private TableColumn<LoanApplication, String> colSrNo, colMemberNo, colMember, colAmount, colDate;
     @FXML private TableColumn<LoanApplication, LoanApplicationStatus> colStatus;
     @FXML private TableColumn<LoanApplication, Void> colActions;
     
@@ -113,6 +119,8 @@ public class LoanController extends BaseController implements Initializable {
     private FinancialMonth financialMonth;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    private final PauseTransition searchDebounce = new PauseTransition(Duration.millis(300));
+    
     @EventListener
     public void handleGlobalShortcuts(ShortcutKeyEvent event) {
         // IMPORTANT: Check if this module is actually the one being displayed
@@ -159,6 +167,7 @@ public class LoanController extends BaseController implements Initializable {
         txtAmount.setDisable(false);
         
         cmbStatusFilter.getItems().addAll(LoanApplicationStatus.values());
+        cmbType.getItems().addAll(CollectionType.values());
         
         List<FinancialMonth> allMonths = financialMonthService.getAllMonths();
 
@@ -176,6 +185,11 @@ public class LoanController extends BaseController implements Initializable {
     	
     	tblLoans.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
     	
+    	colSrNo.setCellValueFactory(column -> 
+	        new ReadOnlyObjectWrapper<>(column.getTableView().getItems().indexOf(column.getValue()) + 1 + "")
+	    );
+    	colSrNo.setSortable(false);
+    	
     	colMemberNo.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMember().getMemberNo()+""));
         colMember.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMember().getFullname()));
         colAmount.setCellValueFactory(d -> new SimpleStringProperty(String.format("%.0f", d.getValue().getAppliedAmount())));
@@ -183,8 +197,9 @@ public class LoanController extends BaseController implements Initializable {
 
         setupStatusColumn();
         setupActionColumn();
-        setupSearch();
+        //setupSearch();
         loadDynamicData("RECENT");
+        setupListeners();
     }
     
     private void setupActionColumn() {
@@ -403,8 +418,19 @@ public class LoanController extends BaseController implements Initializable {
     	sortedData = new SortedList<>(filteredData);
     	sortedData.setComparator(Comparator.comparing(LoanApplication::getApplicationDateTime).reversed()); 
     	
+    	loanData.addListener(new ListChangeListener<LoanApplication>() {
+
+			@Override
+			public void onChanged(Change c) {
+				// TODO Auto-generated method stub
+				lblTotalCount.setText("Total Records : "+c.getList().size());
+			}
+    		
+    	});
+    	
     	tblLoans.setItems(sortedData);
-    
+		lblTotalCount.setText("Total Records : "+loanData.size());
+
         setupSearch();
         handleResetFilters();
     }
@@ -432,6 +458,7 @@ public class LoanController extends BaseController implements Initializable {
     	txtSearch.clear();
         cmbMonths.getSelectionModel().clearSelection();
         cmbStatusFilter.getSelectionModel().clearSelection();
+        cmbType.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -690,7 +717,7 @@ public class LoanController extends BaseController implements Initializable {
             if (app.getWitnesses() != null && !app.getWitnesses().isEmpty()) {
                 for(LoanWitness loanWitness : app.getWitnesses()) {
                     Member member = loanWitness.getWitnessMember();
-                    addRow(grid, currentRow++, "Witness Name:", member != null ? member.getFullname() : "NOT ASSIGNED");
+                    addRow(grid, currentRow++, "Witness Name:", member != null ? member.getGujFullname() : "NOT ASSIGNED");
                 }
             } else {
                 addRow(grid, currentRow++, "Witness:", "NO WITNESSES FOUND");
@@ -743,5 +770,38 @@ public class LoanController extends BaseController implements Initializable {
         grid.add(v, 1, row);
     }
     
+    private void setupListeners() {
+        // Single listener for all inputs
+        txtSearch.textProperty().addListener((obs, old, val) -> triggerSearch());
+        cmbMonths.valueProperty().addListener((obs, old, val) -> triggerSearch());
+        cmbStatusFilter.valueProperty().addListener((obs, old, val) -> triggerSearch());
+        cmbType.valueProperty().addListener((obs, old, val) -> triggerSearch());
+    }
+
+    private void triggerSearch() {
+        searchDebounce.setOnFinished(e -> performDatabaseSearch());
+        searchDebounce.playFromStart();
+    }
+
+    private void performDatabaseSearch() {
+        String text = txtSearch.getText();
+        FinancialMonth month = cmbMonths.getValue();
+        LoanApplicationStatus status = cmbStatusFilter.getValue();
+        CollectionType type= cmbType.getValue();
+
+        // Use a Task to keep the local app responsive
+        Task<List<LoanApplication>> task = new Task<>() {
+            @Override
+            protected List<LoanApplication> call() {
+                return loanApplicationRepository.findAll(LoanApplicationSpecifications.filterBy(text, month, status, type));
+            }
+        };
+
+        task.setOnSucceeded(e -> loanData.setAll(task.getValue()));
+        
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
     
 }

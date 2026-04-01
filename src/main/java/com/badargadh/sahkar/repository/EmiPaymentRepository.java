@@ -27,6 +27,11 @@ public interface EmiPaymentRepository extends JpaRepository<EmiPayment, Long> {
     
     List<EmiPayment> findByFinancialMonth(FinancialMonth month);
     
+    EmiPayment findTopByMemberOrderByPaymentDateTime(Member member);
+    
+    // Finds the single most recent EMI payment for a specific member
+    Optional<EmiPayment> findTopByMemberOrderByPaymentDateTimeDesc(Member member);
+    
     @Query("SELECT p FROM EmiPayment p WHERE YEAR(p.paymentDateTime) = :year")
     List<EmiPayment> findAllPaymentsByYear(@Param("year") int year);
     

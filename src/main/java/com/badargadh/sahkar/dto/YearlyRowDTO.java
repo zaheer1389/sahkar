@@ -2,10 +2,9 @@ package com.badargadh.sahkar.dto;
 
 public class YearlyRowDTO {
 	private String category;
-	private Double jan = 0.0, feb = 0.0, mar = 0.0, apr = 0.0, may = 0.0, jun = 0.0;
-	private Double jul = 0.0, aug = 0.0, sep = 0.0, oct = 0.0, nov = 0.0, dec = 0.0;
-	private Double yearlyTotal = 0.0;
-	private Boolean isSectionHeader = false; // Boolean with capital B for Jasper
+	private String jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec;
+	private String yearlyTotal;
+	private Boolean isSectionHeader = false;
 	private Boolean isTotalRow = false;
 
 	public String getCategory() {
@@ -16,107 +15,107 @@ public class YearlyRowDTO {
 		this.category = category;
 	}
 
-	public Double getJan() {
+	public String getJan() {
 		return jan;
 	}
 
-	public void setJan(Double jan) {
+	public void setJan(String jan) {
 		this.jan = jan;
 	}
 
-	public Double getFeb() {
+	public String getFeb() {
 		return feb;
 	}
 
-	public void setFeb(Double feb) {
+	public void setFeb(String feb) {
 		this.feb = feb;
 	}
 
-	public Double getMar() {
+	public String getMar() {
 		return mar;
 	}
 
-	public void setMar(Double mar) {
+	public void setMar(String mar) {
 		this.mar = mar;
 	}
 
-	public Double getApr() {
+	public String getApr() {
 		return apr;
 	}
 
-	public void setApr(Double apr) {
+	public void setApr(String apr) {
 		this.apr = apr;
 	}
 
-	public Double getMay() {
+	public String getMay() {
 		return may;
 	}
 
-	public void setMay(Double may) {
+	public void setMay(String may) {
 		this.may = may;
 	}
 
-	public Double getJun() {
+	public String getJun() {
 		return jun;
 	}
 
-	public void setJun(Double jun) {
+	public void setJun(String jun) {
 		this.jun = jun;
 	}
 
-	public Double getJul() {
+	public String getJul() {
 		return jul;
 	}
 
-	public void setJul(Double jul) {
+	public void setJul(String jul) {
 		this.jul = jul;
 	}
 
-	public Double getAug() {
+	public String getAug() {
 		return aug;
 	}
 
-	public void setAug(Double aug) {
+	public void setAug(String aug) {
 		this.aug = aug;
 	}
 
-	public Double getSep() {
+	public String getSep() {
 		return sep;
 	}
 
-	public void setSep(Double sep) {
+	public void setSep(String sep) {
 		this.sep = sep;
 	}
 
-	public Double getOct() {
+	public String getOct() {
 		return oct;
 	}
 
-	public void setOct(Double oct) {
+	public void setOct(String oct) {
 		this.oct = oct;
 	}
 
-	public Double getNov() {
+	public String getNov() {
 		return nov;
 	}
 
-	public void setNov(Double nov) {
+	public void setNov(String nov) {
 		this.nov = nov;
 	}
 
-	public Double getDec() {
+	public String getDec() {
 		return dec;
 	}
 
-	public void setDec(Double dec) {
+	public void setDec(String dec) {
 		this.dec = dec;
 	}
 
-	public Double getYearlyTotal() {
+	public String getYearlyTotal() {
 		return yearlyTotal;
 	}
 
-	public void setYearlyTotal(Double yearlyTotal) {
+	public void setYearlyTotal(String yearlyTotal) {
 		this.yearlyTotal = yearlyTotal;
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.enums.LoanApplicationStatus;
 
 @Repository
-public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
+public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long>, JpaSpecificationExecutor<LoanApplication> {
 	
 	@Query("SELECT la FROM LoanApplication la " +
            "JOIN LoanAccount acc ON acc.loanApplication = la " +
@@ -42,7 +43,7 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     
     List<LoanApplication> findAllByFinancialMonthAndStatus(FinancialMonth month, LoanApplicationStatus status);
     
-    List<LoanApplication> findAllByFinancialMonthAndStatusInOrderByStatusAsc(FinancialMonth month, Collection<LoanApplicationStatus> statuses);
+    List<LoanApplication> findAllByFinancialMonthAndStatusInOrderByStatusAscMemberMemberNoAsc(FinancialMonth month, Collection<LoanApplicationStatus> statuses);
     
     Optional<LoanApplication> findFirstByFinancialMonthAndDrawRankStartingWithOrderByDrawRankAsc(FinancialMonth month, String drawRank);
     

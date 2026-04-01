@@ -706,3 +706,256 @@
 .menu-item:focused .label {
     -fx-text-fill: white;
 }
+
+/* Corporate Line Chart Colors */
+.corporate-chart .chart-series-line {
+    -fx-stroke: #005461; /* Deep Teal */
+    -fx-stroke-width: 3px;
+}
+
+.corporate-chart .chart-line-symbol {
+    -fx-background-color: #005461, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.corporate-chart .axis-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.chart-series-line {
+    -fx-stroke: #005461; /* Deep Teal */
+    -fx-stroke-width: 3px;
+    -fx-stroke-line-join: round;
+    -fx-stroke-line-cap: round;
+}
+
+/* Add a gradient area fill under the line */
+.chart-series-area-fill {
+    -fx-fill: linear-gradient(to bottom, rgba(0, 84, 97, 0.3), transparent);
+}
+
+/* Make data points (symbols) look like modern "Pills" */
+.chart-line-symbol {
+    -fx-background-color: #005461, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 10px; /* Perfectly round */
+    -fx-padding: 6px;
+}
+
+/* Remove the distracting background grid for a cleaner look */
+.chart-alternative-column-fill, .chart-alternative-row-fill {
+    -fx-fill: transparent;
+}
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #e0e0e0;
+    -fx-stroke-dash-array: 3 3; /* Dashed lines */
+}
+
+/* Series 1: Loans Issued (Deep Teal) */
+.default-color0.chart-series-line { 
+    -fx-stroke: #005461; 
+    -fx-stroke-width: 3px; 
+    -fx-stroke-line-join: round; /* Smoothes the jagged corners */
+}
+.default-color0.chart-line-symbol { 
+    -fx-background-color: #005461, white; 
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Series 2: Fee Refunds (Corporate Red/Orange for contrast) */
+.default-color1.chart-series-line { 
+    -fx-stroke: #C0392B; 
+    -fx-stroke-width: 3px; 
+    -fx-stroke-line-join: round;
+}
+.default-color1.chart-line-symbol { 
+    -fx-background-color: #C0392B, white; 
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* General Chart Polish */
+.chart-series-area-fill {
+    -fx-fill: transparent; /* Keep it clean as a line chart */
+}
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #e0e0e0;
+    -fx-stroke-dash-array: 2 2;
+}
+
+/* Make Axis labels and Tick labels Bold */
+.chart-axis {
+   -fx-tick-label-font-weight: bold;
+   -fx-tick-label-fill: #2c3e50; /* Dark Corporate Grey */
+   -fx-font-size: 12px;
+}
+
+.axis-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #005461; /* Deep Teal */
+}
+
+/* Style the Tooltip to match Corporate look */
+.tooltip {
+    -fx-background-color: #005461;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+}
+
+/* General Stat Card Styling */
+.stat-card {
+    -fx-padding: 20;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.stat-card-blue {
+    -fx-background-color: #3498db;
+}
+
+.stat-card-teal {
+    -fx-background-color: #005461;
+}
+
+/* Label specific styles within cards */
+.stat-card .title-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-line-spacing: 2;
+}
+
+.stat-card .value-label {
+    -fx-text-fill: white;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0 0 0;
+}
+
+.stat-card:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-cursor: hand;
+}
+
+/* 1. Base Card Styling */
+.stat-card {
+    -fx-padding: 20;
+    -fx-background-radius: 12;
+    -fx-spacing: 10;
+    /* Professional shadow: soft and natural */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 10, 0, 0, 4);
+    -fx-transition: all 0.3s ease;
+}
+
+/* 2. Hover Interaction - Adds a "lifting" effect */
+.stat-card:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 8);
+    -fx-cursor: hand;
+}
+
+/* 3. Label Typography */
+.stat-card .title-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.9); /* Slightly transparent white for title */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-line-spacing: 2;
+}
+
+.stat-card .value-label {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 0 0 0;
+}
+
+/* 4. FontAwesome Icon Styling inside cards */
+.stat-card .glyph-icon {
+    -fx-fill: white;
+    -fx-opacity: 0.8;
+}
+
+/* Ensure the EMI cards inside the HBox have consistent spacing */
+.stat-card .title-label {
+    -fx-font-size: 13px; /* Slightly smaller for EMI label */
+    -fx-text-fill: rgba(255, 255, 255, 0.85);
+}
+
+.stat-card .value-label {
+    -fx-font-size: 28px; /* Make the number bold and big */
+    -fx-font-weight: bold;
+}
+
+/* Add a hover effect specific to the EMI section */
+.stat-card:hover {
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 6);
+}
+
+/* Remove the gap between the chart and the axis */
+.chart-content {
+    -fx-padding: 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+/* Ensure the X-Axis line is drawn on TOP of the chart lines */
+.chart-axis-x {
+    -fx-border-color: #2c3e50 transparent transparent transparent;
+    -fx-border-width: 2px;
+    /* This ensures the axis line covers any slight line overlap */
+    -fx-view-order: -1.0; 
+}
+
+.chart-series-line {
+    /* Butt cap ensures the line doesn't extend beyond the final point */
+    -fx-stroke-line-cap: butt;
+}
+
+/* 5. Unique Color Variations */
+
+/* Member Overview Colors */
+.stat-card-green {
+    -fx-background-color: linear-gradient(to bottom right, #27ae60, #2ecc71);
+}
+
+.stat-card-amber {
+    -fx-background-color: linear-gradient(to bottom right, #f39c12, #f1c40f);
+}
+
+.stat-card-brown {
+    -fx-background-color: linear-gradient(to bottom right, #795548, #8d6e63);
+}
+
+/* Financial Overview Colors */
+.stat-card-blue {
+    -fx-background-color: linear-gradient(to bottom right, #2980b9, #3498db);
+}
+
+.stat-card-red {
+    -fx-background-color: linear-gradient(to bottom right, #c0392b, #e74c3c);
+}
+
+.stat-card-teal {
+    -fx-background-color: linear-gradient(to bottom right, #005461, #007a8c);
+}
+
+.stat-card-purple {
+    -fx-background-color: linear-gradient(to bottom right, #8e44ad, #9b59b6);
+}

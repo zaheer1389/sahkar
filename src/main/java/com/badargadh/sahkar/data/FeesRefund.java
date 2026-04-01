@@ -2,7 +2,11 @@ package com.badargadh.sahkar.data;
 
 import java.time.LocalDateTime;
 
+import com.badargadh.sahkar.enums.CollectionType;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +35,9 @@ public class FeesRefund {
 	@ManyToOne
 	@JoinColumn(name = "FinancialMonthId", nullable = false)
 	private FinancialMonth financialMonth;
+	
+	@Enumerated(EnumType.STRING)
+	private CollectionType collectionType; // SELF, RELATIVE
 
 	private LocalDateTime refundDateTime;
 
@@ -92,4 +99,13 @@ public class FeesRefund {
 		this.remarks = remarks;
 	}
 
+	public CollectionType getCollectionType() {
+		return collectionType;
+	}
+
+	public void setCollectionType(CollectionType collectionType) {
+		this.collectionType = collectionType;
+	}
+
+	
 }

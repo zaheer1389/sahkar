@@ -1,44 +1,62 @@
 package com.badargadh.sahkar.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.badargadh.sahkar.data.AuthorizationProof;
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.data.MemberFeesRefundDTO;
+import com.badargadh.sahkar.enums.CancellationReason;
+import com.badargadh.sahkar.enums.ProofType;
+import com.badargadh.sahkar.repository.AuthorizationProofRepository;
 import com.badargadh.sahkar.repository.PaymentRemarkRepository;
 import com.badargadh.sahkar.service.AppConfigService;
 import com.badargadh.sahkar.service.FeeService;
 import com.badargadh.sahkar.service.FinancialMonthService;
+import com.badargadh.sahkar.service.ProofStorageService;
 import com.badargadh.sahkar.service.ReceiptPrintingService;
 import com.badargadh.sahkar.service.RefundService;
 import com.badargadh.sahkar.util.AppLogger;
 import com.badargadh.sahkar.util.DialogManager;
+import com.badargadh.sahkar.util.EncryptionUtil;
+import com.badargadh.sahkar.util.GujaratiNumericUtils;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 @Component
@@ -57,6 +75,8 @@ public class FeesRefundController extends BaseController {
     @Autowired private AppConfigService appConfigService;
     @Autowired private FinancialMonthService monthService;
     @Autowired private ReceiptPrintingService printingService;
+    @Autowired private AuthorizationProofRepository proofRepository;
+    @Autowired private ProofStorageService proofStorageService;
     
     FinancialMonth financialMonth;
     
@@ -130,9 +150,13 @@ public class FeesRefundController extends BaseController {
                 } else {
                     // 2. Get the specific member for this row
                     MemberFeesRefundDTO memberDto = getTableView().getItems().get(getIndex());
-                    
+                    CancellationReason reason = memberDto.getMember().getCancellationReason();
                     // 3. Check eligibility logic
-                    if (isEligibleForRefund(memberDto.getMember())) {
+                    if(reason == CancellationReason.MEMBER_EXPIRED) {
+                    	setGraphic(btn);
+                        btn.setTooltip(new Tooltip("Click to Process Refund"));
+                    }
+                    else if (isEligibleForRefund(memberDto.getMember())) {
                         setGraphic(btn);
                         btn.setTooltip(new Tooltip("Click to Process Refund"));
                     } else {
@@ -143,18 +167,6 @@ public class FeesRefundController extends BaseController {
             }
         };
         colAction.setCellFactory(cellFactory);
-    }
-
-    private void promptForRefund(MemberFeesRefundDTO member) {
-        // 1. Confirmation Dialog
-        if (!DialogManager.confirm("Confirm Refund", 
-            "Are you sure you want to process refund for: " + member.getMember().getFullname() + "?")) {
-            return;
-        }
-
-        if(showSecurityGate("Please enter your password to issue fees refund!")) {
-        	processRefundAction(member, "SELF");
-        }
     }
 
     private void processRefundAction(MemberFeesRefundDTO member, String nominee) {
@@ -204,6 +216,153 @@ public class FeesRefundController extends BaseController {
                 }
             });
     	}
+    }
+    
+    private void processFinalRefund(MemberFeesRefundDTO memberDto, Map<String, Object> data) {
+        try {
+            boolean isAuth = (boolean) data.get("isAuth");
+            String repName = isAuth ? (String) data.get("repName") : "SELF";
+            File file = (File) data.get("file");
+
+            String savedPath = null;
+            
+            // 1. If it's an Authority collection, store the file
+            if (isAuth && file != null) {
+                // Using the service we wrote previously
+                savedPath = proofStorageService.storeProofLetter(
+                    memberDto.getMember().getMemberNo(), 
+                    file, 
+                    ProofType.FEE_REFUND
+                );
+            }
+
+            // 2. Create the Proof Record in DB
+            if (savedPath != null) {
+                AuthorizationProof proof = new AuthorizationProof(
+                    memberDto.getMember().getMemberNo(),
+                    savedPath,
+                    ProofType.FEE_REFUND
+                );
+                proof.setFinancialMonth(financialMonth);
+                proof.setChecksum(EncryptionUtil.generateChecksum(file)); // Optional
+                proofRepository.save(proof);
+            }
+
+            // 3. Issue the actual Refund in your system
+            processRefundAction(memberDto, repName);
+            
+            
+
+        } catch (Exception e) {
+            AppLogger.error("Error processing refund: ", e);
+        }
+    }
+    
+    private void viewProof(AuthorizationProof proof) {
+        File file = new File(proof.getFilePath());
+        if (file.exists()) {
+            // This opens the image in the default Windows photo viewer
+            try {
+                java.awt.Desktop.getDesktop().open(file);
+            } catch (IOException e) {
+            	AppLogger.error("Could not open file: ", e);
+            }
+        } else {
+        	 DialogManager.showError("Document Open Error", " File not found at: " + proof.getFilePath());
+        }
+    }
+    
+    private void promptForRefund(MemberFeesRefundDTO memberDto) {
+    	
+    	if (!DialogManager.confirm("Confirm Refund", 
+            "Are you sure you want to process refund for: " + memberDto.getMember().getFullname() + "?")) {
+            return;
+        }
+  
+        // 1. Create the Dialog
+        Dialog<Map<String, Object>> dialog = new Dialog<>();
+        dialog.setTitle("Refund Processing - " + memberDto.getMember().getGujFullname());
+        dialog.setHeaderText("Issue Refund for Member No: " + GujaratiNumericUtils.toGujarati(memberDto.getMember().getMemberNo()));
+
+        // 2. Form UI Layout
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(15);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        Label lblAmount = new Label("Refund Amount: ₹ " + GujaratiNumericUtils.toGujarati(memberDto.getFeesRefundAmount()));
+        lblAmount.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+
+        ComboBox<String> comboType = new ComboBox<>();
+        comboType.getItems().addAll("Self (પોતે)", "Authorized Person (અધિકૃત વ્યક્તિ)");
+        comboType.getSelectionModel().selectFirst();
+
+        TextField txtRepName = new TextField();
+        txtRepName.setPromptText("Enter Representative Name");
+        txtRepName.setDisable(true); // Default disabled for 'Self'
+
+        Button btnScan = new Button("Scan/Upload Letter");
+        btnScan.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FILE_IMAGE_ALT));
+        btnScan.setDisable(true);
+        
+        Label lblFileStatus = new Label("No file selected");
+        lblFileStatus.setStyle("-fx-text-fill: red; -fx-font-size: 10px;");
+
+        final File[] selectedFile = {null};
+
+        // 3. Logic: Enable/Disable fields based on selection
+        comboType.valueProperty().addListener((obs, oldVal, newVal) -> {
+            boolean isAuth = newVal.contains("Authorized");
+            txtRepName.setDisable(!isAuth);
+            btnScan.setDisable(!isAuth);
+            if(!isAuth) {
+                selectedFile[0] = null;
+                lblFileStatus.setText("Not required for Self");
+            }
+        });
+
+        // 4. Scanner Simulation / File Chooser
+        btnScan.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+            selectedFile[0] = fileChooser.showOpenDialog(null);
+            if (selectedFile[0] != null) {
+                lblFileStatus.setText("File Ready: " + selectedFile[0].getName());
+                lblFileStatus.setStyle("-fx-text-fill: green;");
+            }
+        });
+
+        grid.add(lblAmount, 0, 0, 2, 1);
+        grid.add(new Label("Collection Type:"), 0, 1);
+        grid.add(comboType, 1, 1);
+        grid.add(new Label("Representative Name:"), 0, 2);
+        grid.add(txtRepName, 1, 2);
+        grid.add(btnScan, 0, 3);
+        grid.add(lblFileStatus, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+        
+        ButtonType submitBtnType = new ButtonType("Issue Refund", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(submitBtnType, ButtonType.CANCEL);
+
+        // 5. Validation Logic
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == submitBtnType) {
+                Map<String, Object> results = new HashMap<>();
+                results.put("isAuth", comboType.getValue().contains("Authorized"));
+                results.put("repName", txtRepName.getText());
+                results.put("file", selectedFile[0]);
+                return results;
+            }
+            return null;
+        });
+
+        // 6. Final Execution
+        dialog.showAndWait().ifPresent(data -> {
+        	if(showSecurityGate("Please enter your password to issue fees refund!")) {
+        		processFinalRefund(memberDto, data);
+            }
+        });
     }
     
     public MemberFeesRefundDTO getFeesRefundDTO(Member member) {

@@ -1,5 +1,6 @@
 package com.badargadh.sahkar.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.badargadh.sahkar.data.EmiPayment;
 import com.badargadh.sahkar.data.EmiPaymentGroup;
+import com.badargadh.sahkar.data.FinancialMonth;
 
 @Repository
 public interface EmiPaymentGroupRepository extends JpaRepository<EmiPaymentGroup, Long> {
@@ -17,5 +20,6 @@ public interface EmiPaymentGroupRepository extends JpaRepository<EmiPaymentGroup
 	       "LEFT JOIN FETCH g.feePayments " +
 	       "WHERE g.id = :id")
 	Optional<EmiPaymentGroup> findByIdWithPayments(@Param("id") Long id);
+
 	
 }

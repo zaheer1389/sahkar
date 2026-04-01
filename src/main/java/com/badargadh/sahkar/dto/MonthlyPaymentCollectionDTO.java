@@ -42,6 +42,10 @@ public class MonthlyPaymentCollectionDTO {
 		this.fullName = (firstName + " " + middleName + " " + lastName).trim();
 	}
 
+	public MonthlyPaymentCollectionDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getMemberNo() {
 		return memberNo;
 	}

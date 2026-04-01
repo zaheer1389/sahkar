@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "members")
@@ -59,6 +60,12 @@ public class Member {
 	
 	@Column(name = "CancellationRemarks", length = 5000) // Explicitly set length
 	private String cancellationRemarks;
+	
+	@Transient
+	private String memberNoGuj;
+	
+	@Transient
+	private String loanAmount;
 
 	public Long getId() {
 		return id;
@@ -202,6 +209,22 @@ public class Member {
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+
+	public String getMemberNoGuj() {
+		return memberNoGuj;
+	}
+
+	public void setMemberNoGuj(String memberNoGuj) {
+		this.memberNoGuj = memberNoGuj;
+	}
+
+	public String getLoanAmount() {
+		return loanAmount;
+	}
+
+	public void setLoanAmount(String loanAmount) {
+		this.loanAmount = loanAmount;
 	}
 	
 	

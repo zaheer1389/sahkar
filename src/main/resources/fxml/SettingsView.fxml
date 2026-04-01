@@ -50,6 +50,13 @@
                                     </HBox>
                                 </VBox>
                                 <VBox spacing="5.0">
+                                    <Label text="New Member Stationary Fees" />
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <TextField fx:id="txtNewMemberStationaryFees" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnEditNewMemberStationaryFee" onAction="#toggleNewMemberEditStationaryFee" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
+                                    </HBox>
+                                </VBox>
+                                <VBox spacing="5.0">
                                     <Label text="Fees Refund Cooling Period (Months)" />
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtRefundCooling" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
@@ -102,6 +109,13 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                                         <TextField fx:id="txtLoanAmount" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
                                         <Button fx:id="btnEditLoan" onAction="#toggleLoanEdit" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
+                                    </HBox>
+                                </VBox>
+                                <VBox spacing="5.0">
+                                    <Label text="Monthly Rent deduction from loan amount" />
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <TextField fx:id="txtJamatBhadu" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnJamatBhadu" onAction="#toggleJamatBhadu" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="✎"  />
                                     </HBox>
                                 </VBox>
                             </children>
@@ -165,6 +179,39 @@
                                 </VBox>
                             </children>
                         </VBox>
+
+						<VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+						    <children>
+						        <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #34495e;" text="📷 Scanner &amp; Proof Storage" />
+						        
+						        <VBox spacing="10.0">
+						            <children>
+						                <Label text="Physical Storage Path (Local Drive)" />
+						                <HBox spacing="10.0">
+						                    <children>
+						                        <TextField fx:id="txtStoragePath" disable="true" prefHeight="35.0" HBox.hgrow="ALWAYS" promptText="D:/SocietyApp/Proofs" />
+						                        <Button fx:id="btnBrowseStorage" onAction="#handleBrowseStorage" prefHeight="35.0" style="-fx-cursor: hand;" text="Browse" />
+						                    </children>
+						                </HBox>
+						                
+						                <Separator prefWidth="200.0">
+						                    <VBox.margin><Insets bottom="5.0" top="5.0" /></VBox.margin>
+						                </Separator>
+						                
+						                <Label text="Default Scanner Profile (NAPS2)" />
+						                <HBox spacing="10.0">
+						                    <children>
+						                        <ComboBox fx:id="cbScannerProfiles" maxWidth="Infinity" prefHeight="35.0" promptText="Select Profile..." HBox.hgrow="ALWAYS" />
+						                        <Button onAction="#handleRefreshScanners" prefHeight="35.0" prefWidth="60.0" style="-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4;" text="🔄" />
+						                    </children>
+						                </HBox>
+						                
+						                <Button onAction="#handleTestScan" maxWidth="Infinity" prefHeight="40.0" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="RUN TEST SCAN" />
+						                <Label style="-fx-font-style: italic; -fx-text-fill: #95a5a6; -fx-font-size: 11px;" text="* Proofs are organized automatically by Year and Month." wrapText="true" />
+						            </children>
+						        </VBox>
+						    </children>
+						</VBox>
 
                     </children>
                 </GridPane>

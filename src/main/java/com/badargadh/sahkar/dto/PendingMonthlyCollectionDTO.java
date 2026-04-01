@@ -17,12 +17,13 @@ public class PendingMonthlyCollectionDTO {
     private String branchNameGuj;
     private String fullName;
     private String witnessNameGuj;
+    private String branchName;
     
     // Constructor matching the JPQL projection order
     public PendingMonthlyCollectionDTO(Integer memberNo, String firstName, String middleName, String lastName, 
                                        String village, MemberStatus status, Double totalHistoricalFeesPaid, 
                                        Double loanPendingAmount, Double emiAmountDue, 
-                                       String fullNameGuj, String branchNameGuj) {
+                                       String fullNameGuj, String branchNameGuj, String branchName) {
         this.memberNo = memberNo;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -34,6 +35,7 @@ public class PendingMonthlyCollectionDTO {
         this.emiAmountDue = emiAmountDue;
         this.fullNameGuj = fullNameGuj;
         this.branchNameGuj = branchNameGuj;
+        this.branchName = branchName;
         
         this.fullName = (firstName + " " + middleName + " " + lastName).trim();
     }
@@ -127,7 +129,7 @@ public class PendingMonthlyCollectionDTO {
 	}
 
 	public String getFullName() {
-		return fullName;
+		return fullName + (branchName != null && !branchName.isEmpty() ? "("+branchName+")" : "");
 	}
 
 	public void setFullName(String fullName) {

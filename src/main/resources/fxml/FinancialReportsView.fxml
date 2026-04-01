@@ -42,7 +42,7 @@
                                         <Label text="MEMBERSHIP &amp; AUDIT" style="-fx-text-fill: #1e293b; -fx-font-weight: bold; -fx-letter-spacing: 1;" />
                                     </HBox>
                                     <FlowPane hgap="15" vgap="15">
-                                        <Button onAction="#printMemberReport" text="Master Member List" styleClass="btn-slate" />
+                                        <Button onAction="#printMemberReport" text="Member List - ગુજરાતી" styleClass="btn-slate" />
                                         <Button onAction="#printMemberSummaryReport" text="Member Summary" styleClass="btn-slate" />
                                     </FlowPane>
                                 </VBox>

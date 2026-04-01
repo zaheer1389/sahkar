@@ -17,6 +17,9 @@ import com.badargadh.sahkar.enums.FeeType;
 
 @Repository
 public interface FeePaymentRepository extends JpaRepository<FeePayment, Long> {
+	
+	List<FeePayment> findByFinancialMonth(FinancialMonth month);
+	
     // Get the latest transaction for a member to find the current running balance
     Optional<FeePayment> findTopByMemberOrderByIdDesc(Member member);
     
@@ -28,6 +31,8 @@ public interface FeePaymentRepository extends JpaRepository<FeePayment, Long> {
     Double getMemberTotalFee(@Param("memberId") Long memberId);
     
     int countByMemberAndFeeType(Member member, FeeType feeType);
+    
+    int countByMember(Member member);
     
     boolean existsByMemberAndFinancialMonth(Member member, FinancialMonth financialMonth);
     
@@ -65,10 +70,20 @@ public interface FeePaymentRepository extends JpaRepository<FeePayment, Long> {
 	       nativeQuery = true)
 	Double calculateExpectedRefunds(@Param("monthEnd") LocalDate monthEnd);
     
+    @Query(value = "SELECT COALESCE(SUM(f.amount), 0) FROM fee_payments f " + 	
+    		"JOIN members m ON f.member_id = m.id " +
+ 	       "WHERE m.member_status = 'CANCELLED' " +
+ 	       "AND m.cancellation_reason = 'MEMBER_EXPIRED' ", // Expired members are usually handled separately
+ 	       nativeQuery = true)
+ 	Double calculateExpectedRefundsExpiredMember();
+    
     @Query("SELECT SUM(f.amount) FROM FeePayment f WHERE f.member.status IN ('ACTIVE', 'CANCELLED')")
     Double sumAllFees();
     
     @Query("SELECT f FROM FeePayment f " +
             "WHERE YEAR(f.transactionDateTime) = :year")
     List<FeePayment> findByYear(@Param("year") int year);
+
+    @Query("SELECT f.member.id, SUM(f.amount) FROM FeePayment f WHERE f.member.id IN :memberIds GROUP BY f.member.id")
+    List<Object[]> findTotalFeesForMembers(@Param("memberIds") List<Long> memberIds);
 }

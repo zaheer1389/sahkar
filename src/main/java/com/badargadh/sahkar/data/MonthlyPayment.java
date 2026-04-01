@@ -15,6 +15,8 @@ public class MonthlyPayment {
 	private Integer balanceAmount = 0;
 	private String name;
 	private String memberNo;
+	private Long totalFees;
+	private int totalMonthsSinceLastLoan;
 
 	public Member getMember() {
 		return member;
@@ -104,6 +106,19 @@ public class MonthlyPayment {
 		this.memberNo = memberNo;
 	}
 
-	
-	
+	public Long getTotalFees() {
+		return totalFees;
+	}
+
+	public void setTotalFees(Long totalFees) {
+		this.totalFees = totalFees;
+	}
+
+	public int getTotalMonthsSinceLastLoan() {
+		return totalMonthsSinceLastLoan;
+	}
+
+	public void setTotalMonthsSinceLastLoan(int totalMonthsSinceLastLoan) {
+		this.totalMonthsSinceLastLoan = totalMonthsSinceLastLoan;
+	}
 }

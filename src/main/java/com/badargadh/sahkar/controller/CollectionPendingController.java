@@ -1,9 +1,11 @@
 package com.badargadh.sahkar.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -39,7 +42,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 @Component
-public class CollectionPendingController {
+public class CollectionPendingController implements Initializable {
 	
 	@FXML private TextField txtSearchPending;
 	@FXML private TableView<PendingMonthlyCollectionDTO> tblPending;
@@ -59,8 +62,8 @@ public class CollectionPendingController {
     private FinancialMonth month;
     private ObservableList<PendingMonthlyCollectionDTO> masterPendingData = FXCollections.observableArrayList();
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     	
     	appConfig = appConfigService.getSettings();
     	
@@ -174,4 +177,5 @@ public class CollectionPendingController {
             }
         }
     }
+
 }

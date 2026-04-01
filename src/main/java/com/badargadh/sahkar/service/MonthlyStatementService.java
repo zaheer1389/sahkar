@@ -75,6 +75,7 @@ public class MonthlyStatementService {
         dto.setFullPaymentAmount(emiRepo.sumOfTotalFullPaymentsByFinancialMonth(monthId));
 
         // --- OUTGOING SECTION ---
+        dto.setTotalLoanGrantedNo(loanRepo.countNoOfLoanGranted(monthId));
         dto.setTotalLoanGranted(loanRepo.sumOfLoanDisbursedAmount(monthId));
         dto.setTotalFeeRefund(refundRepo.sumRefundsByMonth(monthId));
         

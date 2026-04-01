@@ -130,7 +130,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	        + "COALESCE(la.pendingAmount, 0.0), "
 	        + "COALESCE(la.emiAmount, 0.0), "
 	        + "CONCAT(COALESCE(m.firstNameGuj, ''), ' ', COALESCE(m.middleNameGuj, ''), ' ', COALESCE(m.lastNameGuj, '')), "
-	        + "m.branchNameGuj) " 
+	        + "m.branchNameGuj, m.branchName) " 
 	        + "FROM Member m "
 	        + "LEFT JOIN LoanAccount la ON la.member = m AND la.loanStatus = 'ACTIVE' "
 	        + "JOIN FinancialMonth fm ON fm.id = :monthId "

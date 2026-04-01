@@ -5,61 +5,105 @@
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
 <VBox spacing="20" style="-fx-padding: 25; -fx-background-color: #f8f9fa;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.DashboardController">
     <children>
-        <Label text="Society Financial Overview" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-        
+        <Label text="સભ્યોની વિગત (Member Overview)" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
         <HBox spacing="15" alignment="TOP_LEFT">
             <children>
-            
-            	<VBox styleClass="stat-card" prefWidth="220" style="-fx-background-color: #27ae60; -fx-padding: 20; -fx-background-radius: 10;">
-                    <Label text="Active Members" style="-fx-text-fill: white; -fx-font-size: 14;"/>
-                    <Label fx:id="lblActiveMembers" text="0" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;"/>
+                <VBox styleClass="stat-card, stat-card-green" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="USERS" size="20" fill="WHITE"/>
+                        <Label text="કુલ સભ્યો" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblActiveMembers" text="0" styleClass="value-label"/>
                 </VBox>
-                
-                <VBox styleClass="stat-card" prefWidth="220" style="-fx-background-color: #3498db; -fx-padding: 20; -fx-background-radius: 10;">
-                    <Label text="Total Society Fees" style="-fx-text-fill: white; -fx-font-size: 14;"/>
-                    <Label fx:id="lblTotalFees" text="₹ 0.00" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;"/>
+
+                <VBox styleClass="stat-card, stat-card-amber" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="MONEY" size="20" fill="WHITE"/>
+                        <Label text="ચાલુ લોન" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblActiveLoans" text="0" styleClass="value-label"/>
                 </VBox>
-                
-                <VBox styleClass="stat-card" prefWidth="220" style="-fx-background-color: #ffc107; -fx-padding: 20; -fx-background-radius: 10;">
-                    <Label text="Active Loans" style="-fx-text-fill: white; -fx-font-size: 14;"/>
-                    <Label fx:id="lblActiveLoans" text="0" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;"/>
-                </VBox>
-                
-                <VBox styleClass="stat-card" prefWidth="220" style="-fx-background-color: #e74c3c; -fx-padding: 20; -fx-background-radius: 10;">
-                    <Label text="Total Pending Amount" style="-fx-text-fill: white; -fx-font-size: 14;"/>
-                    <Label fx:id="lblTotalPending" text="₹ 0.00" style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;"/>
-                </VBox>
-                
-                
+
+                <VBox styleClass="stat-card, stat-card-brown" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="PIE_CHART" size="20" fill="WHITE"/>
+                        <Label text="માત્ર ફી ભરેલ" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblFeesCount" text="0" styleClass="value-label"/>
+                </VBox>  
             </children>
         </HBox>
         
+        <Label text="નાણાકીય વિગત (Financial Overview)" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <HBox spacing="15" alignment="TOP_LEFT">
+            <children>
+                <VBox styleClass="stat-card, stat-card-blue" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="BANK" size="20" fill="WHITE"/>
+                        <Label text="કુલ જમા ફીસ" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblTotalFees" text="₹ 0.00" styleClass="value-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card, stat-card-red" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="CALCULATOR" size="20" fill="WHITE"/>
+                        <Label text="કુલ લેણી રકમ" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblTotalPending" text="₹ 0.00" styleClass="value-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card, stat-card-teal" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="DATABASE" size="20" fill="WHITE"/>
+                        <Label text="જમાત બેલેન્સ" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblJamatBal" text="₹ 0.00" styleClass="value-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card, stat-card-purple" prefWidth="220">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="BOOK" size="20" fill="WHITE"/>
+                        <Label text="હાથ પર રોકડ" styleClass="title-label"/>
+                    </HBox>
+                    <Label fx:id="lblClosingBal" text="₹ 0.00" styleClass="value-label"/>
+                </VBox>
+                
+                <VBox styleClass="stat-card, stat-card-amber" prefWidth="220">
+				    <HBox alignment="CENTER_LEFT" spacing="10">
+				        <FontAwesomeIconView glyphName="PENCIL" size="20" fill="WHITE"/>
+				        <Label text="સ્ટેશનરી સિલક" styleClass="title-label"/>
+				    </HBox>
+				    <Label fx:id="lblStationaryBal" text="₹ ૦" styleClass="value-label"/>
+				</VBox>
+            </children>
+        </HBox>  
+    
         <VBox spacing="20">
-		    <Label text="Total Count By EMI Amount" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-		
-		    <ScrollPane fitToHeight="true" minHeight="130" prefHeight="140" 
-		                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
-		        <content>
-		            <HBox spacing="15" fx:id="emiCardContainer" alignment="TOP_LEFT" style="-fx-padding: 5;">
-		                </HBox>
-		        </content>
-		    </ScrollPane>
+		    <Label text="હપ્તા મુજબ સભ્યોની સંખ્યા (Count by Monthly Installment)" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+			<HBox spacing="15" fx:id="emiCardContainer" alignment="TOP_LEFT" style="-fx-padding: 5;">
+		    </HBox>
 		</VBox>
 
         <HBox spacing="20" VBox.vgrow="ALWAYS">
             <children>
                 <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #dee2e6;">
-                    <Label text="Loans Granted (Monthly Trend)" style="-fx-font-weight: bold;"/>
-                    <BarChart fx:id="chartLoansByMonth">
-                        <xAxis><CategoryAxis label="Month" /></xAxis>
-                        <yAxis><NumberAxis label="Number of Loans" /></yAxis>
-                    </BarChart>
+                    <Label text="Loans Granted v/s Fee Refunded" style="-fx-font-weight: bold;"/>
+                    <LineChart fx:id="chartLoansByMonth" animated="false" createSymbols="true">
+					    <xAxis>
+						    <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+						</xAxis>
+						<yAxis>
+						    <NumberAxis fx:id="yAxis" side="LEFT" forceZeroInRange="true" />
+						</yAxis>
+					</LineChart>
                 </VBox>
             </children>
         </HBox>

@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.badargadh.sahkar.data.AppConfig;
+import com.badargadh.sahkar.data.EmiPayment;
 import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.LoanAccount;
 import com.badargadh.sahkar.data.LoanApplication;
 import com.badargadh.sahkar.data.LoanWitness;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.data.PaymentRemark;
+import com.badargadh.sahkar.enums.FeeType;
 import com.badargadh.sahkar.enums.LoanApplicationStatus;
 import com.badargadh.sahkar.enums.LoanStatus;
 import com.badargadh.sahkar.enums.MemberStatus;
@@ -30,6 +32,7 @@ import com.badargadh.sahkar.repository.LoanAccountRepository;
 import com.badargadh.sahkar.repository.LoanApplicationRepository;
 import com.badargadh.sahkar.repository.LoanWitnessRepository;
 import com.badargadh.sahkar.repository.MemberRepository;
+import com.badargadh.sahkar.repository.MonthlyFeesRepository;
 import com.badargadh.sahkar.repository.PaymentRemarkRepository;
 import com.badargadh.sahkar.util.AppLogger;
 
@@ -48,6 +51,7 @@ public class LoanService {
     @Autowired private PaymentRemarkRepository paymentRemarkRepository;
     @Autowired private PaymentRemarkRepository remarkRepo;
     @Autowired private MemberRepository memberRepository;
+    @Autowired private MonthlyFeesRepository monthlyFeesRepository;
 
     public AppConfig getLoanSettings() {
         return configService.getSettings();
@@ -78,7 +82,7 @@ public class LoanService {
     }
     
     public List<LoanApplication> getAllApplicationsWithStatuses(FinancialMonth month, List<LoanApplicationStatus> statuses) {
-        return loanAppRepo.findAllByFinancialMonthAndStatusInOrderByStatusAsc(month, statuses);
+        return loanAppRepo.findAllByFinancialMonthAndStatusInOrderByStatusAscMemberMemberNoAsc(month, statuses);
     }
 
     public void validateEligibility(Member member, LocalDateTime date) throws BusinessException {
@@ -132,14 +136,25 @@ public class LoanService {
                 "The System date (" + applicationDatetime + ") is outside the current OPEN period ");
         }
         
-        // 2. Calculate how many Monthly Subscription fees have been paid
-        long paidMonths = ChronoUnit.MONTHS.between(member.getJoiningDateTime(), applicationDatetime);
-        
-        // BUSINESS RULE: If paid months >= 30, cooling period check is bypassed.
-        // Otherwise, enforce the configured cooling period.
-        if (paidMonths < config.getNewMemberCoolingPeriod()) {
-            throw new BusinessException("Cooling Period active. Paid: " + paidMonths + 
-                " months. Required: " + config.getNewMemberCoolingPeriod());
+        //We have every month fees data from Apr 2025 on ward. So member joined after that cutoff can directly check with no of fees count
+        if(member.getJoiningDateTime().isAfter(LocalDateTime.of(2025, 4, 1, 0, 0 , 0))) {
+        	int totalFeesMonths = feeRepo.countByMemberAndFeeType(member, FeeType.MONTHLY_FEE) + 1;
+            System.err.println("total fees paid in months "+totalFeesMonths);
+            if (totalFeesMonths < config.getNewMemberCoolingPeriod()) {
+                throw new BusinessException("Cooling Period active. Paid: " + totalFeesMonths + 
+                    " months. Required: " + config.getNewMemberCoolingPeriod());
+            }
+        }
+        else {
+        	//for member joined before Apr 2025 we need to breakdown total fees and need to find out how much months fees paid
+        	long totalFee = feeRepo.getMemberTotalFee(member.getId()).longValue();
+        	//to get fee months minus joining fee from total fee and divide it with monthly fee and again add joining fee month
+        	long totalFeesMonths = ((totalFee - 300) / 20) + 1;
+        	System.err.println("total fees paid in months "+totalFeesMonths);
+            if (totalFeesMonths < config.getNewMemberCoolingPeriod()) {
+                throw new BusinessException("Cooling Period active. Paid: " + totalFeesMonths + 
+                    " months. Required: " + config.getNewMemberCoolingPeriod());
+            }
         }
 
         // 3. Check Pending Loan Balance from LoanAccount (Must be < 2000)
@@ -301,5 +316,62 @@ public class LoanService {
         	return loanWitness != null && loanWitness.size() > 0 ? loanWitness.get(0) : null;
     	}
     	return null;
+    }
+
+    public int calculateMemberLoanPriority(Member member, FinancialMonth currentFinancialMonth) {
+    	LocalDate referenceDate = (currentFinancialMonth != null) ? currentFinancialMonth.getStartDate() : LocalDate.now();
+
+        // 1. Check if Member is "NEW" or "OLD" based on Fees
+        double societyRequiredFee = monthlyFeesRepository.sumOfMonthlyFeesAmount().doubleValue();
+        double memberPaidFee = feeRepo.getMemberTotalFee(member.getId());
+
+        boolean isNewMember = memberPaidFee < societyRequiredFee;
+
+        // 3. Logic for New Members (No previous loan, still paying joining/monthly fees)
+        if (isNewMember) {
+            // Higher fee paid = higher priority among new members
+            return feeRepo.countByMember(member); 
+        }
+        
+        // 2. Handle Active Loans (Lowest Priority)
+        Optional<LoanAccount> activeLoan = loanAccountRepo.findFirstByMemberAndLoanStatusOrderByEndDateDesc(member, LoanStatus.ACTIVE);
+        if (activeLoan.isPresent()) {
+            LoanAccount loan = activeLoan.get();
+            int remainingEmis = (loan.getEmiAmount() != null && loan.getEmiAmount() > 0) 
+                                ? (int) (loan.getPendingAmount() / loan.getEmiAmount()) : 0;
+            return -remainingEmis;
+        }
+
+        // 4. Logic for Old Members (Loan Cleared)
+        Optional<LoanAccount> lastPaidLoan = loanAccountRepo.findFirstByMemberAndLoanStatusOrderByEndDateDesc(member, LoanStatus.PAID);
+        
+        int bonusMonths = 0;
+        LocalDate gapStartDate;
+
+        if (lastPaidLoan.isPresent()) {
+            LoanAccount loan = lastPaidLoan.get();
+            gapStartDate = loan.getEndDate();
+
+            // Calculate Full Payment Bonus
+            Optional<EmiPayment> finalPaymentOpt = emiPaymentRepo.findTopByMemberOrderByPaymentDateTimeDesc(member);
+            if (finalPaymentOpt.isPresent() && finalPaymentOpt.get().isFullPayment()) {
+                double emi = loan.getEmiAmount();
+                double extraPaid = finalPaymentOpt.get().getFullPaymentAmount();
+                if (emi > 0 && extraPaid > 0) {
+                    bonusMonths = (int) Math.ceil(extraPaid / emi);
+                }
+            }
+        } else {
+            // No loan history but full fees paid (rare but possible)
+            gapStartDate = LocalDate.of(2024, 12, 10);
+        }
+
+        long naturalGap = Math.max(0,
+                (referenceDate.getYear() - gapStartDate.getYear()) * 12L +
+                (referenceDate.getMonthValue() - gapStartDate.getMonthValue()));
+
+        int totalWait = (int) naturalGap - bonusMonths;
+
+        return totalWait;
     }
 }

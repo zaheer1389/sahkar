@@ -10,11 +10,12 @@
     
     <parameter name="LoanSubreportObject" class="net.sf.jasperreports.engine.JasperReport"/>
     <parameter name="LoanDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
-    <parameter name="LoanCount" class="java.lang.Integer"/>
+    <parameter name="LoanCount" class="java.lang.String"/>
+    <parameter name="JamatBhadu" class="java.lang.String"/>
     
     <parameter name="RefundSubreportObject" class="net.sf.jasperreports.engine.JasperReport"/>
     <parameter name="RefundDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
-    <parameter name="RefundTotalAmount" class="java.lang.Double"/>
+    <parameter name="RefundTotalAmount" class="java.lang.String"/>
     
     <detail>
         <band height="50">
@@ -23,6 +24,7 @@
                 <subreportParameter name="reportDate"><subreportParameterExpression><![CDATA[$P{reportDate}]]></subreportParameterExpression></subreportParameter>
                 <subreportParameter name="monthLabel"><subreportParameterExpression><![CDATA[$P{monthLabel}]]></subreportParameterExpression></subreportParameter>
                 <subreportParameter name="totalCount"><subreportParameterExpression><![CDATA[$P{LoanCount}]]></subreportParameterExpression></subreportParameter>
+                <subreportParameter name="JamatBhadu"><subreportParameterExpression><![CDATA[$P{JamatBhadu}]]></subreportParameterExpression></subreportParameter>
                 <dataSourceExpression><![CDATA[$P{LoanDataSource}]]></dataSourceExpression>
                 <subreportExpression><![CDATA[$P{LoanSubreportObject}]]></subreportExpression>
             </subreport>

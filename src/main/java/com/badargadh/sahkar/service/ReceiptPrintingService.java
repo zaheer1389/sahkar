@@ -2,6 +2,7 @@ package com.badargadh.sahkar.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +13,7 @@ import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.badargadh.sahkar.data.EmiPayment;
@@ -27,6 +29,9 @@ import com.badargadh.sahkar.util.AppLogger;
 
 @Service
 public class ReceiptPrintingService {
+
+    @Autowired private FeeService feeService;
+    @Autowired private  LoanService loanService;
 
     private static final int LINE_WIDTH = 48;
     // Java 8 compatible repeat logic for the separator line
@@ -187,8 +192,15 @@ public class ReceiptPrintingService {
             sb.append(String.format("%-5s %-25s %12s\n", "No.", "Member Name", "Total"));
             sb.append(SEP_LINE);
 
+            List<MonthlyPayment> payments = group.getMonthlyPayments()
+                    .stream().map(p -> {
+                        p.setTotalFees(feeService.getMemberTotalFees(p.getMember()).longValue());
+                        p.setTotalMonthsSinceLastLoan(loanService.calculateMemberLoanPriority(p.getMember(), null));
+                        return  p;
+                    }).toList();
+
             double grandTotal = 0;
-            for (MonthlyPayment s : group.getMonthlyPayments()) {
+            for (MonthlyPayment s : payments) {
                 // Calculate total as double for currency formatting
                 double rowTotal = (double) s.getMonthlyFees() + s.getEmiAmount() + s.getFullAmount();
                 grandTotal += rowTotal;
@@ -196,22 +208,28 @@ public class ReceiptPrintingService {
                 String name = s.getMember().getFullname();
                 if (name.length() > 25) name = name.substring(0, 22) + "...";
 
-                // 1. Member Header Row - Keep .2f for the grand total for professional currency look
-                sb.append(String.format("%-5d %-25s %12.2f\n", 
-                    s.getMember().getMemberNo(), 
-                    name, 
-                    rowTotal));
-                
-                // 2. Sub-row Breakdown - Use %d for Integers
-                String balText = (s.getBalanceAmount() <= 0) 
-                    ? "No Loan" 
-                    : "Bal:" + s.getBalanceAmount(); // Simple string concat for Integer
+                // 1. Member Header Row
+                // Keeps the primary focus on the member and the grand total for THIS month
+                sb.append(String.format("%-5d %-25s %12.2f\n",
+                        s.getMember().getMemberNo(),
+                        name,
+                        rowTotal));
 
-                // Logic: Use %-7d for left-aligned integers
-                sb.append(String.format("    FEE:%-7d EMI:%-7d %12s\n", 
-                    s.getMonthlyFees(), 
-                    (s.getEmiAmount() + s.getFullAmount()), 
-                    balText));
+                	// 2. Sub-row Breakdown
+	             // Logic: F (Fee), E (EMI + Full), TF (Total Fees), and finally LLG or Balance
+	             String balText = (s.getBalanceAmount() <= 0)
+	                     ? (s.getTotalMonthsSinceLastLoan() > 12  
+	                         ? "LLG:>"+s.getTotalMonthsSinceLastLoan()+ "m" 
+	                         : "LLG:"+s.getTotalMonthsSinceLastLoan()+"m")
+	                     : "Bal:" + s.getBalanceAmount();
+	
+	             // Formatting: Reduced widths to close the gap between TF and LLG
+	             // %-6s for TF (String-safe) and %10s for the right-aligned LLG/Balance
+	             sb.append(String.format("    F:%-6d E:%-6d TF:%-6s %10s\n",
+	                     s.getMonthlyFees(),
+	                     (s.getEmiAmount() + s.getFullAmount()),
+	                     (s.getTotalFees() == null ? "0" : s.getTotalFees()),
+	                     balText));
             }
 
             // 3. Footer and Cut

@@ -2,6 +2,8 @@ package com.badargadh.sahkar.enums;
 
 public enum ExpenseCategory {
 	STATIONERY,
+	LOAN_BOOK_CREDIT,
+	MEMBER_FEE,
     PAYMENT_DEBIT_TO_JAMMAT_BADARGADH,
     PAYMENT_CREDIT_FROM_JAMMAT_BADARGADH,
     MISC,

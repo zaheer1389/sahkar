@@ -8,11 +8,11 @@
     <property name="net.sf.jasperreports.default.font.name" value="Noto Sans Gujarati"/>
 
     <parameter name="reportDate" class="java.lang.String"/>
-    <parameter name="totalRefundAmount" class="java.lang.Double"/>
+    <parameter name="totalRefundAmount" class="java.lang.String"/>
 
-    <field name="memberNo" class="java.lang.Integer"/>
+    <field name="memberNoGuj" class="java.lang.String"/>
     <field name="memberName" class="java.lang.String"/>
-    <field name="feesRefundAmount" class="java.lang.Double"/>
+    <field name="feesRefundAmount" class="java.lang.String"/>
 
     <title>
         <band height="100">
@@ -24,18 +24,18 @@
                 <textFieldExpression><![CDATA["તારીખ : " + $P{reportDate}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement x="0" y="25" width="555" height="30" forecolor="#003366"/>
+                <reportElement x="0" y="20" width="555" height="30" forecolor="#003366"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
                 <text><![CDATA[સહકાર સોસાયટી બાદરગઢ]]></text>
             </staticText>
             <staticText>
-                <reportElement x="0" y="60" width="555" height="25"/>
+                <reportElement x="0" y="50" width="555" height="25"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="14" isBold="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
-                <text><![CDATA[ફી રીફંડ થયેલ સભ્યો ની યાદી]]></text>
+                <text><![CDATA[ફીસ પરત આપવાની યાદી]]></text>
             </staticText>
         </band>
     </title>
@@ -43,7 +43,7 @@
     <columnHeader>
         <band height="30">
             <staticText>
-                <reportElement mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#E6E6E6"/>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="30" backcolor="#E6E6E6"/>
                 <box><pen lineWidth="0.5" lineColor="#999999"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
@@ -51,7 +51,7 @@
                 <text><![CDATA[નંબર]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Opaque" x="80" y="0" width="355" height="30" backcolor="#E6E6E6"/>
+                <reportElement mode="Opaque" x="40" y="0" width="160" height="30" backcolor="#E6E6E6"/>
                 <box><pen lineWidth="0.5" lineColor="#999999"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
@@ -59,12 +59,28 @@
                 <text><![CDATA[સભ્ય નું નામ]]></text>
             </staticText>
             <staticText>
-                <reportElement mode="Opaque" x="435" y="0" width="120" height="30" backcolor="#E6E6E6"/>
+                <reportElement mode="Opaque" x="200" y="0" width="60" height="30" backcolor="#E6E6E6"/>
                 <box><pen lineWidth="0.5" lineColor="#999999"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
                 </textElement>
                 <text><![CDATA[રીફંડ રકમ]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="260" y="0" width="50" height="30" backcolor="#E6E6E6"/>
+                <box><pen lineWidth="0.5" lineColor="#999999"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[લેનાર]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="310" y="0" width="250" height="30" backcolor="#E6E6E6"/>
+                <box><pen lineWidth="0.5" lineColor="#999999"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="11" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[ફીસ પરત લેનાર ની સહી]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -72,15 +88,15 @@
     <detail>
         <band height="25">
             <textField>
-                <reportElement x="0" y="0" width="80" height="25"/>
+                <reportElement x="0" y="0" width="40" height="25"/>
                 <box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="10"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{memberNo}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{memberNoGuj}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="80" y="0" width="355" height="25"/>
+                <reportElement x="40" y="0" width="160" height="25"/>
                 <box leftPadding="10"><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
                 <textElement verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="10" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
@@ -88,12 +104,28 @@
                 <textFieldExpression><![CDATA[$F{memberName}]]></textFieldExpression>
             </textField>
             <textField pattern="₹ #,##0">
-                <reportElement x="435" y="0" width="120" height="25"/>
+                <reportElement x="200" y="0" width="60" height="25"/>
                 <box rightPadding="10"><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font fontName="Noto Sans Gujarati" size="10" isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{feesRefundAmount}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="260" y="0" width="50" height="25"/>
+                <box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="310" y="0" width="250" height="25"/>
+                <box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Noto Sans Gujarati" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[""]]></textFieldExpression>
             </textField>
         </band>
     </detail>

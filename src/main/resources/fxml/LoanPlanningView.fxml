@@ -9,14 +9,18 @@
         <VBox spacing="20" style="-fx-padding: 25; -fx-background-color: #f1f3f5;">
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #dee2e6;">
-                     <VBox>
+                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Label text="Loan Draw Planning" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
                         <!--<Label fx:id="lblMonthInfo" text="Financial Period: Loading..." style="-fx-text-fill: #7f8c8d;" />-->
-                    </VBox>
-                    <Region HBox.hgrow="ALWAYS" />
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Region HBox.hgrow="ALWAYS" />  
                         <Button fx:id="btnRefresh" onAction="#refresh" text="🔄 Recalculate Liquidity" 
                                 style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15;" />
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Region HBox.hgrow="ALWAYS" />  
+                        <Label text="Total Loans To Open" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <TextField fx:id="txtTotalLoanCanBeOpen" disable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" prefWidth="50" prefHeight="35.0" HBox.hgrow="ALWAYS" />     
                         <Button fx:id="btnRunDraw" onAction="#executeComputerizedDraw" text="🚀 RUN COMPUTERIZED DRAW" 
                                 style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15;" />
                     </HBox>
@@ -37,21 +41,21 @@
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="120" halignment="RIGHT" />
                                             </columnConstraints>
                                             <children>
-                                                <Label text="1. Opening Balance" GridPane.rowIndex="0" />
+                                                <Label text="1. ગત મહીના ની બી પુરાંત" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblOpeningBal" text="₹ 0" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
-                                                <Label text="2. Expected Monthly Fees" GridPane.rowIndex="1" />
+                                                <Label text="2. કુલ સભ્યો ની માસીક ફીસ" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblExpectedFees" text="₹ 0" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
-                                                <Label text="3. Recurring EMIs (Old)" GridPane.rowIndex="2" />
+                                                <Label text="3. ચાલુ લોનો ની હફ્તા ની આવક" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblExpectedEmi" text="₹ 0" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
-                                                <Label text="4. Fresh Loan EMIs (@ ₹200)" GridPane.rowIndex="3" />
+                                                <Label text="4. ગત મહીને પાસ થયેલ લોનો ની આવક" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblFreshLoansVirtualEmi" text="₹ 0" GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
-                                                <Label text="5. Full Payments" GridPane.rowIndex="4" />
+                                                <Label text="5. ફૂલ પેમેન્ટ્સ" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblFullPayments" text="₹ 0" GridPane.rowIndex="4" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
-                                                <Label text="6. New Member Fee Deductions" GridPane.rowIndex="5" />
+                                                <Label text="6. નવીન મેમ્બર ની ફીસ કપાત" GridPane.rowIndex="5" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblNewMemberFeeDeductions" text="₹ 0" GridPane.rowIndex="5" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />                                                                                                                                               
-                                                <Label text="7. Other Credits" GridPane.rowIndex="6" />
+                                                <Label text="7. જમાતે સહકાર ને આપેલા" GridPane.rowIndex="6" style="-fx-font-weight: bold;"/>
                                                 <Label fx:id="lblMiscCredis" text="₹ 0" GridPane.rowIndex="6" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />                                                                                                                                                                                               
-                                                <Label text="8. Less: Eligible Refunds" GridPane.rowIndex="7" style="-fx-text-fill: #e74c3c;" />
+                                                <Label text="8. કુલ ફીસ પરત કરવાની" GridPane.rowIndex="7" style="-fx-text-fill: #e74c3c;-fx-font-weight: bold;" />
                                                 <Label fx:id="lblRefunds" text="₹ 0" GridPane.rowIndex="7" GridPane.columnIndex="1" style="-fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
                                             </children>
                                         </GridPane>

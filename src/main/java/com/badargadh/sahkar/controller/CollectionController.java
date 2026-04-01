@@ -16,6 +16,7 @@ import com.badargadh.sahkar.data.FinancialMonth;
 import com.badargadh.sahkar.data.LoanAccount;
 import com.badargadh.sahkar.data.Member;
 import com.badargadh.sahkar.data.MonthlyPayment;
+import com.badargadh.sahkar.dto.MemberSummaryDTO;
 import com.badargadh.sahkar.enums.CollectionLocation;
 import com.badargadh.sahkar.enums.MemberStatus;
 import com.badargadh.sahkar.event.ShortcutKeyEvent;
@@ -34,12 +35,15 @@ import com.badargadh.sahkar.util.DialogManager;
 import com.badargadh.sahkar.util.NotificationManager;
 import com.badargadh.sahkar.util.NotificationManager.NotificationType;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -61,6 +65,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 
 @Component
 public class CollectionController extends BaseController implements Initializable {
@@ -74,7 +80,7 @@ public class CollectionController extends BaseController implements Initializabl
     @FXML private ToggleButton btnFullPayment, btnToggleRemarks;
     @FXML private TextArea txtRemarks;
     @FXML private Button btnSubmit;
-    
+    @FXML private ComboBox<MemberSummaryDTO> cmbMember;
     @FXML private TextField txtDepositorMemberNo, txtDepositorName;
     @FXML private Button btnDepositAll;
     
@@ -152,6 +158,9 @@ public class CollectionController extends BaseController implements Initializabl
         
     	// Setup EMI Dropdown values
     	setupEmiComboBox();
+    	
+    	//Setup member list combox
+    	setupMemberListComboBox();
         
         // Default date to today
         paymentDateTimePicker.setValue(LocalDateTime.now());
@@ -223,28 +232,32 @@ public class CollectionController extends BaseController implements Initializabl
         colFees.setCellValueFactory(new PropertyValueFactory<>("monthlyFees"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("fullAmount"));
         colStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().isFullPayment() ? "YES" : "NO"));
-
+        
         colAction.setCellFactory(column -> {
             return new TableCell<>() {
-                private final Button btnDelete = new Button("Delete");
-                {
-                    btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
-                    btnDelete.setOnAction(event -> {
-                        MonthlyPayment data = getTableView().getItems().get(getIndex());
-                        handleDeleteRow(data);
-                    });
-                }
+            	 private final FontAwesomeIconView iconView = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                 private final Button btn = new Button("", iconView);
+                 {
+                     String iconOnlyStyle = "-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 0;";
+                     btn.setStyle(iconOnlyStyle);
+                     btn.setOnAction(event -> {
+                    	 MonthlyPayment data = getTableView().getItems().get(getIndex());
+                         handleDeleteRow(data);
+                     });
+                     iconView.setFill(Color.RED); // Primary Blue
+                     iconView.setGlyphSize(18);
+                 }
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(btnDelete);
-                        setAlignment(Pos.CENTER);
-                    }
-                }
+                 @Override
+                 protected void updateItem(Void item, boolean empty) {
+                     super.updateItem(item, empty);
+                     if (empty) {
+                         setGraphic(null);
+                     } else {
+                         setGraphic(btn);
+                         setAlignment(Pos.CENTER);
+                     }
+                 }
             };
         });
         
@@ -255,6 +268,78 @@ public class CollectionController extends BaseController implements Initializabl
         // Auto-update footer when list changes
         //monthlyPayments.addListener((ListChangeListener<MonthlyPayment>) c -> calculateTotals());
         
+    }
+    
+    private void setupMemberListComboBox() {
+    	// 1. Get the raw list
+    	ObservableList<MemberSummaryDTO> allMembers = FXCollections.observableArrayList(memberService.findActiveMembers());
+    	FilteredList<MemberSummaryDTO> filteredItems = new FilteredList<>(allMembers, p -> true);
+
+    	cmbMember.setEditable(true);
+    	cmbMember.setItems(filteredItems);
+    	
+    	cmbMember.setConverter(new StringConverter<MemberSummaryDTO>() {
+    	    @Override
+    	    public String toString(MemberSummaryDTO member) {
+    	        return member == null ? "" : member.getFullName();
+    	    }
+
+    	    @Override
+    	    public MemberSummaryDTO fromString(String string) {
+    	        // Return null or find the object by name if needed
+    	        return null; 
+    	    }
+    	});
+
+    	// 2. Handle the Searching logic via the Editor
+    	cmbMember.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+    	    // 1. Critical Check: Only filter/show if the Editor has focus (user is typing)
+    	    if (!cmbMember.getEditor().isFocused()) {
+    	        return;
+    	    }
+
+    	    Platform.runLater(() -> {
+    	        // 2. Avoid re-filtering if the text matches the current selection
+    	        MemberSummaryDTO selected = cmbMember.getSelectionModel().getSelectedItem();
+    	        if (selected != null && selected.getFullName().equals(newValue)) {
+    	            return;
+    	        }
+
+    	        // 3. Update the predicate
+    	        filteredItems.setPredicate(item -> {
+    	            if (newValue == null || newValue.isEmpty()) return true;
+    	            String filter = newValue.toLowerCase();
+    	            return item.getFullName().toLowerCase().contains(filter) || 
+    	                   String.valueOf(item.getMemberNo()).contains(filter);
+    	        });
+
+    	        // 4. Show the dropdown only if there is text and it's not already showing
+    	        if (newValue != null && !newValue.isEmpty() && !cmbMember.isShowing()) {
+    	            cmbMember.show();
+    	        }
+    	    });
+    	});
+
+    	// 3. Handle the Selection logic
+    	cmbMember.valueProperty().addListener((obs, old, newValue) -> {
+    	    if (newValue != null) {
+    	        // Only update UI if we actually have a selected member
+    	        txtMemberNumber.setText(String.valueOf(newValue.getMemberNo()));
+    	        
+    	        // Use Platform.runLater to prevent the search filter 
+    	        // from conflicting with the data fetch
+    	        Platform.runLater(() -> {
+    	        	handleFetchMember();
+    	        	// 2. Clear the Search Text in the editor
+    	        	cmbMember.getEditor().clear();
+    	        	// 3. Reset the filter so the next time you click, you see everyone
+    	            filteredItems.setPredicate(p -> true);
+    	        });
+    	    } else {
+    	        // Optional: Clear the text field if no member is selected
+    	        //txtMemberNumber.setText("");
+    	    }
+    	});
     }
     
     private void setupEmiComboBox() {
@@ -296,6 +381,11 @@ public class CollectionController extends BaseController implements Initializabl
                 }
             }
         });
+    }
+    
+    @FXML
+    private void handleSearchMember() {
+    	
     }
     
     @FXML
@@ -351,19 +441,20 @@ public class CollectionController extends BaseController implements Initializabl
                 EmiPaymentGroup group = paymentCollectionService.processMonthlyCollection(monthlyPayments, selectedDepositor, txtDepositorName.getText(), cmbCollectionLocation.getValue());
                 group.setMonthlyPayments(paymentCollectionService.getMonthlyPaymentsByGroup(group.getId()));
                 
-                printingService.printCollectionReceipt(group, false);
-                
-                NotificationManager.show("Collections deposited & Receipt printed!", NotificationType.SUCCESS, Pos.CENTER);
+                //printingService.printCollectionReceipt(group, false);
                 
                 boolean wantAnother = DialogManager.confirm(
-                        "Print Duplicate?", 
-                        "Would you like to print a duplicate copy or re-print due to paper issues?"
+                        "Print Receipt?", 
+                        "Would you like to print a receipt?"
                     );
 
                 if (wantAnother) {
-                    printingService.printCollectionReceipt(group, true);
-                    NotificationManager.show("Duplicate Receipt printed!", NotificationType.SUCCESS, Pos.CENTER);
+                    printingService.printCollectionReceipt(group, false);
+                    NotificationManager.show("Collections deposited & Receipt printed!", NotificationType.SUCCESS, Pos.CENTER);
+                    
                 }
+
+                NotificationManager.show("Collections deposited!", NotificationType.SUCCESS, Pos.CENTER);
                 
                 // 3. Clear everything after success
                 monthlyPayments.clear();
@@ -601,7 +692,7 @@ public class CollectionController extends BaseController implements Initializabl
             payment.setMonthlyFees(Integer.parseInt(txtMonthlyFees.getText()));
             
          // --- NEW LOGIC: Handle EMI Amount vs Pending Balance ---
-            Integer selectedEmi = cmbEmiAmount.getValue().getAmount().intValue();
+            Integer selectedEmi = cmbEmiAmount.getValue() != null ? cmbEmiAmount.getValue().getAmount().intValue() : null;
             int actualEmiToRecord = 0;
 
             if (activeLoan != null && selectedEmi != null) {

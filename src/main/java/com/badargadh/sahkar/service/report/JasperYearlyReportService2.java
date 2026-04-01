@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.badargadh.sahkar.data.MonthlyStatementDTO;
 import com.badargadh.sahkar.dto.YearlyRowDTO;
+import com.badargadh.sahkar.util.GujaratiNumericUtils;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -30,7 +31,7 @@ public class JasperYearlyReportService2 {
                            "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
 
         // 1. Opening Balance
-        reportRows.add(mapToRow("ગત મહીના ની બી પુરાંત (Opening Balance)", yearlyData, months, MonthlyStatementDTO::getOpeningBal, true));
+        reportRows.add(mapToRow("ગત મહીના ની બી પુરાંત (OPENING BALANCE)", yearlyData, months, MonthlyStatementDTO::getOpeningBal, true));
 
         // 2. Inflow Section
         reportRows.add(createHeaderRow("આવક (CASH INFLOW)"));
@@ -43,6 +44,7 @@ public class JasperYearlyReportService2 {
 
         // 3. Outflow Section
         reportRows.add(createHeaderRow("જાવક (CASH OUTFLOW)"));
+        reportRows.add(mapToRow("પાસ કરેલ લોન ની સંખ્યા", yearlyData, months, MonthlyStatementDTO::getTotalLoanGrantedNo, false));
         reportRows.add(mapToRow("લોન ની જાવક", yearlyData, months, MonthlyStatementDTO::getTotalLoanGranted, false));
         reportRows.add(mapToRow("કુલ ફીસ રીફંડ", yearlyData, months, MonthlyStatementDTO::getTotalFeeRefund, false));
         reportRows.add(mapToRow("બીજી જાવક (ઉધાર)", yearlyData, months, MonthlyStatementDTO::getExpenseDebit, false));
@@ -53,7 +55,7 @@ public class JasperYearlyReportService2 {
 
         // Jasper Parameters
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("yearRange", yearRange);
+        parameters.put("yearRange", toGujarati(yearRange));
 
         // Compile and Fill
         InputStream inputStream = getClass().getResourceAsStream("/jrxml/YearlyConsolidatedReport.jrxml");
@@ -71,7 +73,7 @@ public class JasperYearlyReportService2 {
     }
 
     private YearlyRowDTO mapToRow(String label, Map<String, MonthlyStatementDTO> data, String[] months, Function<MonthlyStatementDTO, Double> extractor, boolean isTotal) {
-        YearlyRowDTO row = new YearlyRowDTO();
+    	YearlyRowDTO row = new YearlyRowDTO();
         row.setCategory(label);
         row.setIsTotalRow(isTotal);
 
@@ -85,19 +87,31 @@ public class JasperYearlyReportService2 {
             horizontalSum += v;
         }
 
-        row.setJan(vals[0]); row.setFeb(vals[1]); row.setMar(vals[2]); row.setApr(vals[3]);
-        row.setMay(vals[4]); row.setJun(vals[5]); row.setJul(vals[6]); row.setAug(vals[7]);
-        row.setSep(vals[8]); row.setOct(vals[9]); row.setNov(vals[10]); row.setDec(vals[11]);
+        // Convert values to Gujarati Strings before setting them in the DTO
+        row.setJan(toGujarati(vals[0])); row.setFeb(toGujarati(vals[1])); 
+        row.setMar(toGujarati(vals[2])); row.setApr(toGujarati(vals[3]));
+        row.setMay(toGujarati(vals[4])); row.setJun(toGujarati(vals[5])); 
+        row.setJul(toGujarati(vals[6])); row.setAug(toGujarati(vals[7]));
+        row.setSep(toGujarati(vals[8])); row.setOct(toGujarati(vals[9])); 
+        row.setNov(toGujarati(vals[10])); row.setDec(toGujarati(vals[11]));
 
-        // Logic for Yearly Total (Horizontal)
-        if (label.contains("Opening")) {
-            row.setYearlyTotal(vals[0]); // Yearly opening is the first month's opening
-        } else if (label.contains("Closing")) {
-            row.setYearlyTotal(vals[11]); // Yearly closing is the last month's closing
+        // Horizontal Total Logic
+        double total;
+        if (label.contains("OPENING")) {
+            total = vals[0];
+            row.setCategory("ગત મહીના ની બી પુરાંત");
+        } else if (label.contains("CLOSING")) {
+            total = vals[11];
+            row.setCategory("આખરની બી પુરાંત");            
         } else {
-            row.setYearlyTotal(horizontalSum);
+            total = horizontalSum;
         }
+        row.setYearlyTotal(toGujarati(total));
 
         return row;
+    }
+    
+    private String toGujarati(Object input) {
+        return GujaratiNumericUtils.toGujarati(input);
     }
 }

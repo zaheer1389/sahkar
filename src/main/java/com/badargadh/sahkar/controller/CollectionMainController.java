@@ -16,8 +16,10 @@ public class CollectionMainController {
     // Reference to the global blocker from your MainController
     @Autowired private MainController mainController;
 
-    @Autowired private CollectionPendingController pendingListController;
-    @Autowired private CollectionHistoryController historyReportController;
+    //@Autowired private CollectionPendingController pendingListController;
+    //@Autowired private CollectionHistoryController historyReportController;
+    @Autowired private CollectionPendingController2 pendingListController2;
+    @Autowired private CollectionHistoryController2 historyReportController2;
     @Autowired private MonthlyStatementController statementController;
     @Autowired private FeesRefundController feesRefundController;
     @Autowired private MonthlyExpenseController monthlyExpenseController;
@@ -45,8 +47,8 @@ public class CollectionMainController {
                 // You should ideally have "fetchData()" methods separate from "updateUI()".
 
                 switch (tabTitle) {
-                    case "Pending Payments" -> pendingListController.refreshPendingList();
-                    case "Received History" -> historyReportController.loadHistory();
+                    case "Pending Payments" -> pendingListController2.refreshPendingList();
+                    case "Received History" -> historyReportController2.loadHistory();
                     case "Monthly Expenses" -> monthlyExpenseController.refreshTable();
                     case "Member Fees Refunds" -> feesRefundController.refreshTable();
                     case "Monthly Statement" -> statementController.refresh();

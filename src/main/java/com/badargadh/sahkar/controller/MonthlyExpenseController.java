@@ -55,12 +55,21 @@ public class MonthlyExpenseController extends BaseController {
         cmbCategory.setItems(FXCollections.observableArrayList(categories));
 
         cmbType.setItems(FXCollections.observableArrayList(ExpenseType.values()));
+        cmbType.setDisable(true);
 
         cmbCategory.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == ExpenseCategory.PAYMENT_DEBIT_TO_JAMMAT_BADARGADH) {
                 cmbType.setValue(ExpenseType.DEBIT);
             } else if (newVal == ExpenseCategory.PAYMENT_CREDIT_FROM_JAMMAT_BADARGADH) {
                 cmbType.setValue(ExpenseType.CREDIT);
+            } else if (newVal == ExpenseCategory.STATIONERY) {
+                cmbType.setValue(ExpenseType.DEBIT);
+            } else if (newVal == ExpenseCategory.MEMBER_FEE) {
+                cmbType.setValue(ExpenseType.CREDIT);
+            } else if (newVal == ExpenseCategory.LOAN_BOOK_CREDIT) {
+                cmbType.setValue(ExpenseType.CREDIT);
+            } else if (newVal == ExpenseCategory.MISC) {
+                cmbType.setValue(ExpenseType.DEBIT);
             }
         });
 
@@ -68,6 +77,7 @@ public class MonthlyExpenseController extends BaseController {
         cmbMonths.setItems(FXCollections.observableArrayList(monthRepository.findAllByOrderByIdAsc()));
 
         lblJamatBalance.setText(expenseService.getJammatOutstandingBalance().toString());
+        lblOfficeBalance.setText(expenseService.getMonthlyExpenseBalance().toString());
 
         setupTableColumns();
         refreshTable();

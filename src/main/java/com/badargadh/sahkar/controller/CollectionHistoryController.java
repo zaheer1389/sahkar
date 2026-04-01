@@ -164,7 +164,7 @@ public class CollectionHistoryController {
                 // 2. CORRECT: Update the MASTER list, NOT the TableView directly
                 masterHistoryData.setAll(history);
 
-                lblTotalPayments.setText(history.size()+"");
+                //lblTotalPayments.setText(history.size()+"");
                 // 3. Update footer labels based on the new data
                 updateFooterTotals(masterHistoryData);
             });

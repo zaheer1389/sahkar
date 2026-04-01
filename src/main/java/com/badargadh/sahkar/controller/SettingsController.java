@@ -1,6 +1,9 @@
 package com.badargadh.sahkar.controller;
 
-import java.awt.print.PrinterJob;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,6 +46,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 
 @Component
 public class SettingsController extends BaseController implements Initializable {
@@ -61,6 +65,14 @@ public class SettingsController extends BaseController implements Initializable 
     // Operational Limits
     @FXML private TextField txtLoanAmount;
     @FXML private Button btnEditLoan;
+    
+    // Operational Limits
+    @FXML private TextField txtJamatBhadu;
+    @FXML private Button btnJamatBhadu;
+    
+    // Operational Limits
+    @FXML private TextField txtNewMemberStationaryFees;
+    @FXML private Button btnEditNewMemberStationaryFee;
     
     //Fees Refund Cooling Period
     @FXML private TextField txtRefundCooling;
@@ -82,6 +94,9 @@ public class SettingsController extends BaseController implements Initializable 
     @FXML private TableColumn<EmiConfig, Boolean> colEmiStatus;
     @FXML private TableColumn<EmiConfig, Void> colEmiAction;
     @FXML private TextField txtNewEmiValue;
+    
+    @FXML private TextField txtStoragePath;
+    @FXML private ComboBox<String> cbScannerProfiles;
     
     @Autowired
     private AppConfigService configService;
@@ -113,6 +128,56 @@ public class SettingsController extends BaseController implements Initializable 
         applyNumericFilter(txtLoanAmount);
         applyNumericFilter(txtRefundCooling);
         applyNumericFilter(txtNewEmiValue);
+        applyNumericFilter(txtJamatBhadu);
+        applyNumericFilter(txtNewMemberStationaryFees);
+
+    }
+    
+    // Add to your initialize or load method
+    private void loadScannerSettings(AppConfig config) {
+        txtStoragePath.setText(config.getStoragePath());
+        handleRefreshScanners();
+        cbScannerProfiles.setValue(config.getScannerProfile());
+    }
+    
+    @FXML
+    private void handleBrowseStorage() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select Proof Storage Folder");
+        File selectedDirectory = directoryChooser.showDialog(txtStoragePath.getScene().getWindow());
+        
+        if (selectedDirectory != null) {
+            txtStoragePath.setText(selectedDirectory.getAbsolutePath());
+            // Save logic here: config.setStoragePath(selectedDirectory.getAbsolutePath());
+        }
+    }
+
+    @FXML
+    private void handleRefreshScanners() {
+        cbScannerProfiles.getItems().clear();
+        try {
+            // Fetching profiles from NAPS2 Console
+            ProcessBuilder pb = new ProcessBuilder("C:/Program Files/NAPS2/naps2.console.exe", "-p");
+            Process process = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) cbScannerProfiles.getItems().add(line.trim());
+            }
+        } catch (IOException e) {
+        	DialogManager.showError("Scanner Settings Issue", "NAPS2 not found. Please install NAPS2 to enable scanning.");
+        }
+    }
+
+    @FXML
+    private void handleTestScan() {
+        String profile = cbScannerProfiles.getValue();
+        if (profile == null) {
+        	DialogManager.showError("Scanner Settings Issue", "Please select a scanner profile first.");
+            return;
+        }
+        // Execute a quick scan to the temp directory to verify connectivity
+        System.out.println("Testing scan with profile: " + profile);
     }
     
     @FXML
@@ -150,11 +215,15 @@ public class SettingsController extends BaseController implements Initializable 
         txtLoanAmount.setText(String.valueOf(config.getLoanAmount()));
         spnCoolingPeriod.getValueFactory().setValue(config.getNewMemberCoolingPeriod());
         txtRefundCooling.setText(String.valueOf(config.getFeesRefundCoolingPeriod()));
-        
+        txtJamatBhadu.setText(String.valueOf(config.getJammatBhadu()));
+        txtNewMemberStationaryFees.setText(String.valueOf(config.getNewMemberStationaryFees()));
+
         chkAutoRemark.setSelected(config.isAutoRemark());
         spnRemarkDate.getValueFactory().setValue(config.getRemarkDateOfMonth());
         cbRemarkHour.setValue(String.format("%02d", config.getRemarkTimeHour()));
         cbRemarkMinute.setValue(String.format("%02d", config.getRemarkTimeMinute()));
+        
+        loadScannerSettings(config);
     }
     
     private void loadEmiData() {
@@ -285,6 +354,16 @@ public class SettingsController extends BaseController implements Initializable 
     private void toggleRefundCoolingEdit() {
     	handleInlineEdit(txtRefundCooling, btnEditRefundCooling, "feesRefundCoolingPeriod");
     }
+    
+    @FXML
+    private void toggleJamatBhadu() {
+    	handleInlineEdit(txtJamatBhadu, btnJamatBhadu, "jamatBhadu");
+    }
+    
+    @FXML
+    private void toggleNewMemberEditStationaryFee() {
+    	handleInlineEdit(txtNewMemberStationaryFees, btnEditNewMemberStationaryFee, "stationaryFee");
+    }
 
     @FXML
     private void toggleCoolingEdit() {
@@ -329,6 +408,9 @@ public class SettingsController extends BaseController implements Initializable 
                 else if(fieldName.equals("newMemberFees")) config.setNewMemberFees(value);
                 else if(fieldName.equals("loanAmount")) config.setLoanAmount(value);
                 else if(fieldName.equals("feesRefundCoolingPeriod")) config.setFeesRefundCoolingPeriod((int)value);
+                else if(fieldName.equals("jamatBhadu")) config.setJammatBhadu(value);
+                else if(fieldName.equals("stationaryFee")) config.setNewMemberStationaryFees(value);
+
                 
                 configService.saveSettings(config);
                 

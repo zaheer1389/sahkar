@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" style="-fx-padding: 20;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.CollectionPendingController">
+<VBox spacing="10" style="-fx-padding: 20;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.badargadh.sahkar.controller.CollectionPendingController2">
     
     <HBox alignment="CENTER_LEFT" spacing="15">
         <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Pending Payment List for current month" />
@@ -15,6 +15,7 @@
         <columns>
             <TableColumn fx:id="colMemberNo" text="Member #" prefWidth="100" />
             <TableColumn fx:id="colName" text="Member Name" prefWidth="300" />
+            <TableColumn fx:id="colBalAmount" text="Loan Balance Amount" prefWidth="200" />
             <TableColumn fx:id="colEmiAmount" text="Emi Amount" prefWidth="200" />
             <TableColumn fx:id="colFeesAmoount" text="Fees Amount" prefWidth="200" />
         </columns>
